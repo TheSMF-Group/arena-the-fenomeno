@@ -1,0 +1,17 @@
+{
+  "name": "central-mini-games-tf",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "single": "astro build && node tools/single.mjs"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "astro": "^7.4.2",
+    "typescript": "^5.9.3"
+  }
+}

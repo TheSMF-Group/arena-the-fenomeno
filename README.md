@@ -1,38 +1,26 @@
 # Central Mini Games TF
 
-Central The Fenômeno de Mini Games: 21 mini games de futebol num lugar só, em uma única página (`index.html`, JavaScript puro, sem build).
+Central The Fenômeno de Mini Games: 21 mini games de futebol. Agora em **Astro + TypeScript**.
 
-Publicado em https://thefenomeno-jogos.vercel.app
+## Estrutura
+- `src/pages/index.astro`: página (head, cabeçalho, `#app`, rodapé) e entrada do script.
+- `src/main.ts`: carrega os dados e registra todos os jogos.
+- `src/games/*.ts`: um módulo por jogo (os multiplayer: `draft*.ts`, `leilao.ts`, `maleta.ts`, `reconstruindo.ts`, `velha*.ts`).
+- `src/core.ts`, `engine.ts`, `search.ts`, `home.ts`, `profile.ts`, `mqtt.ts`: base compartilhada.
+- `src/state.ts`: variáveis globais mutáveis (`ST.P`, `ST.DIFF`…), antes `let` soltos.
+- `src/types.ts`: tipos centrais (`Player`, `Crest`, `GameDef`, `RoomState`…).
+- `src/styles/global.css` e `src/assets/`: CSS, escudos, fontes e imagens que antes estavam em base64.
+- `public/`: dados (`*.json`), fotos, `favicon.png`, `og.png`.
+- `legacy/index.html`: o site antigo em arquivo único, só para referência.
 
-## Jogos
-
-Desafio do dia e modo infinito (normal e difícil): Carreira, Camisa e Conta, Questionamentos, Forca, Entrosamento, Pirâmide, Top 10, FutGeo, Quem é?, Grade, Conexões, Bodle, Impostor, Escudo, Bingo e Mais Velho?.
-
-Multiplayer (sala por código, via claude.ai ou MQTT): Jogo da Velha, Draft, Leilão, Maleta e Reconstruindo.
-
-## Dados (arquivos `.json` na raiz)
-
-| Arquivo | O que tem |
-|---|---|
-| `dados.json` | jogadores, seleções e clubes da base |
-| `fotos.json`, `fotos-dificil.json`, `lendas.json`, `fotos/` | retratos dos jogadores |
-| `escudos.json` | escudos dos clubes |
-| `entrosa.json`, `passagens.json` | carreiras e passagens por clubes (Transfermarkt) |
-| `posicoes.json` | posição principal e secundárias e maior valor de mercado |
-| `atuais.json` | valor de mercado atual de quem jogou 2025/26 |
-| `camisas.json` | número de camisa e altura de quem jogou 2025/26 |
-| `novos.json` | listas curadas (artilheiros, etc.) |
-| `futgeo.json`, `mapa.json` | estádios e mapa do FutGeo |
-
-Fotos e escudos vêm de https://github.com/TheSMF-Group/assets e https://github.com/TheSMF-Group/thefenomeno-assets. Os dados de carreira, posição, valor de mercado e camisa foram coletados do Transfermarkt.
-
-## Rodar localmente
-
+## Comandos
 ```bash
-python3 -m http.server 8765
-# abra http://localhost:8765
+npm install
+npm run dev      # servidor local
+npm run build    # gera dist/ (é o que o Vercel publica)
+npm run check    # checagem de tipos
+npm run single   # gera dist-single/index.html com tudo embutido (para o Artifact do claude.ai)
 ```
 
-## Deploy
-
-Vercel, a partir desta pasta (`vercel deploy --prod`).
+## Situação da migração
+Todos os módulos começam com `// @ts-nocheck`. O próximo passo é remover essa linha módulo a módulo e tipar o que aparecer, começando por `core.ts`, `search.ts` e `engine.ts`.

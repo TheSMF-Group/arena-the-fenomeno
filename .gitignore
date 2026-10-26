@@ -1,3 +1,7 @@
+node_modules
+dist
+dist-single
+.astro
+.work
 .vercel
 .DS_Store
-node_modules
