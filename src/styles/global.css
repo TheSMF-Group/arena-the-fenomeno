@@ -1034,3 +1034,12 @@ footer{margin-top:24px;padding-block:28px 40px;background:linear-gradient(180deg
 @media (prefers-reduced-motion:reduce){.games .gcard{animation:none}}
 .gcard.feat .play{flex-wrap:wrap;gap:8px 12px;justify-content:flex-start}.gcard.feat .go{white-space:nowrap;font-size:24px}
 .x-fen{gap:18px}.x-fen img{width:92px}.x-fen b{font-size:104px}
+
+/* borda visível em cada jogo */
+.gcard{border:2px solid #3a3a3a}
+.gcard .art{border-bottom:2px solid #2a2a2a}
+.gcard.feat .art{border-right:2px solid #2a2a2a}
+.gcard:hover{border-color:var(--yellow)}
+.gcard.won{border-color:var(--green)}.gcard.lost{border-color:var(--red)}.gcard.scored{border-color:var(--yellow)}
+.gcard.ext{border-color:rgba(255,212,0,.55)}.gcard.feat{border-color:var(--yellow)}
+.stage{border:2px solid #333}
