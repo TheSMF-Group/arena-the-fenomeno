@@ -14,7 +14,11 @@ let TH=null;
 export const loadT100=()=>TH||(TH=fetch("top100.json?v=1").then(r=>r.json()).then(d=>d.themes));
 const pl=id=>ST.P.find(p=>p.id===id);
 const sub=p=>[year(p)||"",p.club!=null?clubName(p.club):""].filter(Boolean).join(" · ");
-const ptsOf=(th,id)=>{const i=th.ids.indexOf(id);return i<0?0:i+1};
+const ptsAt=(th,i)=>Math.round((i+1)*100/th.ids.length);
+const ptsOf=(th,id)=>{const i=th.ids.indexOf(id);return i<0?0:ptsAt(th,i)};
+const rkTxt=(th,x)=>`${th.ids.indexOf(x.id)+1}º de ${th.ids.length}`;
+const fmtT=(th,i)=>!th.u||th.u==="€"?fmtV(th.v[i]):`${String(th.v[i]).replace(".",",")} ${th.u}`;
+const subT=th=>th.ids.length<100?`${th.s} Ranking com ${th.ids.length} jogadores: o último vale 100 pontos.`:th.s;
 const fmtV=v=>v>=1?`€${String(v).replace(".",",")} mi`:`€${Math.round(v*1000)} mil`;
 const dailyTheme=ths=>{const order=shuffle(rngOf(hash("top100")),ths.map((_,i)=>i));return ths[order[(dayNum()-1)%order.length]]};
 const RULES="Cada tema é um ranking de 100 jogadores, por exemplo os maiores valores de mercado do mundo. Você chuta um nome e a posição dele na lista vale os pontos: o 100º colocado vale 100 pontos, o 1º vale só 1 e quem não está na lista vale 0. Ou seja, quanto mais fundo na lista você achar, mais pontos faz. No desafio do dia são 5 chutes no mesmo tema (máximo de 500 pontos), uma vez por dia. No multiplayer são 3 temas, 3 chutes de cada um por tema, sem repetir jogador, e quem somar mais pontos vence.";
@@ -24,20 +28,20 @@ function boom(){const el=document.createElement("div");el.className="t1-boom";
   el.innerHTML=`${confetti()}<div class="t1-boom-c"><img src="${BODEHEAD}" alt=""><b>TOP 100!</b><small>100 PONTOS</small></div>`;
   document.body.appendChild(el);el.onclick=()=>el.remove();setTimeout(()=>el.remove(),3200)}
 const listH=(th,marks)=>`<ol class="t1-list">${th.ids.map((id,i)=>{const p=pl(id),m=marks[id];
-  return`<li class="${m?"hit "+m.c:""}"><b class="t1-r">${i+1}</b><span class="mini">${p?face(p):""}</span><span class="t1-n">${esc(p?p.name:"?")}${m?` <i class="t1-by">${esc(m.by)}</i>`:""}</span><small>${fmtV(th.v[i])}</small><em>${i+1} pts</em></li>`}).join("")}</ol>`;
-const pickRow=(th,x,n)=>{const p=pl(x.id);return`<div class="t1-pick ${x.pts===100?"top":x.pts?"in":"out"}"><i>${n}</i><span class="mini">${p?face(p):""}</span><b>${esc(p?p.name:"Sem chute")}</b><span class="t1-res">${!x.id?"passou":x.pts?`${x.pts}º da lista`:"fora do top 100"}</span><strong>${x.pts} pts</strong></div>`};
+  return`<li class="${m?"hit "+m.c:""}"><b class="t1-r">${i+1}</b><span class="mini">${p?face(p):""}</span><span class="t1-n">${esc(p?p.name:"?")}${m?` <i class="t1-by">${esc(m.by)}</i>`:""}</span><small>${fmtT(th,i)}</small><em>${ptsAt(th,i)} pts</em></li>`}).join("")}</ol>`;
+const pickRow=(th,x,n)=>{const p=pl(x.id);return`<div class="t1-pick ${x.pts===100?"top":x.pts?"in":"out"}"><i>${n}</i><span class="mini">${p?face(p):""}</span><b>${esc(p?p.name:"Sem chute")}</b><span class="t1-res">${!x.id?"passou":x.pts?rkTxt(th,x):"fora da lista"}</span><strong>${x.pts} pts</strong></div>`};
 
 /* ---------- desafio do dia ---------- */
 async function daily(){ST.VIEW="top100";ST.PHASE="play";cleanup();if(location.hash!=="#top100")history.replaceState(null,"","#top100");
   const app=$("#app");app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">DIA ${dayNum()}</span></div><div class="stage"><div class="fg-load"><img src="${BODEHEAD}" alt=""><b>MONTANDO O RANKING…</b></div></div>`;
   app.querySelector(".back").addEventListener("click",home);
-  const ths=await loadT100(),th=dailyTheme(ths),key="top100:"+dayNum(),rec=store.get(key)||{p:[]},st=app.querySelector(".stage");
+  const ths=await loadT100(),th=dailyTheme(ths),key="top100:"+dayNum(),rec=store.get(key)||{p:[]},st=app.querySelector(".stage");rec.p.forEach(x=>{x.pts=ptsOf(th,x.id)});
   const total=()=>rec.p.reduce((a,x)=>a+x.pts,0);
   const draw=()=>{const done=rec.p.length>=5;
-    st.innerHTML=`<div class="t1-theme"><small>Tema de hoje</small><h3>${esc(th.t)}</h3><p class="muted">${esc(th.s)}</p></div>
+    st.innerHTML=`<div class="t1-theme"><small>Tema de hoje</small><h3>${esc(th.t)}</h3><p class="muted">${esc(subT(th))}</p></div>
       <div class="t1-score"><div><small>Pontos</small><b>${total()}</b><span> / 500</span></div><div><small>${done?"Fim do desafio":"Chute"}</small><b>${done?"5/5":rec.p.length+1+"/5"}</b></div></div>
       <div class="t1-picks">${[0,1,2,3,4].map(i=>rec.p[i]?pickRow(th,rec.p[i],i+1):`<div class="t1-pick empty"><i>${i+1}</i><b>${i===rec.p.length?"Seu próximo chute":"—"}</b></div>`).join("")}</div>
-      ${done?"":`<div class="t1-srch"></div><p class="muted">O 100º da lista vale 100 pontos e o 1º vale 1. Chute fundo na lista, mas quem está fora dela não pontua.</p>`}
+      ${done?"":`<div class="t1-srch"></div><p class="muted">O último da lista vale 100 pontos e o primeiro vale muito pouco. Chute fundo na lista, mas quem está fora dela não pontua.</p>`}
       ${done?`<div class="le-act"><p><b>Você fez ${total()} de 500 pontos.</b> ${total()>=400?"Que leitura de mercado!":total()>=250?"Bom jogo, volte amanhã para outro tema.":"Amanhã tem outro tema."}</p><div class="row"><button class="btn y" type="button" data-a="share">Copiar resultado</button></div></div>
         <h4 class="rc-h">O ranking completo</h4>${listH(th,Object.fromEntries(rec.p.filter(x=>x.id).map(x=>[x.id,{c:"me",by:"você"}])))}`:""}`;
     const host=st.querySelector(".t1-srch");
@@ -105,12 +109,12 @@ export async function t100Play({mode,code,pfs}){ST.VIEW="top100";ST.PHASE="play"
     const nX=nm(S.X),nO=nm(S.O),th=byId(S.th[S.round]),r=S.round,turnMe=seat===S.turn&&S.ph==="play",ms=m=>m==="X"?"✕":"◯",nmOf=m=>m==="X"?nX:nO;
     const chip=m=>`<div class="vl-p ${m.toLowerCase()} ${S.ph==="play"&&S.turn===m?"on":""}">${pfImg(S,m)}<span class="vl-nm">${esc(nmOf(m))}</span><b>${m==="X"?S.sx:S.so}</b></div>`;
     let h=`<div class="vl-head">${chip("X")}<div class="vl-mid"><small>TOP 100 · ${S.ph==="over"?"FIM":"TEMA "+(r+1)+"/3"}</small><b>${S.ph==="over"?"Placar":S.ph==="show"?"Fim do tema":"Chutes"}</b><small>${S.code==="LOCAL"?"no mesmo aparelho":"código "+esc(S.code)}</small></div>${chip("O")}</div><p class="vl-away hardnote" hidden>O adversário saiu da página. Se não voltar, a vez passa sozinha.</p>`;
-    const rows=(rr)=>rr.map((x,i)=>`<div class="t1-pick ${x.pts===100?"top":x.pts?"in":"out"}"><span class="t1-who">${pfImg(S,x.m)}${esc(nmOf(x.m))}</span><span class="mini">${x.id?face(pl(x.id)):""}</span><b>${esc(x.id?pl(x.id).name:"Sem chute")}</b><span class="t1-res">${!x.id?"passou":x.pts?`${x.pts}º da lista`:"fora do top 100"}</span><strong>${x.pts} pts</strong></div>`).join("");
+    const rows=(rr)=>rr.map((x,i)=>`<div class="t1-pick ${x.pts===100?"top":x.pts?"in":"out"}"><span class="t1-who">${pfImg(S,x.m)}${esc(nmOf(x.m))}</span><span class="mini">${x.id?face(pl(x.id)):""}</span><b>${esc(x.id?pl(x.id).name:"Sem chute")}</b><span class="t1-res">${!x.id?"passou":x.pts?rkTxt(th,x):"fora da lista"}</span><strong>${x.pts} pts</strong></div>`).join("");
     const marks=rr=>Object.fromEntries(rr.filter(x=>x.id).map(x=>[x.id,{c:x.m==="X"?"x":"o",by:nmOf(x.m)}]));
     if(S.ph==="over"){const w=S.over,rounds=[0,1,2].map(i=>{const t=byId(S.th[i]),a=S.g[i].filter(x=>x.m==="X").reduce((q,x)=>q+x.pts,0),b=S.g[i].filter(x=>x.m==="O").reduce((q,x)=>q+x.pts,0);return`<div class="t1-rrow"><span>${esc(t.t)}</span><b>${a} x ${b}</b></div>`}).join("");
       h+=`<div class="vl-status mine"><span><b>${w==="D"?"Empate!":(mode==="local"||seat===w)&&mode!=="local"?"Você venceu!":esc(nmOf(w))+" venceu!"}</b> ${S.sx} x ${S.so}</span></div><div class="t1-rounds">${rounds}</div>
         <div class="row"><button class="btn y" type="button" data-a="again">Revanche</button><button class="btn" type="button" data-a="share">Copiar resultado</button></div>`}
-    else{h+=`<div class="t1-theme"><small>Tema ${r+1} de 3</small><h3>${esc(th.t)}</h3><p class="muted">${esc(th.s)}</p></div>`;
+    else{h+=`<div class="t1-theme"><small>Tema ${r+1} de 3</small><h3>${esc(th.t)}</h3><p class="muted">${esc(subT(th))}</p></div>`;
       if(S.ph==="play")h+=`<div class="vl-status ${turnMe?"mine":""}"><span>${turnMe?`<b>${mode==="local"?esc(nmOf(S.turn))+", seu":"Seu"} chute ${Math.floor(S.g[r].length/2)+1} de 3.</b> Quanto mais fundo na lista, mais pontos.`:`Vez de ${esc(nmOf(S.turn))}…`}</span><span class="pill vl-clock"></span></div>${turnMe?`<div class="t1-srch"></div>`:""}`;
       h+=`<div class="t1-picks">${rows(S.g[r])||`<p class="muted">Nenhum chute ainda.</p>`}</div>`;
       if(S.ph==="show")h+=`<div class="le-act"><p><b>Tema encerrado.</b> ${esc(nX)} ${S.g[r].filter(x=>x.m==="X").reduce((q,x)=>q+x.pts,0)} pts · ${esc(nO)} ${S.g[r].filter(x=>x.m==="O").reduce((q,x)=>q+x.pts,0)} pts</p><div class="row"><button class="btn y" type="button" data-a="next">${r>=2?"Ver o placar":"Próximo tema"}</button><span class="pill vl-clock"></span></div></div><details open><summary class="rc-h">O ranking completo</summary>${listH(th,marks(S.g[r]))}</details>`}

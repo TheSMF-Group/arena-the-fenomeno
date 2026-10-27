@@ -1,0 +1,1394 @@
+{{Short description|none}}
+[[File:Silvio Piola (Pro Vercelli).jpg|thumb|right|[[Silvio Piola]] has scored the most goals in Serie A.]]
+This is a list of '''players who scored over 100 goals in [[Serie A]]''', Italy's top flight football league, during its history starting from the [[1929–30 Serie A|1929–30]] season. [[Giuseppe Meazza]] was the first player to reach both 100 and 200 goals in Serie A. Since the [[1948–49 Serie A]] season, [[Silvio Piola]] has headed the list. [[Goran Pandev]] was the oldest player to reach the hundred goal milestone at the age of 37 years and 268 days.<ref>{{cite web |last1=Campanale |first1=Susy |title=Dzeko third oldest player to hit 100 Serie A goals |url=https://football-italia.net/dzeko-third-oldest-player-to-hit-100-serie-a-goals/ |website=Football Italia}}</ref> 
+
+The most recent player to score their hundredth goal in Serie A was [[Lautaro Martínez]] on 26 February 2024.<ref>{{cite web |title=Martinez joins Serie A's 100 club as Inter stay nine clear |url=https://uk.sports.yahoo.com/news/last-gasp-rugani-saves-juve-161955257.html?guccounter=1 |website=Yahoo Sport |access-date=25 February 2024}}</ref> Of the active players still in Serie A, [[Giovanni Simeone]] is closest to making the list with 84 goals.
+
+==Serie A players with 100 or more goals==
+'''Key'''
+* '''Bold''' shows players still playing in Serie A.
+* ''Italics'' show players still playing professional football in other leagues.
+* This list does not include goals scored during [[1944 Campionato Alta Italia]] and the [[1945–46 Serie A-B]].
+
+{{updated|matches played 31 August 2026}}<ref>{{cite web |last1=Mariani |first1=Maurizio |title=Italy - All-Time Topscorers in Serie A |url=https://www.rsssf.org/tablesi/italtops-allt.html |website=RSSSF}}</ref>
+{{clear}}
+
+{| class="wikitable sortable" style="text-align:center"
+! scope="col" |Rank
+! scope="col" width=175px|Player
+! scope="col" |Goals
+! scope="col" |{{Abbr|Apps|Appearances}}
+! scope="col" |{{Abbr|Ratio|Goals per game}}
+! scope="col" |{{Abbr|First|First Serie A appearance}}
+! scope="col" |{{Abbr|Last|Last Serie A appearance}}
+! class="unsortable" |{{Tooltip|Club(s) (goals/apps)|Serie A clubs only}}
+! class="unsortable"|Notes
+|-
+|1
+|style="text-align:left" data-sort-value="Piola, Silvio"|{{flagicon|ITA}} [[Silvio Piola]]
+|274
+|537
+|{{#expr:274/537 round 2}}
+|1929
+|1954
+|style="text-align:left"|{{nowrap|[[FC Pro Vercelli 1892|Pro Vercelli]] (51/127)}}, {{nowrap|[[SS Lazio|Lazio]] (143/227)}}, {{nowrap|[[Juventus FC|Juventus]] (10/28)}}, {{nowrap|[[Novara Calcio|Novara]] (70/155)}}
+|<ref name="campionatoescluso">Player who has played and scored in the 1944 Campionato Alta Italia and the 1945–46 Serie A-B which is not considered in the list.</ref>
+|-
+|2
+|style="text-align:left" data-sort-value="Totti, Francesco"|{{flagicon|ITA}} [[Francesco Totti]]
+|250
+|619
+|{{#expr:250/619 round 2}}
+|1992
+|2017
+|style="text-align:left"|[[AS Roma|Roma]]
+|
+|-
+|3
+|style="text-align:left" data-sort-value="Nordahl, Gunnar"|{{flagicon|SWE}} [[Gunnar Nordahl]]
+|225
+|291
+|{{#expr:225/291 round 2}}
+|1949
+|1958
+|style="text-align:left"|{{nowrap|[[AC Milan|Milan]] (210/257)}}, {{nowrap|[[AS Roma|Roma]] (15/34)}}
+|
+|-
+|rowspan="2"|4
+|style="text-align:left" data-sort-value="Meazza, Giuseppe"|{{flagicon|ITA}} [[Giuseppe Meazza]]
+|216
+|367
+|{{#expr:216/367 round 2}}
+|1929
+|1947
+|style="text-align:left"|{{nowrap|[[Inter Milan|Internazionale]] (197/303)}}, {{nowrap|[[AC Milan|Milan]] (9/37)}}, {{nowrap|[[Juventus FC|Juventus]] (10/27)}}
+|<ref name="campionatoescluso" />
+|-
+|style="text-align:left" data-sort-value="Altafini, José"|{{flagicon|BRA}} {{flagicon|ITA}} [[José Altafini]]
+|216
+|459
+|{{#expr:216/459 round 2}}
+|1958
+|1976
+|style="text-align:left"|{{nowrap|[[AC Milan|Milan]] (120/204)}}, {{nowrap|[[SSC Napoli|Napoli]] (71/179)}}, {{nowrap|[[Juventus FC|Juventus]] (25/73)}}
+|
+|-
+|6
+|style="text-align:left" data-sort-value="Di Natale, Antonio"|{{flagicon|ITA}} [[Antonio Di Natale]]
+|209
+|445
+|{{#expr:209/445 round 2}}
+|2002
+|2016
+|style="text-align:left"|{{nowrap|[[Empoli FC|Empoli]] (18/59)}}, {{nowrap|[[Udinese Calcio|Udinese]] (191/385)}}
+|
+|-
+|7
+|style="text-align:left" data-sort-value="Baggio, Roberto"|{{flagicon|ITA}} [[Roberto Baggio]]
+|205
+|452
+|{{#expr:205/452 round 2}}
+|1985
+|2004
+|style="text-align:left"|{{nowrap|[[ACF Fiorentina|Fiorentina]] (39/94)}}, {{nowrap|[[Juventus FC|Juventus]] (78/141)}}, {{nowrap|[[AC Milan|Milan]] (12/51)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (22/30)}}, {{nowrap|[[Inter Milan|Internazionale]] (9/41)}}, {{nowrap|[[Brescia Calcio|Brescia]] (45/95)}}
+|
+|-
+|8
+|style="text-align:left" data-sort-value="Immobile, Ciro"|{{flagicon|ITA}} [[Ciro Immobile]]
+|201
+|359
+|{{#expr:201/359 round 2}}
+|2009
+|2026
+|style="text-align:left"|{{nowrap|[[Juventus FC|Juventus]] (0/3)}}, {{nowrap|[[Genoa CFC|Genoa]] (5/33)}}, {{nowrap|[[Torino FC|Torino]] (27/47)}}, {{nowrap|[[SS Lazio|Lazio]] (169/270)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (0/6)}}
+|
+|-
+|9
+|style="text-align:left" data-sort-value="Hamrin, Kurt"|{{flagicon|SWE}} [[Kurt Hamrin]]
+|190
+|400
+|{{#expr:190/400 round 2}}
+|1956
+|1971
+|style="text-align:left"|{{nowrap|[[Juventus FC|Juventus]] (8/23)}}, {{nowrap|[[Calcio Padova|Padova]] (20/30)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (150/289)}}, {{nowrap|[[AC Milan|Milan]] (9/36)}}, {{nowrap|[[SSC Napoli|Napoli]] (3/22)}}
+|
+|-
+|rowspan="3"|10
+|style="text-align:left" data-sort-value="Signori, Giuseppe"|{{flagicon|ITA}} [[Giuseppe Signori]]
+|188
+|344
+|{{#expr:188/344 round 2}}
+|1991
+|2004
+|style="text-align:left"|{{nowrap|[[Foggia Calcio|Foggia]] (11/32)}}, {{nowrap|[[SS Lazio|Lazio]] (107/152)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (3/17)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (67/143)}}
+|
+|-
+|style="text-align:left" data-sort-value="Del Piero, Alessandro"|{{flagicon|ITA}} [[Alessandro Del Piero]]
+|188
+|478
+|{{#expr:188/478 round 2}}
+|1993
+|2012
+|style="text-align:left"|[[Juventus FC|Juventus]]
+|
+|-
+|style="text-align:left" data-sort-value="Gilardino, Alberto"|{{flagicon|ITA}} [[Alberto Gilardino]]
+|188
+|514
+|{{#expr:188/514 round 2}}
+|1999
+|2017
+|style="text-align:left"|{{nowrap|[[Piacenza Calcio 1919|Piacenza]] (3/17)}}, {{nowrap|[[Hellas Verona FC|Hellas Verona]] (5/39)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (50/96)}}, {{nowrap|[[AC Milan|Milan]] (36/94)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (52/132)}}, {{nowrap|[[Genoa CFC|Genoa]] (19/50)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (13/36)}}, {{nowrap|[[Palermo FC|Palermo]] (10/33)}}, {{nowrap|[[Empoli FC|Empoli]] (0/14)}}, {{nowrap|[[Delfino Pescara 1936|Pescara]] (0/3)}}
+|
+|-
+|13
+|style="text-align:left" data-sort-value="Batistuta, Gabriel"|{{flagicon|ARG}} [[Gabriel Batistuta]]
+|183
+|318
+|{{#expr:183/318 round 2}}
+|1991
+|2003
+|style="text-align:left"|{{nowrap|[[ACF Fiorentina|Fiorentina]] (151/243)}}, {{nowrap|[[AS Roma|Roma]] (30/63)}}, {{nowrap|[[Inter Milan|Internazionale]] (2/12)}}
+|
+|-
+|14
+|style="text-align:left" data-sort-value="Quagliarella, Fabio"|{{flagicon|ITA}} [[Fabio Quagliarella]]
+|182
+|556
+|{{#expr:182/556 round 2}}
+|1999
+|2023
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (102/277)}}, {{nowrap|[[Udinese Calcio|Udinese]] (25/73)}}, {{nowrap|[[Juventus FC|Juventus]] (23/84)}}, {{nowrap|[[Torino FC|Torino]] (18/55)}}, {{nowrap|[[SSC Napoli|Napoli]] (11/34)}}, {{nowrap|[[Ascoli Calcio 1898 FC|Ascoli]] (3/33)}}
+|
+|-
+|15
+|style="text-align:left" data-sort-value="Boniperti, Giampiero"|{{flagicon|ITA}} [[Giampiero Boniperti]]
+|178
+|443
+|{{#expr:178/443 round 2}}
+|1946
+|1961
+|style="text-align:left"|[[Juventus FC|Juventus]]
+|
+|-
+|16
+|style="text-align:left" data-sort-value="Amadei, Amedeo"|{{flagicon|ITA}} [[Amedeo Amadei]]
+|174
+|423
+|{{#expr:174/423 round 2}}
+|1936
+|1956
+|style="text-align:left"|{{nowrap|[[AS Roma|Roma]] (85/182)}}, {{nowrap|[[Inter Milan|Internazionale]] (42/70)}}, {{nowrap|[[SSC Napoli|Napoli]] (47/171)}}
+|<ref name="campionatoescluso" />
+|-
+|17
+|style="text-align:left" data-sort-value="Savoldi, Giuseppe"|{{flagicon|ITA}} [[Giuseppe Savoldi]]
+|168
+|405
+|{{#expr:168/405 round 2}}
+|1965
+|1980
+|style="text-align:left"|{{nowrap|[[Atalanta BC|Atalanta]] (17/57)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (96/230)}}, {{nowrap|[[SSC Napoli|Napoli]] (55/115)}}
+|
+|-
+|18
+|style="text-align:left" data-sort-value="Gabetto, Guglielmo"|{{flagicon|ITA}} [[Guglielmo Gabetto]]
+|164
+|323
+|{{#expr:164/323 round 2}}
+|1934
+|1949
+|style="text-align:left"|{{nowrap|[[Juventus FC|Juventus]] (84/165)}}, {{nowrap|[[Torino FC|Torino]] (80/158)}}
+|<ref name="campionatoescluso" />
+|-
+|19
+|style="text-align:left" data-sort-value="Boninsegna, Roberto"|{{flagicon|ITA}} [[Roberto Boninsegna]]
+|162
+|363
+|{{#expr:162/363 round 2}}
+|1965
+|1979
+|style="text-align:left"|{{nowrap|[[SSD Varese Calcio|Varese]] (5/28)}}, {{nowrap|[[Cagliari Calcio|Cagliari]] (23/83)}}, {{nowrap|[[Inter Milan|Internazionale]] (112/195)}}, {{nowrap|[[Juventus FC|Juventus]] (22/57)}}
+|
+|-
+|20
+|style="text-align:left" data-sort-value="Toni, Luca"|{{flagicon|ITA}} [[Luca Toni]]
+|157
+|344
+|{{#expr:157/344 round 2}}
+|2000
+|2016
+|style="text-align:left"|{{nowrap|[[Vicenza Calcio|Vicenza]] (9/31)}}, {{nowrap|[[Brescia Calcio|Brescia]] (15/44)}}, {{nowrap|[[Palermo FC|Palermo]] (20/35)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (55/94)}}, {{nowrap|[[AS Roma|Roma]] (5/15)}}, {{nowrap|[[Genoa CFC|Genoa]] (3/16)}}, {{nowrap|[[Juventus FC|Juventus]] (2/14)}}, {{nowrap|[[Hellas Verona FC|Hellas Verona]] (48/95)}}
+|
+|-
+|rowspan="4"|21
+|style="text-align:left" data-sort-value="Ibrahimović, Zlatan"|{{flagicon|SWE}} [[Zlatan Ibrahimović]]
+|156
+|283
+|{{#expr:156/283 round 2}}
+|2004
+|2023
+|style="text-align:left"|{{nowrap|[[Juventus FC|Juventus]] (23/70)}}, {{nowrap|[[Inter Milan|Internazionale]] (57/88)}}, {{nowrap|[[AC Milan|Milan]] (76/125)}}
+|
+|-
+|style="text-align:left" data-sort-value="Riva, Gigi"|{{flagicon|ITA}} [[Gigi Riva]]
+|156
+|289
+|{{#expr:156/289 round 2}}
+|1964
+|1976
+|style="text-align:left"|[[Cagliari Calcio|Cagliari]]
+|
+|-
+|style="text-align:left" data-sort-value="Inzaghi, Filippo"|{{flagicon|ITA}} [[Filippo Inzaghi]]
+|156
+|370
+|{{#expr:156/370 round 2}}
+|1995
+|2012
+|style="text-align:left"|{{nowrap|[[Parma Calcio 1913|Parma]] (2/15)}}, {{nowrap|[[Atalanta BC|Atalanta]] (24/33)}}, {{nowrap|[[Juventus FC|Juventus]] (57/119)}}, {{nowrap|[[AC Milan|Milan]] (73/201)}}
+|
+|-
+|style="text-align:left" data-sort-value="Mancini, Roberto"|{{flagicon|ITA}} [[Roberto Mancini]]
+|156
+|541
+|{{#expr:156/541 round 2}}
+|1981
+|2000
+|style="text-align:left"|{{nowrap|[[Bologna FC 1909|Bologna]] (9/30)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (132/424)}}, {{nowrap|[[SS Lazio|Lazio]] (15/87)}}
+|
+|-
+|rowspan="2"|25
+|style="text-align:left" data-sort-value="Vinício, Luís"|{{flagicon|BRA}} [[Luís Vinício]]
+|155
+|347
+|{{#expr:155/347 round 2}}
+|1955
+|1968
+|style="text-align:left"|{{nowrap|[[SSC Napoli|Napoli]] (69/151)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (17/47)}}, {{nowrap|[[Vicenza Calcio|Vicenza]] (68/141)}}, {{nowrap|[[Inter Milan|Internazionale]] (1/8)}}
+|
+|-
+|style="text-align:left" data-sort-value="Reguzzoni, Carlo"|{{flagicon|ITA}} [[Carlo Reguzzoni]]
+|155
+|401
+|{{#expr:155/401 round 2}}
+|1929
+|1948
+|style="text-align:left"|{{nowrap|[[Aurora Pro Patria 1919|Pro Patria]] (14/42)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (141/358)}}
+|<ref name="campionatoescluso" />
+|-
+|rowspan="2"|27
+|style="text-align:left" data-sort-value="Nyers, István"|{{flagicon|HUN}} [[István Nyers]]
+|153
+|237
+|{{#expr:153/237 round 2}}
+|1948
+|1956
+|style="text-align:left"|{{nowrap|[[Inter Milan|Internazionale]] (133/183)}}, {{nowrap|[[AS Roma|Roma]] (20/54)}}
+|
+|-
+|style="text-align:left" data-sort-value="Crespo, Hernán"|{{flagicon|ARG}} [[Hernán Crespo]]
+|153
+|340
+|{{#expr:153/340 round 2}}
+|1996
+|2012
+|style="text-align:left"|{{nowrap|[[Parma Calcio 1913|Parma]] (72/162)}}, {{nowrap|[[SS Lazio|Lazio]] (39/54)}}, {{nowrap|[[Inter Milan|Internazionale]] (27/80)}}, {{nowrap|[[AC Milan|Milan]] (10/28)}}, {{nowrap|[[Genoa CFC|Genoa]] (5/16)}}
+|
+|-
+|29
+|style="text-align:left" data-sort-value="Bassetto, Adriano"|{{flagicon|ITA}} [[Adriano Bassetto]]
+|149
+|329
+|{{#expr:149/329 round 2}}
+|1946
+|1958
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (92/196)}}, {{nowrap|[[Atalanta BC|Atalanta]] (56/125)}}, {{nowrap|[[Vicenza Calcio|Vicenza]] (1/8)}}
+|<ref name="campionatoescluso" />
+|-
+|30
+|style="text-align:left" data-sort-value="Sívori, Omar"|{{flagicon|ARG}} {{flagicon|ITA}} [[Omar Sívori]]
+|147
+|279
+|{{#expr:147/279 round 2}}
+|1957
+|1969
+|style="text-align:left"|{{nowrap|[[Juventus FC|Juventus]] (125/216)}}, {{nowrap|[[SSC Napoli|Napoli]] (12/63)}}
+|
+|-
+|rowspan="4"|31
+|style="text-align:left" data-sort-value="Vieri, Christian"|{{flagicon|ITA}} [[Christian Vieri]]
+|142
+|264
+|{{#expr:142/264 round 2}}
+|1991
+|2009
+|style="text-align:left"|{{nowrap|[[Torino FC|Torino]] (1/7)}}, {{nowrap|[[Atalanta BC|Atalanta]] (11/35)}}, {{nowrap|[[Juventus FC|Juventus]] (8/23)}}, {{nowrap|[[SS Lazio|Lazio]] (12/22)}}, {{nowrap|[[Inter Milan|Internazionale]] (100/142)}}, {{nowrap|[[AC Milan|Milan]] (1/8)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (6/26)}}
+|
+|-
+|style="text-align:left" data-sort-value="Lorenzi, Benito"|{{flagicon|ITA}} [[Benito Lorenzi]]
+|142
+|330
+|{{#expr:142/330 round 2}}
+|1947
+|1959
+|style="text-align:left"|{{nowrap|[[Inter Milan|Internazionale]] (138/305)}}, {{nowrap|[[US Alessandria Calcio 1912|Alessandria]] (4/25)}}
+|
+|-
+|style="text-align:left" data-sort-value="Di Vaio, Marco"|{{flagicon|ITA}} [[Marco Di Vaio]]
+|142
+|342
+|{{#expr:142/342 round 2}}
+|1994
+|2012
+|style="text-align:left"|{{nowrap|[[SS Lazio|Lazio]] (3/8)}}, {{nowrap|[[US Salernitana 1919|Salernitana]] (12/31)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (41/83)}}, {{nowrap|[[Juventus FC|Juventus]] (18/55)}}, {{nowrap|[[Genoa CFC|Genoa]] (3/22)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (65/143)}}
+|
+|-
+|style="text-align:left" data-sort-value="Pulici, Paolo"|{{flagicon|ITA}} [[Paolo Pulici]]
+|142
+|401
+|{{#expr:142/401 round 2}}
+|1967
+|1985
+|style="text-align:left"|{{nowrap|[[Torino FC|Torino]] (134/333)}}, {{nowrap|[[Udinese Calcio|Udinese]] (5/26)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (3/39)}}
+|
+|-
+|35
+|style="text-align:left" data-sort-value="Montella, Vincenzo"|{{flagicon|ITA}} [[Vincenzo Montella]]
+|141
+|288
+|{{#expr:141/288 round 2}}
+|1996
+|2009
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (58/96)}}, {{nowrap|[[AS Roma|Roma]] (83/192)}}
+|
+|-
+|36
+|style="text-align:left" data-sort-value="Hansen, John"|{{flagicon|DNK}} [[John Hansen (footballer, born 1924)|John Hansen]]
+|139
+|214
+|{{#expr:139/214 round 2}}
+|1948
+|1955
+|style="text-align:left"|{{nowrap|[[Juventus FC|Juventus]] (124/187)}}, {{nowrap|[[SS Lazio|Lazio]] (15/27)}}
+|
+|-
+|37
+|style="text-align:left" data-sort-value="Chiesa, Enrico"|{{flagicon|ITA}} [[Enrico Chiesa]]
+|138
+|380
+|{{#expr:138/380 round 2}}
+|1988
+|2008
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (24/54)}}, {{nowrap|[[US Cremonese|Cremonese]] (14/34)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (33/92)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (33/57)}}, {{nowrap|[[SS Lazio|Lazio]] (2/12)}}, {{nowrap|[[ACR Siena 1904|Siena]] (32/129)}}
+|
+|-
+|38
+|style="text-align:left" data-sort-value="Brighenti, Sergio"|{{flagicon|ITA}} [[Sergio Brighenti]]
+|136
+|311
+|{{#expr:136/311 round 2}}
+|1952
+|1965
+|style="text-align:left"|{{nowrap|[[Inter Milan|Internazionale]] (20/40)}}, {{nowrap|[[US Triestina Calcio 1918|Triestina]] (13/54)}}, {{nowrap|[[Calcio Padova|Padova]] (50/91)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (43/95)}}, {{nowrap|[[Modena FC|Modena]] (10/30)}}, {{nowrap|[[Torino FC|Torino]] (0/1)}}
+|
+|-
+|39
+|style="text-align:left" data-sort-value="Pruzzo, Roberto"|{{flagicon|ITA}} [[Roberto Pruzzo]]
+|133
+|331
+|{{#expr:133/331 round 2}}
+|1973
+|1989
+|style="text-align:left"|{{nowrap|[[Genoa CFC|Genoa]] (27/78)}}, {{nowrap|[[AS Roma|Roma]] (106/240)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (0/13)}}
+|
+|-
+|rowspan="2"|40
+|style="text-align:left" data-sort-value="Martínez, Lautaro"|{{flagicon|ARG}} '''[[Lautaro Martínez]]'''
+|132
+|269
+|{{#expr:132/269 round 2}}
+|2018
+|2026
+|style="text-align:left"|'''[[Inter Milan|Internazionale]]'''
+|
+|-
+|style="text-align:left" data-sort-value="Altobelli, Alessandro"|{{flagicon|ITA}} [[Alessandro Altobelli]]
+|132
+|337
+|{{#expr:132/337 round 2}}
+|1977
+|1989
+|style="text-align:left"|{{nowrap|[[Inter Milan|Internazionale]] (128/315)}}, {{nowrap|[[Juventus FC|Juventus]] (4/20)}}
+|
+|-
+|rowspan="3"|42
+|style="text-align:left" data-sort-value="Borel, Felice"|{{flagicon|ITA}} [[Felice Borel]]
+|131
+|257
+|{{#expr:131/257 round 2}}
+|1932
+|1947
+|style="text-align:left"|{{nowrap|[[Juventus FC|Juventus]] (124/231)}}, {{nowrap|[[Torino FC|Torino]] (7/25)}}, {{nowrap|[[US Alessandria Calcio 1912|Alessandria]] (0/1)}}
+|<ref name="campionatoescluso" />
+|-
+|style="text-align:left" data-sort-value="Berardi, Domenico"|{{flagicon|ITA}} '''[[Domenico Berardi]]'''
+|131
+|341
+|{{#expr:131/341 round 2}}
+|2013
+|2026
+|style="text-align:left"|'''[[US Sassuolo Calcio|Sassuolo]]'''
+|
+|-
+|style="text-align:left" data-sort-value="Dybala, Paulo"|{{flagicon|ARG}} '''[[Paulo Dybala]]'''
+|131
+|372
+|{{#expr:131/372 round 2}}
+|2012
+|2026
+|style="text-align:left"|{{nowrap|[[Palermo FC|Palermo]] (16/61)}}, {{nowrap|[[Juventus FC|Juventus]] (82/210)}}, {{nowrap|'''[[AS Roma|Roma]]''' (33/101)}}
+|
+|-
+|rowspan="2"|45
+|style="text-align:left" data-sort-value="Pascutti, Ezio"|{{flagicon|ITA}} [[Ezio Pascutti]]
+|130
+|295
+|{{#expr:130/295 round 2}}
+|1955
+|1969
+|style="text-align:left"|[[Bologna FC 1909|Bologna]]
+|
+|-
+|style="text-align:left" data-sort-value="Graziani, Francesco"|{{flagicon|ITA}} [[Francesco Graziani]]
+|130
+|352
+|{{#expr:130/352 round 2}}
+|1973
+|1987
+|style="text-align:left"|{{nowrap|[[Torino FC|Torino]] (97/221)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (14/52)}}, {{nowrap|[[AS Roma|Roma]] (12/57)}}, {{nowrap|[[Udinese Calcio|Udinese]] (7/22)}}
+|
+|-
+|47
+|style="text-align:left" data-sort-value="Bettega, Roberto"|{{flagicon|ITA}} [[Roberto Bettega]]
+|129
+|321
+|{{#expr:129/321 round 2}}
+|1970
+|1983
+|style="text-align:left"|[[Juventus FC|Juventus]]
+|
+|-
+|48
+|style="text-align:left" data-sort-value="Rivera, Gianni"|{{flagicon|ITA}} [[Gianni Rivera]]
+|128
+|524
+|{{#expr:128/524 round 2}}
+|1958
+|1979
+|style="text-align:left"|{{nowrap|[[US Alessandria Calcio 1912|Alessandria]] (6/26)}}, {{nowrap|[[AC Milan|Milan]] (122/498)}}
+|
+|-
+|rowspan=2|49
+|style="text-align:left" data-sort-value="Shevchenko, Andriy"|{{flagicon|UKR}} [[Andriy Shevchenko]]
+|127
+|224
+|{{#expr:127/224 round 2}}
+|1999
+|2009
+|style="text-align:left"|[[AC Milan|Milan]]
+|
+|-
+|style="text-align:left" data-sort-value="Zapata, Duván"|{{flagicon|COL}} '''[[Duván Zapata]]'''
+|127
+|355
+|{{#expr:127/355 round 2}}
+|2013
+|2026
+|style="text-align:left"|{{nowrap|[[SSC Napoli|Napoli]] (11/37)}}, {{nowrap|[[Udinese Calcio|Udinese]] (18/63)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (11/31)}}, {{nowrap|[[Atalanta BC|Atalanta]] (69/153)}}, {{nowrap|'''[[Torino FC|Torino]]''' (18/71)}}
+|
+|-
+|51
+|style="text-align:left" data-sort-value="Higuaín, Gonzalo"|{{flagicon|ARG}} [[Gonzalo Higuaín]]
+|125
+|224
+|{{#expr:125/224 round 2}}
+|2013
+|2020
+|style="text-align:left"|{{nowrap|[[SSC Napoli|Napoli]] (71/104)}}, {{nowrap|[[Juventus FC|Juventus]] (48/105)}}, {{nowrap|[[AC Milan|Milan]] (6/15)}}
+|
+|-
+|52
+|style="text-align:left" data-sort-value="Ferraris, Pietro"|{{flagicon|ITA}} [[Pietro Ferraris II]]
+|124
+|469
+|{{#expr:124/469 round 2}}
+|1929
+|1950
+|style="text-align:left"|{{nowrap|[[FC Pro Vercelli 1892|Pro Vercelli]] (20/86)}}, {{nowrap|[[SSC Napoli|Napoli]] (13/83)}}, {{nowrap|[[Inter Milan|Internazionale]] (43/139)}}, {{nowrap|[[Torino FC|Torino]] (28/104)}}, {{nowrap|[[Novara Calcio|Novara]] (20/57)}}
+|<ref name="campionatoescluso" />
+|- 
+|rowspan="3"|53
+|style="text-align:left" data-sort-value="Trezeguet, David"|{{flagicon|FRA}} [[David Trezeguet]]
+|123
+|214
+|{{#expr:123/214 round 2}}
+|2000
+|2010
+|style="text-align:left"|[[Juventus FC|Juventus]]
+|
+|-
+|style="text-align:left" data-sort-value="Vialli, Gianluca"|{{flagicon|ITA}} [[Gianluca Vialli]]
+|123
+|325
+|{{#expr:123/325 round 2}}
+|1984
+|1996
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (85/223)}}, {{nowrap|[[Juventus FC|Juventus]] (38/102)}}
+|
+|-
+|style="text-align:left" data-sort-value="Burini, Renzo"|{{flagicon|ITA}} [[Renzo Burini]]
+|123
+|329
+|{{#expr:123/329 round 2}}
+|1947
+|1959
+|style="text-align:left"|{{nowrap|[[AC Milan|Milan]] (88/190)}}, {{nowrap|[[SS Lazio|Lazio]] (35/139)}}
+|
+|-
+|56
+|style="text-align:left" data-sort-value="Icardi, Mauro"|{{flagicon|ARG}} [[Mauro Icardi]]
+|121
+|219
+|{{#expr:121/219 round 2}}
+|2012
+|2019
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (10/31)}}, {{nowrap|[[Inter Milan|Internazionale]] (111/188)}}
+|
+|-
+|57
+|style="text-align:left" data-sort-value="Lucarelli, Cristiano"|{{flagicon|ITA}} [[Cristiano Lucarelli]]
+|120
+|301
+|{{#expr:120/301 round 2}}
+|1997
+|2012
+|style="text-align:left"|{{nowrap|[[Atalanta BC|Atalanta]] (5/26)}}, {{nowrap|[[US Lecce|Lecce]] (27/59)}}, {{nowrap|[[Torino FC|Torino]] (10/56)}}, {{nowrap|[[AS Livorno Calcio|Livorno]] (73/132)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (4/16)}}, {{nowrap|[[SSC Napoli|Napoli]] (1/12)}}
+|
+|-
+|58
+|style="text-align:left" data-sort-value="Puricelli, Ettore"|{{flagicon|URU}} {{flagicon|ITA}} [[Ettore Puricelli]]
+|119
+|212
+|{{#expr:119/212 round 2}}
+|1938
+|1949
+|style="text-align:left"|{{nowrap|[[Bologna FC 1909|Bologna]] (80/133)}}, {{nowrap|[[AC Milan|Milan]] (39/79)}}
+|<ref name="campionatoescluso" />
+|-
+|59
+|style="text-align:left" data-sort-value="Pivatelli, Gino"|{{flagicon|ITA}} [[Gino Pivatelli]]
+|118
+|255
+|{{#expr:118/255 round 2}}
+|1953
+|1963
+|style="text-align:left"|{{nowrap|[[Bologna FC 1909|Bologna]] (104/197)}}, {{nowrap|[[SSC Napoli|Napoli]] (3/21)}}, {{nowrap|[[AC Milan|Milan]] (11/37)}}
+|
+|-
+|60
+|style="text-align:left" data-sort-value="Balbo, Abel"|{{flagicon|ARG}} [[Abel Balbo]]
+|117
+|253
+|{{#expr:117/253 round 2}}
+|1989
+|2002
+|style="text-align:left"|{{nowrap|[[Udinese Calcio|Udinese]] (32/60)}}, {{nowrap|[[AS Roma|Roma]] (78/149)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (4/25)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (3/19)}}
+|
+|-
+|rowspan="2"|61
+|style="text-align:left" data-sort-value="Belotti, Andrea"|{{flagicon|ITA}} [[Andrea Belotti]]
+|116
+|356
+|{{#expr:116/356 round 2}}
+|2014
+|2026
+|style="text-align:left"|{{nowrap|[[Palermo FC|Palermo]] (6/38)}}, {{nowrap|[[Torino FC|Torino]] (100/232)}}, {{nowrap|[[AS Roma|Roma]] (3/45)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (3/15)}}, {{nowrap|[[Como 1907|Como]] (2/18)}}, {{nowrap|[[Cagliari Calcio|Cagliari]] (2/8)}}
+|
+|-
+|style="text-align:left" data-sort-value="Mazzola, Alessandro"|{{flagicon|ITA}} [[Sandro Mazzola|Alessandro Mazzola]]
+|116
+|415
+|{{#expr:116/415 round 2}}
+|1960
+|1977
+|style="text-align:left"|[[Inter Milan|Internazionale]]
+|
+|-
+|63
+|style="text-align:left" data-sort-value="Pazzini, Giampaolo"|{{flagicon|ITA}} [[Giampaolo Pazzini]]
+|114
+|382
+|{{#expr:114/382 round 2}}
+|2004
+|2020
+|style="text-align:left"|{{nowrap|[[Atalanta BC|Atalanta]] (3/12)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (25/108)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (36/75)}}, {{nowrap|[[Inter Milan|Internazionale]] (15/49)}}, {{nowrap|[[AC Milan|Milan]] (21/74)}}, {{nowrap|[[Hellas Verona FC|Hellas Verona]] (14/64)}}
+|
+|-
+|rowspan="2"|64
+|style="text-align:left" data-sort-value="Mertens, Dries"|{{flagicon|BEL}} [[Dries Mertens]]
+|113
+|295
+|{{#expr:113/295 round 2}}
+|2013
+|2022
+|style="text-align:left"|[[SSC Napoli|Napoli]]
+|
+|-
+|style="text-align:left" data-sort-value="Amoruso, Nicola"|{{flagicon|ITA}} [[Nicola Amoruso]]
+|113
+|380
+|{{#expr:113/380 round 2}}
+|1993
+|2010
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (3/8)}}, {{nowrap|[[Calcio Padova|Padova]] (14/33)}}, {{nowrap|[[Juventus FC|Juventus]] (9/62)}}, {{nowrap|[[AC Perugia Calcio|Perugia]] (11/32}}, {{nowrap|[[SSC Napoli|Napoli]] (10/30)}}, {{nowrap|[[Calcio Como|Como]] (6/14)}}, {{nowrap|[[Modena FC|Modena]] (5/25)}}, {{nowrap|[[ACR Messina|Messina]] (5/22)}}, {{nowrap|[[Reggina Calcio|Reggina]] (40/96)}}, {{nowrap|[[Torino FC|Torino]] (4/20)}}, {{nowrap|[[ACR Siena 1904|Siena]] (0/6)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (5/17)}}, {{nowrap|[[Atalanta BC|Atalanta]] (1/15)}}, 
+|
+|-
+|rowspan="2"|66
+|style="text-align:left" data-sort-value="Cavani, Edinson"|{{flagicon|URU}} [[Edinson Cavani]]
+|112
+|213
+|{{#expr:112/213 round 2}}
+|2007
+|2013
+|style="text-align:left"|{{nowrap|[[Palermo FC|Palermo]] (34/109)}}, {{nowrap|[[SSC Napoli|Napoli]] (78/104)}}
+|
+|-
+|style="text-align:left" data-sort-value="Pellissier, Sergio"|{{flagicon|ITA}} [[Sergio Pellissier]]
+|112
+|459
+|{{#expr:112/459 round 2}}
+|2002
+|2019
+|style="text-align:left"|[[AC ChievoVerona|Chievo]]
+|
+|-
+|rowspan="2"|68
+|style="text-align:left" data-sort-value="Carapellese, Riccardo"|{{flagicon|ITA}} [[Riccardo Carapellese]]
+|111
+|315
+|{{#expr:111/315 round 2}}
+|1946
+|1957
+|style="text-align:left"|{{nowrap|[[AC Milan|Milan]] (52/106)}}, {{nowrap|[[Torino FC|Torino]] (28/98)}}, {{nowrap|[[Juventus FC|Juventus]] (9/17)}}, {{nowrap|[[Genoa CFC|Genoa]] (22/94)}}
+|<ref name="campionatoescluso" />
+|-
+|style="text-align:left" data-sort-value="Cassano, Antonio"|{{flagicon|ITA}} [[Antonio Cassano]]
+|113
+|400
+|{{#expr:113/400 round 2}}
+|1999
+|2017
+|style="text-align:left"|{{nowrap|[[SSC Bari|Bari]] (6/48)}}, {{nowrap|[[AS Roma|Roma]] (39/118)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (37/120)}}, {{nowrap|[[AC Milan|Milan]] (7/33)}}, {{nowrap|[[Inter Milan|Internazionale]] (7/28)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (17/53)}}
+|
+|-
+|rowspan="4"|70
+|style="text-align:left" data-sort-value="Bettini, Lorenzo"|{{flagicon|ITA}} [[Lorenzo Bettini]]
+|110
+|271
+|{{#expr:110/271 round 2}}
+|1952
+|1963
+|style="text-align:left"|{{nowrap|[[Palermo FC|Palermo]] (8/20)}}, {{nowrap|[[AS Roma|Roma]] (9/15)}}, {{nowrap|[[Udinese Calcio|Udinese]] (67/157)}}, {{nowrap|[[SS Lazio|Lazio]] (15/42)}}, {{nowrap|[[Inter Milan|Internazionale]] (9/24)}}, {{nowrap|[[Modena FC|Modena]] (2/13)}}
+|
+|-
+|style="text-align:left" data-sort-value="Galli, Carlo"|{{flagicon|ITA}} [[Carlo Galli (footballer)|Carlo Galli]]
+|110
+|305
+|{{#expr:110/305 round 2}}
+|1949
+|1966
+|style="text-align:left"|{{nowrap|[[Palermo FC|Palermo]] (16/45)}}, {{nowrap|[[AS Roma|Roma]] (40/94)}}, {{nowrap|[[AC Milan|Milan]] (47/112)}}, {{nowrap|[[Udinese Calcio|Udinese]] (0/8)}}, {{nowrap|[[Genoa CFC|Genoa]] (3/8)}}, {{nowrap|[[SS Lazio|Lazio]] (4/38)}}
+|
+|-
+|style="text-align:left" data-sort-value="Ferrari, Giovanni"|{{flagicon|ITA}} [[Giovanni Ferrari]]
+|110
+|315
+|{{#expr:110/315 round 2}}
+|1929
+|1942
+|style="text-align:left"|{{nowrap|[[US Alessandria Calcio 1912|Alessandria]] (17/26)}}, {{nowrap|[[Juventus FC|Juventus]] (68/166)}}, {{nowrap|[[Inter Milan|Internazionale]] (23/108)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (2/15)}}
+|<ref name="campionatoescluso" />
+|-
+|style="text-align:left" data-sort-value="Baldini, Giuseppe"|{{flagicon|ITA}} [[Giuseppe Baldini]]
+|110
+|346
+|{{#expr:110/346 round 2}}
+|1939
+|1955
+|style="text-align:left"|{{nowrap|[[ACF Fiorentina|Fiorentina]] (8/51)}}, {{nowrap|[[Inter Milan|Internazionale]] (6/25)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (71/185)}}, {{nowrap|[[Genoa CFC|Genoa]] (6/31)}}, {{nowrap|[[Como 1907|Como]] (19/54)}}
+|
+|-
+|rowspan="2"|74
+|style="text-align:left" data-sort-value="Schiavio, Angelo"|{{flagicon|ITA}} [[Angelo Schiavio]]
+|109
+|179
+|{{#expr:109/179 round 2}}
+|1929
+|1938
+|style="text-align:left"|[[Bologna FC 1909|Bologna]]
+|<ref name="campionatoescluso" />
+|-
+|style="text-align:left" data-sort-value="Giordano, Bruno"|{{flagicon|ITA}} [[Bruno Giordano]]
+|109
+|317
+|{{#expr:109/317 round 2}}
+|1975
+|1992
+|style="text-align:left"|{{nowrap|[[SS Lazio|Lazio]] (67/163)}}, {{nowrap|[[SSC Napoli|Napoli]] (23/78)}}, {{nowrap|[[Ascoli Calcio 1898 FC|Ascoli]] (12/43)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (7/33)}}
+|
+|-
+|rowspan="2"|76
+|style="text-align:left" data-sort-value="Boffi, Aldo"|{{flagicon|ITA}} [[Aldo Boffi]]
+|108
+|163
+|{{#expr:108/163 round 2}}
+|1936
+|1945
+|style="text-align:left"|[[AC Milan|Milan]]
+|<ref name="campionatoescluso" />
+|-
+|style="text-align:left" data-sort-value="Firmani, Eddie"| {{flagicon|ITA}} [[Eddie Firmani]]
+|108
+|194
+|{{#expr:108/194 round 2}}
+|1955
+|1963
+|style="text-align:left"|{{nowrap|[[UC Sampdoria|Sampdoria]] (52/83)}}, {{nowrap|[[Inter Milan|Internazionale]] (48/82)}}, {{nowrap|[[Genoa CFC|Genoa]] (8/29)}}
+|
+|-
+|rowspan="2"|78
+|style="text-align:left" data-sort-value="Džeko, Edin"|{{flagicon|BIH}} ''[[Edin Džeko]]''
+|107
+|279
+|{{#expr:107/279 round 2}}
+|2015
+|2025
+|style="text-align:left"|{{nowrap|[[AS Roma|Roma]] (85/199)}}, {{nowrap|[[Inter Milan|Internazionale]] (22/69)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (0/11)}}
+|
+|-
+|style="text-align:left" data-sort-value="Da Costa, Dino"|{{flagicon|BRA}} {{flagicon|ITA}} [[Dino Da Costa]]
+|107
+|281
+|{{#expr:107/281 round 2}}
+|1955
+|1966
+|style="text-align:left"|{{nowrap|[[AS Roma|Roma]] (71/149)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (7/30)}}, {{nowrap|[[Atalanta BC|Atalanta]] (18/51)}}, {{nowrap|[[Juventus FC|Juventus]] (11/51)}}
+|
+|-
+|80
+|style="text-align:left" data-sort-value="Vojak, Antonio"|{{flagicon|ITA}} [[Antonio Vojak]]
+|106
+|208
+|{{#expr:106/208 round 2}}
+|1929
+|1937
+|style="text-align:left"|{{nowrap|[[SSC Napoli|Napoli]] (102/190)}}, {{nowrap|[[Genoa CFC|Genoa]] (4/17)}}, {{nowrap|[[Lucchese 1905|Lucchese]] (0/1)}}
+|<ref name="campionatoescluso" />
+|-
+|rowspan="2"|81
+|style="text-align:left" data-sort-value="Anastasi, Pietro"|{{flagicon|ITA}} [[Pietro Anastasi]]
+|105
+|339
+|{{#expr:105/339 round 2}}
+|1967
+|1981
+|style="text-align:left"|{{nowrap|[[SSD Varese Calcio|Varese]] (11/29)}}, {{nowrap|[[Juventus FC|Juventus]] (78/206)}}, {{nowrap|[[Inter Milan|Internazionale]] (7/46)}}, {{nowrap|[[Ascoli Calcio 1898 FC|Ascoli]] (9/58)}}
+|
+|-
+|style="text-align:left" data-sort-value="Armano, Gino"|{{flagicon|ITA}} [[Gino Armano]]
+|105
+|401
+|{{#expr:105/401 round 2}}
+|1946
+|1959
+|style="text-align:left"|{{nowrap|[[US Alessandria Calcio 1912|Alessandria]] (8/57)}}, {{nowrap|[[Inter Milan|Internazionale]] (72/255)}}, {{nowrap|[[Torino FC|Torino]] (25/89)}}
+|<ref name="campionatoescluso" />
+|-
+|83
+|style="text-align:left" data-sort-value="Cappello, Gino"|{{flagicon|ITA}} [[Gino Cappello]]
+|104
+|300
+|{{#expr:104/300 round 2}}
+|1940
+|1956
+|style="text-align:left"|{{nowrap|[[AC Milan|Milan]] (29/74)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (75/226)}}
+|<ref name="campionatoescluso" />
+|-
+|rowspan="4"|84
+|style="text-align:left" data-sort-value="Miccoli, Fabrizio"|{{flagicon|ITA}} [[Fabrizio Miccoli]]
+|103
+|259
+|{{#expr:103/259 round 2}}
+|2002
+|2013
+|style="text-align:left"|{{nowrap|[[AC Perugia Calcio|Perugia]] (9/34)}}, {{nowrap|[[Juventus FC|Juventus]] (8/25)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (12/35)}}, {{nowrap|[[Palermo FC|Palermo]] (74/165)}}
+|
+|-
+|style="text-align:left" data-sort-value="Mutu, Adrian"|{{flagicon|ROU}} [[Adrian Mutu]]
+|103
+|271
+|{{#expr:103/271 round 2}}
+|1999
+|2012
+|style="text-align:left"|{{nowrap|[[Inter Milan|Internazionale]] (0/10)}}, {{nowrap|[[Hellas Verona FC|Hellas Verona]] (16/57)}}, {{nowrap|[[Parma Calcio 1913|Parma]] (18/31)}}, {{nowrap|[[Juventus FC|Juventus]] (7/33)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (54/112)}}, {{nowrap|[[AC Cesena|Cesena]] (8/28)}}
+|
+|-
+|style="text-align:left" data-sort-value="Muriel, Luis"|{{flagicon|COL}} ''[[Luis Muriel]]''
+|103
+|328
+|{{#expr:103/328 round 2}}
+|2010
+|2024
+|style="text-align:left"|{{nowrap|[[Udinese Calcio|Udinese]] (15/57)}}, {{nowrap|[[US Lecce|Lecce]] (7/29)}}, {{nowrap|[[UC Sampdoria|Sampdoria]] (21/79)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (6/19)}}, {{nowrap|[[Atalanta BC|Atalanta]] (54/144)}}
+|
+|-
+|style="text-align:left" data-sort-value="Clerici, Sergio"|{{flagicon|BRA}} [[Sergio Clerici]]
+|103
+|335
+|{{#expr:103/335 round 2}}
+|1960
+|1978
+|style="text-align:left"|{{nowrap|[[Calcio Lecco 1912|Lecco]] (7/61)}}, {{nowrap|[[Bologna FC 1909|Bologna]] (19/75)}}, {{nowrap|[[Atalanta BC|Atalanta]] (9/26)}}, {{nowrap|[[Hellas Verona FC|Hellas Verona]] (18/54)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (20/52)}}, {{nowrap|[[SSC Napoli|Napoli]] (29/56)}}, {{nowrap|[[SS Lazio|Lazio]] (1/11)}}
+|
+|-
+|rowspan="3"|88
+|style="text-align:left" data-sort-value="Bierhoff, Oliver"|{{flagicon|GER}} [[Oliver Bierhoff]]
+|102
+|219
+|{{#expr:102/219 round 2}}
+|1991
+|2003
+|style="text-align:left"|{{nowrap|[[Ascoli Calcio 1898 FC|Ascoli]] (2/17)}}, {{nowrap|[[Udinese Calcio|Udinese]] (57/86)}}, {{nowrap|[[AC Milan|Milan]] (36/90)}}, {{nowrap|[[AC ChievoVerona|Chievo]] (7/26)}}
+|
+|-
+|style="text-align:left" data-sort-value="Rocchi, Tommaso"|{{flagicon|ITA}} [[Tommaso Rocchi]]
+|102
+|322
+|{{#expr:102/322 round 2}}
+|2002
+|2013
+|style="text-align:left"|{{nowrap|[[Empoli FC|Empoli]] (17/66)}}, {{nowrap|[[SS Lazio|Lazio]] (82/243)}}, {{nowrap|[[Inter Milan|Internazionale]] (3/13)}}
+|
+|-
+|style="text-align:left" data-sort-value="Virdis, Pietro Paolo"|{{flagicon|ITA}} [[Pietro Paolo Virdis]]
+|102
+|365
+|{{#expr:102/365 round 2}}
+|1974
+|1991
+|style="text-align:left"|{{nowrap|[[Cagliari Calcio|Cagliari]] (11/64)}}, {{nowrap|[[Juventus FC|Juventus]] (17/75)}}, {{nowrap|[[Udinese Calcio|Udinese]] (12/45)}}, {{nowrap|[[AC Milan|Milan]] (54/135)}}, {{nowrap|[[US Lecce|Lecce]] (8/46)}}
+|
+|-
+|91
+|style="text-align:left" data-sort-value="Pandev, Goran"|{{flagicon|MKD}} [[Goran Pandev]]
+|101
+|492
+|{{#expr:101/492 round 2}}
+|2001
+|2022
+|style="text-align:left"|{{nowrap|[[Ancona Calcio|Ancona]] (1/20)}}, {{nowrap|[[SS Lazio|Lazio]] (48/159)}}, {{nowrap|[[Inter Milan|Internazionale]] (5/45)}}, {{nowrap|[[SSC Napoli|Napoli]] (19/92)}}, {{nowrap|[[Genoa CFC|Genoa]] (28/176)}}
+|
+|-
+|rowspan="2"|92
+|style="text-align:left" data-sort-value="Prati, Pierino"|{{flagicon|ITA}} [[Pierino Prati]]
+|100
+|233
+|{{#expr:100/233 round 2}}
+|1966
+|1978
+|style="text-align:left"|{{nowrap|[[AC Milan|Milan]] (72/143)}}, {{nowrap|[[AS Roma|Roma]] (28/82)}}, {{nowrap|[[ACF Fiorentina|Fiorentina]] (0/8)}}
+|
+|-
+|style="text-align:left" data-sort-value="Hamšík, Marek"|{{flagicon|SVK}} [[Marek Hamšík]]
+|100
+|409
+|{{#expr:100/409 round 2}}
+|2004
+|2019
+|style="text-align:left"|{{nowrap|[[Brescia Calcio|Brescia]] (0/1)}}, {{nowrap|[[SSC Napoli|Napoli]] (100/408)}}
+|
+|}
+
+==Most Serie A goals by club==
+Current Serie A clubs and players are shown in '''bold'''.
+{{updated|matches played 24 May 2026.}}
+
+{{mw-datatable}}
+{| class="wikitable mw-datatable sortable nowrap" style="text-align: center"
+!Rank
+!Club
+!width=175|Player
+!Goals
+!{{Abbr|Apps|Appearances}}
+!Ratio
+!{{Abbr|First|First Serie A appearance for the club}}
+!{{Abbr|Last|Last Serie A appearance for the club}}
+|-
+|1
+|align=left|'''[[AS Roma|Roma]]'''
+|align=left data-sort-value="Totti"|{{flagicon|ITA}} [[Francesco Totti]] 
+|'''250'''
+|619
+|{{#expr:250/618 round 2}}
+|1992
+|2017
+|-
+|2
+|align=left|'''[[AC Milan|Milan]]'''
+|align=left data-sort-value="Nordahl"|{{flagicon|SWE}} [[Gunnar Nordahl]]
+|'''210'''
+|257
+|{{#expr:210/257 round 2}}
+|1949
+|1956
+|-
+|3
+|align=left|'''[[Inter Milan|Internazionale]]'''
+|align=left data-sort-value="Meazza"|{{flagicon|ITA}} [[Giuseppe Meazza]]
+|'''197'''
+|303
+|{{#expr:197/303 round 2}}
+|1929
+|1947
+|-
+|4
+|align=left|'''[[Udinese Calcio|Udinese]]'''
+|align=left data-sort-value="Natale"|{{flagicon|ITA}} [[Antonio di Natale]]
+|'''191'''
+|385
+|{{#expr:191/385 round 2}}
+|2004
+|2016
+|-
+|5
+|align=left|'''[[Juventus FC|Juventus]]'''
+|align=left data-sort-value="del Piero"|{{flagicon|ITA}} [[Alessandro del Piero]]
+|'''188'''
+|478
+|{{#expr:188/478 round 2}}
+|1993
+|2012
+|-
+|6
+|align=left|'''[[SS Lazio|Lazio]]'''
+|align=left data-sort-value="Immobile"|{{flagicon|ITA}} [[Ciro Immobile]]
+|'''169'''
+|270
+|{{#expr:169/270 round 2}}
+|2016
+|2024
+|-
+|7
+|align=left|'''[[Cagliari Calcio|Cagliari]]'''
+|align=left data-sort-value="Riva"|{{flagicon|ITA}} [[Gigi Riva]]
+|'''156'''
+|289
+|{{#expr:156/289 round 2}}
+|1964
+|1976
+|-
+|8
+|align=left|'''[[ACF Fiorentina|Fiorentina]]'''
+|align=left data-sort-value="Batistuta"|{{flagicon|ARG}} [[Gabriel Batistuta]]
+|'''151'''
+|243
+|{{#expr:151/243 round 2}}
+|1991
+|2000
+|-
+|9
+|align=left|'''[[Bologna FC 1909|Bologna]]'''
+|align=left data-sort-value="Reguzzoni"|{{flagicon|ITA}} [[Carlo Reguzzoni]]
+|'''141'''
+|358
+|{{#expr:141/358 round 2}}
+|1930
+|1946
+|-
+|10
+|align=left|'''[[Torino FC|Torino]]'''
+|align=left data-sort-value="Pulici"|{{flagicon|ITA}} [[Paolo Pulici]]
+|'''134'''
+|333
+|{{#expr:134/333 round 2}}
+|1967
+|1982
+|-
+|11
+|align=left|[[UC Sampdoria|Sampdoria]]
+|align=left data-sort-value="Mancini"|{{flagicon|ITA}} [[Roberto Mancini]]
+|'''132'''
+|424
+|{{#expr:132/424 round 2}}
+|1982
+|1997
+|-
+|12
+|align=left|'''[[US Sassuolo Calcio|Sassuolo]]'''
+|align=left data-sort-value="Berardi"|{{flagicon|ITA}} '''[[Domenico Berardi]]'''
+|'''130'''
+|340
+|{{#expr:130/340 round 2}}
+|2013
+|2026
+|-
+|13
+|align=left|'''[[SSC Napoli|Napoli]]'''
+|align=left data-sort-value="Mertens"|{{flagicon|BEL}} [[Dries Mertens]]
+|'''113'''
+|295
+|{{#expr:113/295 round 2}}
+|2013
+|2022
+|-
+|14
+|align=left|[[AC ChievoVerona|Chievo]]
+|align=left data-sort-value="Pellissier"|{{flagicon|ITA}} [[Sergio Pellissier]]
+|'''112'''
+|459
+|{{#expr:112/459 round 2}}
+|2002
+|2019
+|-
+|15
+|align=left|[[Palermo FC|Palermo]]
+|align=left data-sort-value="Miccoli"|{{flagicon|ITA}} [[Fabrizio Miccoli]]
+|'''74'''
+|165
+|{{#expr:74/165 round 2}}
+|2007
+|2013
+|-
+|16
+|align=left|[[US Livorno 1915|Livorno]]
+|align=left data-sort-value="Lucarelli"|{{flagicon|ITA}} [[Cristiano Lucarelli]]
+|'''73'''
+|133
+|{{#expr:73/133 round 2}}
+|2004
+|2010
+|-
+|17
+|align=left|'''[[Parma Calcio 1913|Parma]]'''
+|align=left data-sort-value="Crespo"|{{flagicon|ARG}} [[Hernán Crespo]]
+|'''72'''
+|162
+|{{#expr:72/162 round 2}}
+|1996
+|2012
+|-
+|18
+|align=left|[[Novara FC|Novara]]
+|align=left data-sort-value="Piola"|{{flagicon|ITA}} [[Silvio Piola]]
+|'''70'''
+|155
+|{{#expr:70/155 round 2}}
+|1948
+|1954
+|-
+|rowspan=2|19
+|align=left rowspan=2|'''[[Atalanta BC|Atalanta]]'''
+|align=left data-sort-value="Zapata"|{{flagicon|COL}} [[Duván Zapata]]
+|'''69'''
+|153
+|{{#expr:69/153 round 2}}
+|2018
+|2023
+|-
+|align=left data-sort-value="Doni"|{{flagicon|ITA}} [[Cristiano Doni]]
+|'''69'''
+|200
+|{{#expr:69/200 round 2}}
+|1998
+|2011
+|-
+|rowspan=2|20
+|align=left|[[LR Vicenza|Vicenza]]
+|align=left data-sort-value="Vinício"|{{flagicon|BRA}} [[Luís Vinício]]
+|'''68'''
+|141
+|{{#expr:68/141 round 2}}
+|1962
+|1968
+|-
+|align=left|[[US Alessandria Calcio 1912|Alessandria]]
+|align=left data-sort-value="Cattaneo"|{{flagicon|ITA}} [[Renato Cattaneo (footballer, born 1903)|Renato Cattaneo]]
+|'''68'''
+|181
+|{{#expr:68/181 round 2}}
+|1929
+|1935
+|-
+|22
+|align=left|[[US Triestina Calcio 1918|Triestina]]
+|align=left data-sort-value="Rocco"|{{flagicon|ITA}} [[Nereo Rocco]]
+|'''61'''
+|234
+|{{#expr:61/234 round 2}}
+|1930
+|1937
+|-
+|23
+|align=left|'''[[Genoa CFC|Genoa]]'''
+|align=left data-sort-value="Skuhravý"|{{flagicon|CZE}} [[Tomáš Skuhravý]]
+|'''57'''
+|155
+|{{#expr:57/155 round 2}}
+|1990
+|1996
+|-
+|24
+|align=left|[[FC Pro Vercelli 1892|Pro Vercelli]]
+|align=left data-sort-value="Piola"|{{flagicon|ITA}} [[Silvio Piola]]
+|'''51'''
+|127
+|{{#expr:51/127 round 2}}
+|1929
+|1934
+|-
+|25
+|align=left|[[Calcio Padova|Padova]]
+|align=left data-sort-value="Brighenti"|{{flagicon|ITA}} [[Sergio Brighenti]]
+|'''50'''
+|91
+|{{#expr:50/91 round 2}}
+|1957
+|1960
+|-
+|rowspan=2|26
+|align=left|[[Hellas Verona FC|Hellas Verona]]
+|align=left data-sort-value="Toni"|{{flagicon|ITA}} [[Luca Toni]]
+|'''48'''
+|95
+|{{#expr:48/95 round 2}}
+|2013
+|2016
+|-
+|align=left|[[SPAL]]
+|align=left data-sort-value="Massei"|{{flagicon|ARG}} [[Oscar Massei]]
+|'''48'''
+|209
+|{{#expr:48/209 round 2}}
+|1959
+|1968
+|-
+|28
+|align=left|[[ACR Siena 1904|Siena]]
+|align=left data-sort-value="Maccarone"|{{flagicon|ITA}} [[Massimo Maccarone]]
+|'''46'''
+|130
+|{{#expr:46/130 round 2}}
+|2005
+|2010
+|-
+|rowspan=2|29
+|align=left|[[Brescia Calcio|Brescia]]
+|align=left data-sort-value="Baggio"|{{flagicon|ITA}} [[Roberto Baggio]]
+|'''45'''
+|95
+|{{#expr:45/95 round 2}}
+|2000
+|2004
+|-
+|align=left|'''[[Venezia FC|Venezia]]'''
+|align=left data-sort-value="Pernigo"|{{flagicon|ITA}} [[Francesco Pernigo]]
+|'''45'''
+|135
+|{{#expr:45/135 round 2}}
+|1939
+|1947
+|-
+|31
+|align=left|[[LFA Reggio Calabria|Reggina]]
+|align=left data-sort-value="Amoruso"|{{flagicon|ITA}} [[Nicola Amoruso]]
+|'''40'''
+|96
+|{{#expr:40/96 round 2}}
+|2005
+|2008
+|-
+|32
+|align=left|[[Piacenza Calcio 1919|Piacenza]]
+|align=left data-sort-value="Hübner"|{{flagicon|ITA}} [[Dario Hübner]]
+|'''38'''
+|60
+|{{#expr:38/60 round 2}}
+|2001
+|2003
+|-
+|33
+|align=left|[[US Catanzaro 1929|Catanzaro]]
+|align=left data-sort-value="Palanca"|{{flagicon|ITA}} [[Massimo Palanca]]
+|'''37'''
+|105
+|{{#expr:37/105 round 2}}
+|1976
+|1981
+|-
+|34
+|align=left|[[Aurora Pro Patria 1919|Pro Patria]]
+|align=left data-sort-value="Turconi"|{{flagicon|ITA}} [[Angelo Turconi]]
+|'''36'''
+|110
+|{{#expr:36/110 round 2}}
+|1947
+|1950
+|-
+|35
+|align=left|[[Catania FC|Catania]]
+|align=left data-sort-value="Bergessio"|{{flagicon|ARG}} [[Gonzalo Bergessio]]
+|'''35'''
+|109
+|{{#expr:35/109 round 2}}
+|2011
+|2014
+|-
+|36
+|align=left|[[Lucchese 1905|Lucchese]]
+|align=left data-sort-value="Conti"|{{flagicon|ITA}} {{ill|Ugo Conti (footballer)|lt=Ugo Conti|it|Ugo Conti (calciatore)}}
+|'''34'''
+|59
+|{{#expr:34/59 round 2}}
+|1947
+|1949
+|-
+|rowspan=2|37
+|align=left|'''[[US Lecce|Lecce]]'''
+|align=left data-sort-value="Chevantón"|{{flagicon|URU}} [[Javier Chevantón]]
+|'''32'''
+|72
+|{{#expr:32/72 round 2}}
+|2001
+|2013
+|-
+|align=left|'''[[Como 1907|Como]]'''
+|align=left data-sort-value="Ghiandi"|{{flagicon|ITA}} {{ill|Vittorio Ghiandi|it}}
+|'''32'''
+|83
+|{{#expr:32/83 round 2}}
+|1949
+|1954
+|-
+|39
+|align=left|[[SSC Bari|Bari]]
+|align=left data-sort-value="Protti"|{{flagicon|ITA}} [[Igor Protti]]
+|'''31'''
+|61
+|{{#expr:31/61 round 2}}
+|1992
+|1996
+|-
+|40
+|align=left|[[FC Crotone|Crotone]]
+|align=left data-sort-value="Simy"|{{flagicon|NGA}} [[Simy]]
+|'''30'''
+|82
+|{{#expr:30/82 round 2}}
+|2016
+|2021
+|-
+|41
+|align=left|[[Mantova 1911|Mantova]]
+|align=left data-sort-value="Sormani"|{{flagicon|ITA}} [[Angelo Sormani]]
+|'''29'''
+|64
+|{{#expr:29/64 round 2}}
+|1961
+|1963
+|-
+|rowspan=3|42
+|align=left|[[Casale FBC|Casale]]
+|align=left data-sort-value="Celoria"|{{flagicon|ITA}} {{ill|Mario Celoria|it}}
+|'''28'''
+|79
+|{{#expr:28/79 round 2}}
+|1931
+|1934
+|-
+|align=left|[[US Cremonese|Cremonese]]
+|align=left data-sort-value="Dezotti"|{{flagicon|ARG}} [[Gustavo Dezotti]]
+|'''28'''
+|92
+|{{#expr:28/92 round 2}}
+|1989
+|1994
+|-
+|align=left|[[Empoli FC|Empoli]]
+|align=left data-sort-value="Maccarone"|{{flagicon|ITA}} [[Massimo Maccarone]]
+|'''28'''
+|99
+|{{#expr:28/99 round 2}}
+|2002
+|2017
+|-
+|rowspan=2|45
+|align=left rowspan=2|[[Modena FC 2018|Modena]]
+|align=left data-sort-value="Pernigo"|{{flagicon|ITA}} [[Francesco Pernigo]]
+|'''27'''
+|68
+|{{#expr:27/68 round 2}}
+|1947
+|1949
+|-
+|align=left data-sort-value="Carnevali"|{{flagicon|ITA}} {{ill|Antonio Carnevali|it}}
+|'''27'''
+|77
+|{{#expr:27/77 round 2}}
+|1929
+|1939
+|-
+|46
+|align=left|[[Spezia Calcio|Spezia]]
+|align=left data-sort-value="Nzola"|{{flagicon|ANG}} [[M'Bala Nzola]]
+|'''26'''
+|77
+|{{#expr:26/77 round 2}}
+|2020
+|2023
+|-
+|47
+|align=left|[[AC Perugia Calcio|Perugia]]
+|align=left data-sort-value="Vryzas"|{{flagicon|GRE}} [[Zisis Vryzas]]
+|'''25'''
+|107
+|{{#expr:25/107 round 2}}
+|2000
+|2004
+|-
+<!--
+|align=left|[[US Salernitana 1919|Salernitana]]
+|align=left data-sort-value="Dia"|{{flagicon|SEN}} [[Boulaye Dia]]
+|'''20'''
+|50
+|{{#expr:20/50 round 2}}
+|2022
+|2024
+|-
+-->
+|-bgcolor=efefef class="sortbottom"
+|colspan=9|{{small|Minimum 25 goals}}
+|}
+
+==See also==
+
+*[[Capocannoniere]]
+*[[Football records and statistics in Italy]]
+
+== References ==
+<references />
+
+{{Serie A}}
+
+[[Category:Italy football-related lists|Serie A]]
+[[Category:Lists of association football league top scorers (all-time)|Italy]]

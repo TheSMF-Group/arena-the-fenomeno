@@ -1,5 +1,6 @@
 """Gera public/top100.json: temas de ranking com 100 jogadores cada (valor de mercado atual e de pico)."""
-import json,collections
+import json,collections,sys,os
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 D=json.load(open('public/dados.json'));A=json.load(open('public/atuais.json'));PS=json.load(open('public/posicoes.json'))
 P={a[0]:a for a in D['P']};C=D['C'];K={k[0]:k for k in D['K']};N=D['N']
 nat=lambda i:N[P[i][2]][0]
@@ -20,7 +21,7 @@ themes=[]
 def add(id_,title,sub,rows):
     rows=sorted(rows,key=lambda x:(-x[1],x[0]))[:100]
     if len(rows)<100:return
-    themes.append({'id':id_,'t':title,'s':sub,'ids':[r[0] for r in rows],'v':[round(r[1]/1e6,1) for r in rows]})
+    themes.append({'id':id_,'t':title,'s':sub,'u':'€','ids':[r[0] for r in rows],'v':[round(r[1]/1e6,1) for r in rows]})
 def best(rows,n=100):return rows
 CS='Valor de mercado atual (Transfermarkt), só jogadores em atividade'
 PK='Maior valor de mercado da carreira (Transfermarkt)'
@@ -42,5 +43,7 @@ add('veterano','Maiores valores de mercado hoje entre jogadores com 31 anos ou m
 for d0,lab in [(1980,'dos anos 80'),(1990,'dos anos 90'),(2000,'dos anos 2000')]:
     add(f'pico-nasc{d0}',f'Maiores valores de mercado da história entre nascidos {lab}',PK,[r for r in peak if P[r[0]][3] and d0<=P[r[0]][3]//10000<d0+10])
 add('atual-br-jovens','Maiores valores de mercado hoje: brasileiros até 23 anos',CS,[r for r in cur if nat(r[0])=='Brasil' and P[r[0]][3] and P[r[0]][3]//10000>=2003])
+import build_stats
+themes+=build_stats.stat_themes()
 json.dump({'themes':themes},open('public/top100.json','w'),ensure_ascii=False,separators=(',',':'))
 print(len(themes));[print(t['id'],'|',t['t'],'|',t['ids'][0],t['v'][0],t['v'][-1]) for t in themes]
