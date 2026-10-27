@@ -35,7 +35,7 @@ export function hydrate(){hydT=null;const els=[...document.querySelectorAll(".av
   need.forEach(k=>loadShard(k).then(()=>{document.querySelectorAll(".ava[data-pid]").forEach(e=>{const u=ST.FOTOS[e.dataset.pid];if(!u)return;
     const img=document.createElement("img");img.className="face "+e.dataset.cls;img.alt=e.dataset.alt;img.src=u;e.replaceWith(img)})}))}
 new MutationObserver(()=>{if(!hydT)hydT=setTimeout(hydrate,60)}).observe(document.body,{childList:true,subtree:true});
-export function shieldSVG(name){const t=esc(initials(name).slice(0,3));return`<svg class="shield" viewBox="0 0 40 46" aria-hidden="true"><path d="M20 2 37 8v14c0 11-8 18-17 22C11 40 3 33 3 22V8z" fill="#1d2a22" stroke="#3b4d40" stroke-width="2"/><text x="20" y="27" text-anchor="middle" font-family="Bebas Neue,Arial Narrow,sans-serif" font-size="14" fill="#97a59b">${t}</text></svg>`}
+export function shieldSVG(name){const t=esc(initials(name).slice(0,3));return`<svg class="shield" viewBox="0 0 40 46" aria-hidden="true"><path d="M20 2 37 8v14c0 11-8 18-17 22C11 40 3 33 3 22V8z" fill="#1c1c1c" stroke="#3a3a3a" stroke-width="2"/><text x="20" y="27" text-anchor="middle" font-family="Bebas Neue,Arial Narrow,sans-serif" font-size="14" fill="#8f8f8f">${t}</text></svg>`}
 export function crestImg(id,name,cls="ci"){return id&&ST.ESC[id]?`<img class="crest ${cls}" src="${ST.ESC[id]}" alt="${esc(name||"")}">`:`<span class="${cls}" style="display:inline-block">${shieldSVG(name||"?")}</span>`}
 export const clubName=ci=>ST.CLUBS[ci][0];
 export const clubCrest=(ci,cls="ci")=>crestImg(ST.CLUBS[ci][1],ST.CLUBS[ci][0],cls);
