@@ -827,3 +827,7 @@ footer a{color:var(--muted)}
 @keyframes ma-pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
 .ma-case.o-x .ma-in{border-color:var(--yellow)}.ma-case.o-o .ma-in{border-color:var(--green)}
 @media (prefers-reduced-motion:reduce){.ma-lid,.ma-case.opening .ma-lid{transition:none;animation:none}.ma-case.opening .ma-in>*{animation:none}}
+/* camisa e conta: camisa de verdade do clube, com o número num selo */
+.cam-shirt.kit{width:170px}.cam-kit{width:100%;display:block;filter:drop-shadow(0 6px 10px rgba(0,0,0,.55))}
+.cam-shirt.kit .cam-n{left:auto;right:-6px;top:auto;bottom:-8px;width:62px;height:62px;border-radius:50%;background:#10150f;border:3px solid #ffd21f;display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 3px 8px rgba(0,0,0,.6)}
+@media (max-width:720px){.cam-shirt.kit{width:140px}.cam-shirt.kit .cam-n{width:54px;height:54px;font-size:30px}}
