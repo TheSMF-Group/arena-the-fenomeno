@@ -11,6 +11,7 @@ import {pfGet, pfImg} from "../profile";
 import {maFresh, maRound, maStart, maT} from "./maleta";
 import {rcCap, rcFresh, rcRound, rcStart, rcT} from "./reconstruindo";
 import {cleanup} from "../home";
+const MA_SEEN=new Set<string>();
 export async function drPlay({mode,cfg,code,kind,pfs}){const LE=kind==="leilao",MA=kind==="maleta",RC=kind==="reconstruindo",G=GAMES[kind||"draft"];ST.VIEW=kind||"draft";ST.PHASE="play";cleanup();
   const app=$("#app");let alive=true,timer=null,nr=null,offPeers=null,me=null,S=null,pend=null,spunKey=null,spinT=null,anim=null,animT=null;
   ST.CLEAN=()=>{alive=false;clearInterval(timer);clearInterval(spinT);clearInterval(animT);offPeers&&offPeers();nr&&nr.leave().catch(()=>{})};
@@ -149,9 +150,9 @@ export async function drPlay({mode,cfg,code,kind,pfs}){const LE=kind==="leilao",
     const turnMe=seat===S.turn&&!S.over,ph=S.ph,slot=S.slot,f=S.fp,o=f==="X"?"O":"X",fin=S.fin||S.pk||{};
     const owner=i=>fin.X===i?"X":fin.O===i?"O":null;
     const cases=S.cases.map((id,i)=>{const p=pl(id),rev=S.rv.includes(i),ow=owner(i),can=turnMe&&(ph==="pick1"||ph==="pick2"||ph==="swappick")&&!rev;
-      return`<button type="button" class="ma-case ${rev?"open":""} ${ow?"o-"+ow.toLowerCase():""}" data-a="ma-case" data-i="${i}" ${can?"":"disabled"} aria-label="Maleta ${i+1}"><span class="award-perspective"><span class="award-card ${rev?"flipped":""}">
-        <span class="award-face ma-front"><i class="ma-handle"></i><b>${i+1}</b></span>
-        <span class="award-face back ma-back">${p?`${face(p)}<strong>${esc(p.name)}</strong><small>${p.nat!=null&&ST.NATS[p.nat]?`<i class="flag">${flag(ST.NATS[p.nat][1])}</i> `:""}${leAge(p)} anos</small><span class="ma-pr">${fmtK(lePrice(p))}</span>`:""}</span></span></span>
+      const key=S.code+":"+S.cases.join(",")+":"+i,anim=rev&&!MA_SEEN.has(key);if(rev)MA_SEEN.add(key);
+      const inner=p?`${face(p)}<strong>${esc(p.name)}</strong><small>${p.nat!=null&&ST.NATS[p.nat]?`<i class="flag">${flag(ST.NATS[p.nat][1])}</i> `:""}${leAge(p)} anos</small><span class="ma-pr">${fmtK(lePrice(p))}</span>`:"";
+      return`<button type="button" class="ma-case ${rev?"open":""} ${anim?"opening":""} ${ow?"o-"+ow.toLowerCase():""}" data-a="ma-case" data-i="${i}" ${can?"":"disabled"} aria-label="Maleta ${i+1}"><span class="ma-bc"><span class="ma-in">${inner}</span><span class="ma-lid"><i class="ma-handle"></i><img class="ma-logo" src="${BODEHEAD}" alt=""><i class="ma-brand">THE <b>FENÔMENO</b></i><b class="ma-num">${i+1}</b><i class="ma-latch l"></i><i class="ma-latch r"></i></span></span>
         <em>${rev?(ow?ms(ow)+" "+esc(nm(ow)):"descartado"):""}</em></button>`}).join("");
     const pc=(p,tag)=>p?`<div class="ma-pc">${face(p)}<div><small>${tag}</small><b>${esc(p.name)}</b><span>${p.nat!=null&&ST.NATS[p.nat]?`<i class="flag">${flag(ST.NATS[p.nat][1])}</i> `:""}${leAge(p)} anos · ${[...new Set(drPosOf(p))].filter(i=>TM_AB[i]).map(i=>TM_AB[i]).join(" ")}</span></div><strong>${fmtK(lePrice(p))}</strong></div>`:"";
     const held=m=>pl(S.cases[fin[m]]);
