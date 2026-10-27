@@ -1072,3 +1072,14 @@ button:not(:disabled):active,.gcard:active,.lvl:not(.locked):active{transform:sc
 .btn,.cell,.tile,.sugg button,.kr button,.bt{transition:transform .12s var(--kick),background .15s,border-color .15s}
 .fxburst{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:80}
 @media (prefers-reduced-motion:reduce){#app>*,.result,.verdict,.nextup,.toast,.stage .ok,.stage .right,.stage .yes,.stage .done,.stage .wrong,.stage .miss,.modal.sharecard,.modal.sharecard .box{animation:none!important}.fxburst{display:none}}
+
+/* rodapé */
+.site-foot{margin-top:40px;padding-block:40px 28px;border-top:1px solid var(--line-soft);background:linear-gradient(180deg,transparent,#000 60%);font-size:14px;line-height:1.6;color:#8f8f8f}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:32px}
+.foot-brand .brand{margin-bottom:10px}.foot-brand p{margin:0;max-width:34ch;color:#a8a8a8}
+.foot-col{display:flex;flex-direction:column;gap:7px}
+.foot-col h3{margin:0 0 4px;font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.08em;color:var(--yellow)}
+.foot-col a{color:#d4d4d4;text-decoration:none;width:fit-content;transition:color .15s}
+.foot-col a:hover{color:var(--yellow)}
+.foot-note{margin:30px 0 0;padding-top:18px;border-top:1px solid var(--line-soft);font-size:12.5px;color:#6f6f6f}
+@media (max-width:720px){.foot-grid{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}

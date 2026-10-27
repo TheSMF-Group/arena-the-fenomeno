@@ -51,13 +51,24 @@ const games = Object.entries(META);
   </section>
 </main>
 
-<footer><div class="wrap">
-  <nav class="foot-links" aria-label="Mais do The Fenômeno">
-    <a href="https://thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">The Fenômeno</a>
-    <a href="https://conecte.thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">Conecte os Fenômenos</a>
-    <a href="https://maisoumenos.thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">Mais ou Menos</a>
-  </nav>
-  Fotos, escudos e dados: <a href="https://github.com/TheSMF-Group/assets" target="_blank" rel="noopener">TheSMF-Group/assets</a> e <a href="https://github.com/TheSMF-Group/thefenomeno-assets" target="_blank" rel="noopener">thefenomeno-assets</a>. "Último clube" é o clube da temporada mais recente do jogador na base. Entrosamento, Pirâmide e Top 10 são inspirados no futbol11; as listas foram montadas à mão com números até o início de 2025/26. Desafios novos todo dia à meia-noite.
+<footer class="site-foot"><div class="wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="/" aria-label="Início"><img src={img0} alt=""><span class="d">THE <b>FENÔMENO</b></span></a>
+      <p>Você é o Fenômeno? Jogos de futebol grátis, com desafio novo todo dia à meia-noite.</p>
+    </div>
+    <nav class="foot-col" aria-label="Mais do The Fenômeno">
+      <h3>Jogos do grupo</h3>
+      <a href="https://thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">The Fenômeno</a>
+      <a href="https://conecte.thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">Conecte os Fenômenos</a>
+      <a href="https://maisoumenos.thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">Mais ou Menos</a>
+    </nav>
+    <nav class="foot-col" aria-label="Jogos mais jogados">
+      <h3>Jogue agora</h3>
+      {["quem", "bodle", "top100", "conexoes", "futgeo"].map((id) => <a href={"/jogos/" + META[id].slug}>{META[id].name}</a>)}
+    </nav>
+  </div>
+  <p class="foot-note">© 2026 The Fenômeno. Elencos e números até o início de 2025/26. Entrosamento, Pirâmide e Top 10 são inspirados no futbol11.</p>
 </div></footer>
 <script>import "../main";</script>
 </body>
