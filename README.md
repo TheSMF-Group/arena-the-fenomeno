@@ -1,6 +1,6 @@
 # Central Mini Games TF
 
-Central The Fenômeno de Mini Games: 21 mini games de futebol. Agora em **Astro + TypeScript**.
+Central The Fenômeno de Mini Games: 22 mini games de futebol. Agora em **Astro + TypeScript**.
 
 ## Estrutura
 - `src/pages/index.astro`: página (head, cabeçalho, `#app`, rodapé) e entrada do script.

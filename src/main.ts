@@ -1,5 +1,6 @@
 // @ts-nocheck
 import "./games/quem";
+import "./games/top100";
 import "./games/bodle";
 import "./games/grade";
 import "./games/conexoes";

@@ -5,8 +5,8 @@ import {ST} from "./state";
 import {art} from "./art";
 
 /* ---------- telas ---------- */
-export const NEW=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10"];
-export const ORDER=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","futgeo","quem","grade","conexoes","bodle","impostor","escudo","bingo","velho"];
+export const NEW=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100"];
+export const ORDER=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100","futgeo","quem","grade","conexoes","bodle","impostor","escudo","bingo","velho"];
 export const DIFFS=["normal","hard"],DNAME={normal:"NORMAL",hard:"DIFÍCIL"};
 export const DAILY=()=>ORDER.filter(id=>!GAMES[id].multi);
 export const allDone=()=>DAILY().every(id=>dayResult(id));
@@ -28,7 +28,7 @@ export function stampFor(id,d,res){const v=verdict(id,res);
 export function cleanup(){clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
 export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();cleanup();
   if(location.hash)history.replaceState(null,"",location.pathname+location.search);
-  $("#app").innerHTML=`<section class="hero"><div><div class="kick">CENTRAL THE FENÔMENO DE MINI GAMES</div><h1>VOCÊ É O<span>FENÔMENO?</span></h1><p>Todos os mini games de futebol do The Fenômeno num lugar só: vinte e um jogos com 15 mil jogadores, fotos e escudos, do Jogo da Velha contra um amigo ao FutGeo no mapa. Cada um tem nível normal e difícil, um desafio do dia igual para todo mundo e o modo infinito, para jogar sem parar e acender o fogo da sequência. No multiplayer, você desafia um amigo no Jogo da Velha, no Draft, no Leilão, na Maleta ou no Reconstruindo.</p>
+  $("#app").innerHTML=`<section class="hero"><div><div class="kick">CENTRAL THE FENÔMENO DE MINI GAMES</div><h1>VOCÊ É O<span>FENÔMENO?</span></h1><p>Todos os mini games de futebol do The Fenômeno num lugar só: vinte e dois jogos com 15 mil jogadores, fotos e escudos, do Jogo da Velha contra um amigo ao FutGeo no mapa. Cada um tem nível normal e difícil, um desafio do dia igual para todo mundo e o modo infinito, para jogar sem parar e acender o fogo da sequência. No multiplayer, você desafia um amigo no Jogo da Velha, no Draft, no Leilão, na Maleta ou no Reconstruindo.</p>
     <div class="daybar">${modeToggle(true)}<span class="pill">Novos desafios em <span id="cd">${countdown()}</span></span></div></div>
     <img class="goat" src="${BODE}" alt="O bode do The Fenômeno com a camisa 10"></section>
     ${!MODE.free&&!MODE.multi&&allDone()?`<div class="sumbar"><div><b>DESAFIOS DE HOJE COMPLETOS</b><div class="muted">Veja vitórias, derrotas e quanto tempo você jogou.</div></div><button class="btn y" type="button" data-a="sum">Resumo do dia →</button></div>`:""}
