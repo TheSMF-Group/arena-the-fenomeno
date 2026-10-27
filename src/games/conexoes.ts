@@ -24,23 +24,31 @@ start(st,r){
     if(!ok)continue;const all=groups.flatMap(g=>g.m);if(groups.every(g=>all.filter(g.c.test).length===4))break}
   memAdd("conexoes",groups.map(g=>g.c.type+g.c.v));markPeople("conexoes",groups.flatMap(g=>g.m));
   const order={club:0,nat:1,year:2};groups.sort((a,b)=>order[a.c.type]-order[b.c.type]);groups.forEach((g,i)=>g.col=i);
-  let tiles=shuffle(r,groups.flatMap(g=>g.m));const sel=new Set(),solved=[],tries=[];let lives=MAXL,over=false;
+  let tiles=shuffle(r,groups.flatMap(g=>g.m));const sel=new Set(),solved=[],tries=[];let lives=MAXL,over=false,busy=false,fresh=-1;
   st.innerHTML=`<div class="conn"><div class="sv"></div><div class="tiles"></div><div class="row" style="margin-top:14px;justify-content:space-between"><div class="lives"></div><div class="row"><button class="btn" data-a="mix">Embaralhar</button><button class="btn" data-a="clr">Limpar</button><button class="btn y" data-a="ok">Confirmar</button></div></div></div>`;
   const sv=st.querySelector(".sv"),tl=st.querySelector(".tiles"),lv=st.querySelector(".lives");
   function draw(){
-    sv.innerHTML=solved.map(g=>`<div class="solved c${g.col}"><b>${g.c.label()}</b><div>${g.m.map(p=>esc(p.name)).join(" · ")}</div></div>`).join("");
-    tl.innerHTML=tiles.map(p=>`<button type="button" class="tile" data-id="${p.id}" aria-pressed="${sel.has(p.id)}" ${over?"disabled":""}>${face(p)}<span>${esc(p.name)}</span></button>`).join("");
+    sv.innerHTML=solved.map((g,gi)=>`<div class="solved c${g.col}${gi===fresh?" fresh":""}"><b>${g.c.label()}</b><div>${g.m.map(p=>esc(p.name)).join(" · ")}</div></div>`).join("");
+    fresh=-1;
+    const key=tiles.map(p=>p.id).join(",");
+    if(tl.dataset.key===key&&tl.children.length){[...tl.children].forEach(b=>{b.setAttribute("aria-pressed",String(sel.has(+b.dataset.id)));b.disabled=over})}
+    else{tl.dataset.key=key;tl.innerHTML=tiles.map(p=>`<button type="button" class="tile" data-id="${p.id}" aria-pressed="${sel.has(p.id)}" ${over?"disabled":""}>${face(p)}<span>${esc(p.name)}</span></button>`).join("")}
     lv.innerHTML=`Erros restantes ${Array.from({length:MAXL},(_,i)=>`<i class="${i<lives?"":"off"}"></i>`).join("")}`;
     st.querySelector("[data-a=ok]").disabled=sel.size!==4||over}
-  function end(won){over=true;for(const g of groups)if(!solved.includes(g))solved.push(g);tiles=[];draw();
-    finish("conexoes",st,{won,score:won?4-0:0,label:won?`Todos os grupos com ${MAXL-lives} erro(s).`:"Os grupos estão acima.",chip:won?`${MAXL-lives} erros`:"perdeu",share:`${shareHead("CONEXÕES")}\n${tries.map(t=>t.map(c=>["🟨","🟩","🟦","🟪"][c]).join("")).join("\n")}`})}
-  st.addEventListener("click",e=>{if(over)return;const t=e.target.closest(".tile");if(t){const id=+t.dataset.id;if(sel.has(id))sel.delete(id);else if(sel.size<4)sel.add(id);draw();return}
+  function end(won){over=true;tiles=[];const rest=groups.filter(g=>!solved.includes(g));draw();
+    /* os grupos que faltavam se revelam um a um, e o resultado só aparece depois */
+    rest.forEach((g,i)=>setTimeout(()=>{solved.push(g);fresh=solved.length-1;draw()},500+420*i));
+    setTimeout(()=>finish("conexoes",st,{won,score:won?4-0:0,label:won?`Todos os grupos com ${MAXL-lives} erro(s).`:"Os grupos estão acima.",chip:won?`${MAXL-lives} erros`:"perdeu",share:`${shareHead("CONEXÕES")}\n${tries.map(t=>t.map(c=>["🟨","🟩","🟦","🟪"][c]).join("")).join("\n")}`}),700+420*rest.length)}
+  st.addEventListener("click",e=>{if(over||busy)return;const t=e.target.closest(".tile");if(t){const id=+t.dataset.id;if(sel.has(id))sel.delete(id);else if(sel.size<4)sel.add(id);draw();return}
     const a=e.target.closest("[data-a]")?.dataset.a;
     if(a==="mix"){tiles=shuffle(Math.random,tiles);draw()}
     if(a==="clr"){sel.clear();draw()}
     if(a==="ok"&&sel.size===4){const picked=tiles.filter(p=>sel.has(p.id));tries.push(picked.map(p=>groups.find(g=>g.m.includes(p)).col));
       const g=groups.find(g=>picked.every(p=>g.m.includes(p)));
-      if(g){solved.push(g);hit();tiles=tiles.filter(p=>!sel.has(p.id));sel.clear();draw();if(solved.length===4)end(true)}
-      else{lives--;miss();const near=groups.some(g=>picked.filter(p=>g.m.includes(p)).length===3);toast(near?"Faltou só um!":"Não é um grupo");draw();if(lives<=0)end(false)}}});
+      if(g){busy=true;hit();tl.querySelectorAll('.tile[aria-pressed="true"]').forEach((b,i)=>{b.style.setProperty("--d",(i*70)+"ms");b.classList.add("good")});
+        setTimeout(()=>{busy=false;solved.push(g);fresh=solved.length-1;tiles=tiles.filter(p=>!sel.has(p.id));sel.clear();draw();if(solved.length===4)end(true)},650)}
+      else{busy=true;lives--;miss();const near=groups.some(g=>picked.filter(p=>g.m.includes(p)).length===3);toast(near?"Faltou só um!":"Não é um grupo");
+        tl.querySelectorAll('.tile[aria-pressed="true"]').forEach(b=>b.classList.add("bad"));
+        setTimeout(()=>{busy=false;tl.querySelectorAll(".tile.bad").forEach(b=>b.classList.remove("bad"));draw();if(lives<=0)end(false)},460)}}});
   draw();
 }};

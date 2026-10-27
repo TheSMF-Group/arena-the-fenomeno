@@ -1083,3 +1083,34 @@ button:not(:disabled):active,.gcard:active,.lvl:not(.locked):active{transform:sc
 .foot-col a:hover{color:var(--yellow)}
 .foot-note{margin:30px 0 0;padding-top:18px;border-top:1px solid var(--line-soft);font-size:12.5px;color:#6f6f6f}
 @media (max-width:720px){.foot-grid{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
+
+/* ===== Bodle: giro, pulso e onda ===== */
+@keyframes bflip{0%{transform:rotateX(0);background:#161616;border-color:#4a4a4a}49%{transform:rotateX(90deg);background:#161616;border-color:#4a4a4a}50%{background:var(--c);border-color:var(--c)}100%{transform:rotateX(0);background:var(--c);border-color:var(--c)}}
+@keyframes bpop{0%{transform:scale(1)}50%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes bwave{0%,100%{transform:translateY(0)}40%{transform:translateY(-14px)}}
+.bt.rev{animation:bflip .56s var(--d,0s) both}
+.bt.pop{animation:bpop .12s}
+.bt.wave{animation:bwave .5s var(--w,0s)}
+.kr button{transition:background .25s,color .25s,transform .1s}
+@media (prefers-reduced-motion:reduce){.bt.rev,.bt.pop,.bt.wave{animation:none}}
+
+/* ===== Quem É?: a foto clareia, a pista abre, a linha entra ===== */
+.quem .ph .face{transition:filter 1.1s var(--kick),transform .6s var(--kick)}
+@keyframes cluein{0%{opacity:0;transform:translateX(-14px);background:rgba(255,212,0,.22)}100%{opacity:1;transform:none;background:transparent}}
+.clues li.fresh{animation:cluein .7s var(--kick)}
+@keyframes rowin{0%{opacity:0;transform:translateY(-10px) scaleY(.6)}100%{opacity:1;transform:none}}
+@keyframes cellflip{0%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+.gtable tr.new{animation:rowin .35s var(--kick)}
+.gtable tr.new td{animation:cellflip .5s var(--kick) both}
+.gtable tr.new td:nth-child(2){animation-delay:.12s}.gtable tr.new td:nth-child(3){animation-delay:.24s}.gtable tr.new td:nth-child(4){animation-delay:.36s}.gtable tr.new td:nth-child(5){animation-delay:.48s}
+
+/* ===== Conexões: seleção que sobe, grupo que encaixa, erro que treme ===== */
+.conn .tile{transition:transform .18s var(--kick),border-color .18s,box-shadow .18s,background .18s}
+.conn .tile[aria-pressed=true]{transform:translateY(-4px) scale(1.03);border-color:var(--yellow);box-shadow:0 8px 22px rgba(255,212,0,.22)}
+@keyframes tilegood{0%{transform:translateY(-4px) scale(1.03)}35%{transform:translateY(-14px) scale(1.1)}70%{transform:translateY(0) scale(.94);opacity:1}100%{transform:scale(.8);opacity:0}}
+.conn .tile.good{animation:tilegood .6s var(--kick) var(--d,0s) both}
+@keyframes tilebad2{0%,100%{transform:translateY(-4px) translateX(0)}20%{transform:translateY(-4px) translateX(-8px)}40%{transform:translateY(-4px) translateX(7px)}60%{transform:translateY(-4px) translateX(-5px)}80%{transform:translateY(-4px) translateX(3px)}}
+.conn .tile.bad{animation:tilebad2 .45s;border-color:var(--red)!important;box-shadow:0 0 0 2px rgba(220,38,38,.5)}
+@keyframes solvedin{0%{opacity:0;transform:scale(.92) translateY(-8px)}60%{transform:scale(1.03)}100%{opacity:1;transform:none}}
+.conn .solved.fresh{animation:solvedin .55s var(--kick)}
+@media (prefers-reduced-motion:reduce){.clues li.fresh,.gtable tr.new,.gtable tr.new td,.conn .tile.good,.conn .tile.bad,.conn .solved.fresh{animation:none}.quem .ph .face{transition:none}}
