@@ -88,7 +88,7 @@ export async function vlPlay({mode,cfg,code,pfs}){ST.VIEW="velha";ST.PHASE="play
     S.g.r.forEach((cr,ri)=>{h+=`<div class="gh">${critLabel(cr)}</div>`;S.g.c.forEach((c,ci)=>{const i=ri*3+ci,v=S.b[i];
       if(v){const p=ST.P.find(x=>x.id===v[1]);h+=`<div class="cell vl-c ${v[0].toLowerCase()} ${S.line&&S.win===v[0]&&S.line.includes(i)?"lin":""}"><span class="vl-mark">${v[0]==="X"?"✕":"◯"}</span>${p?face(p):""}<div class="nm">${esc(p?p.name:"")}</div></div>`}
       else h+=`<button type="button" class="cell" data-i="${i}" ${mine?"":"disabled"} aria-label="${esc(clubName(c))} e ${esc(critText(cr))}"></button>`})});
-    h+=`</div><div class="row vl-act">${mine?`<button class="btn" type="button" data-a="pass">Passar a vez</button>`:""}${S.over?`<button class="btn y" type="button" data-a="again">Revanche</button><button class="btn" type="button" data-a="share">Copiar resultado</button>`:""}<span class="muted vl-last">${lastTxt}</span></div>`;
+    h+=`</div><div class="row vl-act">${mine?`<button class="btn" type="button" data-a="pass">Passar a vez</button>`:""}${S.over?`<button class="btn y" type="button" data-a="again">Revanche</button><button class="btn" type="button" data-a="share">Gerar card</button>`:""}<span class="muted vl-last">${lastTxt}</span></div>`;
     st.innerHTML=h;
     st.querySelectorAll(".vl-p").forEach(el=>{const m=el.classList.contains("x")?"X":"O";el.querySelector(".vl-nm").textContent=nm(m==="X"?S.X:S.O)});
     renderPeers();tick();

@@ -1043,3 +1043,32 @@ footer{margin-top:24px;padding-block:28px 40px;background:linear-gradient(180deg
 .gcard.won{border-color:var(--green)}.gcard.lost{border-color:var(--red)}.gcard.scored{border-color:var(--yellow)}
 .gcard.ext{border-color:rgba(255,212,0,.55)}.gcard.feat{border-color:var(--yellow)}
 .stage{border:2px solid #333}
+
+/* ===== share card ===== */
+.modal.sharecard{align-items:center;padding-block:16px;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);overflow:auto;animation:fadein .2s}
+.modal.sharecard .box{max-width:440px;background:#0b0b0b;border:2px solid #333;animation:rise .4s var(--kick)}
+.cardprev{margin:6px 0 12px}
+.cardprev img{width:100%;display:block;border-radius:14px;border:1px solid var(--line-soft);box-shadow:var(--lift)}
+.cardload{aspect-ratio:4/5;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+.cardact{display:flex;flex-wrap:wrap;gap:8px}.cardact .btn.y{flex:1 1 100%;font-size:21px}
+.daycard{border-color:rgba(255,212,0,.5);color:var(--yellow)}
+
+/* ===== animações ===== */
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes screenin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes stamp{0%{opacity:0;transform:scale(2.4) rotate(-10deg)}55%{opacity:1;transform:scale(.92) rotate(2deg)}100%{opacity:1;transform:none}}
+@keyframes tilepop{0%{transform:scale(.86)}55%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes tilebad{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translateX(-50%)}}
+#app>*{animation:screenin .4s var(--kick) both}
+.result{animation:rise .5s var(--kick) both}
+.verdict{animation:stamp .55s var(--kick) .15s both}
+.nextup{animation:rise .5s var(--kick) .25s both}
+.toast{animation:toastin .3s var(--kick)}
+.stage .ok:not(.dr-slot):not(.fire),.stage .right,.stage .yes,.stage li.hit,.stage .done{animation:tilepop .5s var(--kick)}
+.stage .wrong,.stage .bad:not(img),.stage .miss{animation:tilebad .42s}
+button:not(:disabled):active,.gcard:active,.lvl:not(.locked):active{transform:scale(.97)}
+.btn,.cell,.tile,.sugg button,.kr button,.bt{transition:transform .12s var(--kick),background .15s,border-color .15s}
+.fxburst{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:80}
+@media (prefers-reduced-motion:reduce){#app>*,.result,.verdict,.nextup,.toast,.stage .ok,.stage .right,.stage .yes,.stage .done,.stage .wrong,.stage .miss,.modal.sharecard,.modal.sharecard .box{animation:none!important}.fxburst{display:none}}

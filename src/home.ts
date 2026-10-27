@@ -57,6 +57,13 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
   {const gc=app.querySelector("#gcount");if(gc)gc.textContent=app.querySelectorAll(".gcard").length+(MODE.multi?" jogos com amigo":MODE.free?" jogos sem fim":" desafios hoje")}
   app.querySelector(".games").after(inlineAd("home"));extras(app);
   updateToday();window.scrollTo(0,0)}
+/* texto do resumo do dia: o card geral e o "copiar texto" saem daqui */
+export function dayShareText(){
+  const rows=DAILY().map(id=>({id,g:GAMES[id],r:dayResult(id)})).filter(x=>x.r);
+  const win=rows.filter(x=>x.r.res.won).length,loss=rows.filter(x=>!x.r.res.won&&KIND[x.id]==="wl").length,part=rows.length-win-loss;
+  const tot=rows.reduce((s,x)=>s+(x.r.res.ms||0),0);
+  const line=x=>{const v=verdict(x.id,x.r.res);return`${v.cls==="win"?"🟩":v.cls==="loss"?"🟥":"🟨"} ${x.g.name} (${DNAME[x.r.d].toLowerCase()})`};
+  return["THE FENÔMENO · RESUMO DO DIA #"+dayNum(),`✅ ${win} vitórias · ❌ ${loss} derrotas · 🎯 ${part} por pontos`,`⏱ ${fmtDur(tot)} jogando`,...rows.map(line)].join("\n")}
 /* vitrine: jogos do grupo no meio dos nossos, filtros por categoria e o botão "jogar o desafio de hoje" */
 function extras(app){
   const g=app.querySelector(".games");if(!g)return;
@@ -78,7 +85,8 @@ function extras(app){
     const b=document.createElement("button");b.type="button";b.className="btn y herocta";
     if(pend.length){const id=pend[0];b.innerHTML=`JOGAR O DESAFIO DE HOJE <small>${GAMES[id].name} · ${META[id]?META[id].mins:""}</small>`;b.addEventListener("click",()=>openGame(id))}
     else{b.innerHTML=`DIA FECHADO <small>ver o resumo</small>`;b.addEventListener("click",daySummary)}
-    host.prepend(b)}}
+    host.prepend(b);
+    if(DAILY().some(id=>dayResult(id))){const s=document.createElement("button");s.type="button";s.className="btn daycard";s.textContent="Card do meu dia";s.addEventListener("click",()=>share(dayShareText()));host.append(s)}}}
 /* tela de escolha: normal ou difícil */
 export function openGame(id){if(GAMES[id]&&GAMES[id].open)return GAMES[id].open();MODE.multi=false;ST.VIEW=id;ST.PHASE="choose";ST.PLAYDAY=todayKey();cleanup();
   const g=GAMES[id];if(!g)return home();
@@ -104,8 +112,8 @@ export function startGame(id){ev("game_start",{game:id,mode:MODE.free?"infinito"
   const mt=$("#app").querySelector(".stagehead .mode");mt&&mt.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.free=b.dataset.m==="f";startGame(id)});
   drawFire(false);
   const st=$("#app").querySelector(".stage");const prev=!MODE.free&&store.get(resultKey(id));
-  if(prev){st.innerHTML=`<div class="result"><img src="${BODEHEAD}" alt=""><div>${(v=>`<span class="verdict ${v.cls}">${v.cls==="score"?v.word+" "+v.detail.toUpperCase():v.word}</span>`)(verdict(id,prev))}<div class="d">DESAFIO DE HOJE FEITO</div><p>${esc(prev.label)} Volte amanhã para o próximo, ou jogue no modo infinito.</p><div class="row"><button class="btn y" data-a="share">Copiar resultado</button><button class="btn" data-a="free">Jogar no modo infinito</button></div></div></div>`;
-    st.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(prev.share);if(a==="free"){MODE.free=true;startGame(id)}});}
+  if(prev){st.innerHTML=`<div class="result"><img src="${BODEHEAD}" alt=""><div>${(v=>`<span class="verdict ${v.cls}">${v.cls==="score"?v.word+" "+v.detail.toUpperCase():v.word}</span>`)(verdict(id,prev))}<div class="d">DESAFIO DE HOJE FEITO</div><p>${esc(prev.label)} Volte amanhã para o próximo, ou jogue no modo infinito.</p><div class="row"><button class="btn y" data-a="share">Gerar card</button><button class="btn" data-a="free">Jogar no modo infinito</button></div></div></div>`;
+    st.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(prev.share,{v:verdict(id,prev),label:prev.label,ms:prev.ms});if(a==="free"){MODE.free=true;startGame(id)}});}
   else{if(!MODE.free&&!g.multi){if(!store.get(dayLockKey(id)))store.set(dayLockKey(id),ST.DIFF);ST.CLOCK={id,day:ST.PLAYDAY,t0:document.hidden?0:Date.now()}}g.start(st,gameRng(id))}
   window.scrollTo(0,0)}
 export function daySummary(){ST.VIEW="resumo";ST.PHASE="home";cleanup();
@@ -119,10 +127,11 @@ export function daySummary(){ST.VIEW="resumo";ST.PHASE="home";cleanup();
     <div class="sum-kpis"><div class="g"><small>Vitórias</small><b>${win}</b></div><div class="r"><small>Derrotas</small><b>${loss}</b></div><div class="y"><small>Por pontos</small><b>${part}</b></div><div><small>Tempo total</small><b>${fmtDur(tot)}</b></div><div><small>No normal (${nLv.normal})</small><b>${fmtDur(byLv.normal)}</b></div><div><small>No difícil (${nLv.hard})</small><b>${fmtDur(byLv.hard)}</b></div></div>
     <div class="sum-list">${rows.map(x=>{if(!x.r)return`<button type="button" class="sum-row" data-g="${x.id}"><span class="n">${x.g.name}</span><span class="lv">—</span><span class="v muted">não jogado</span><span class="t">JOGAR →</span></button>`;const t=tag(x);
       return`<div class="sum-row ${t.cls}"><span class="n">${x.g.name}</span><span class="lv">${DNAME[x.r.d]}</span><span class="v">${esc(t.txt)}</span><span class="t">⏱ ${fmtDur(x.r.res.ms)}</span></div>`}).join("")}</div>
-    <div class="row" style="margin-top:18px"><button class="btn y" type="button" data-a="share">Copiar resumo</button><button class="btn" type="button" data-a="home">Voltar aos jogos</button></div></div>`;
+    <div class="row" style="margin-top:18px"><button class="btn y" type="button" data-a="share">Gerar card do dia</button><button class="btn" type="button" data-a="home">Voltar aos jogos</button></div></div>`;
   const app=$("#app");app.querySelector(".back").addEventListener("click",home);
   app.querySelector(".sumwrap").addEventListener("click",e=>{const b=e.target.closest("[data-a],[data-g]");if(!b)return;
     if(b.dataset.g){MODE.free=false;openGame(b.dataset.g);return}
     if(b.dataset.a==="home")home();
-    if(b.dataset.a==="share")share(`THE FENÔMENO · RESUMO DO DIA #${dayNum()}\n✅ ${win} vitórias · ❌ ${loss} derrotas · 🎯 ${part} por pontos\n⏱ ${fmtDur(tot)} jogando\n`+rows.filter(x=>x.r).map(x=>{const t=tag(x);return`${t.cls==="win"?"🟩":t.cls==="loss"?"🟥":"🟨"} ${x.g.name} (${DNAME[x.r.d].toLowerCase()}) ${t.cls==="score"?t.txt:""} ${fmtDur(x.r.res.ms)}`.replace(/\s+/g," ").trim()}).join("\n"))});
+    if(b.dataset.a==="share")share(dayShareText());
+  });
   window.scrollTo(0,0)}

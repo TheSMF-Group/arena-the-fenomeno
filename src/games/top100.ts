@@ -44,7 +44,7 @@ async function daily(){ST.VIEW="top100";ST.PHASE="play";cleanup();route("top100"
       <div class="t1-score"><div><small>Pontos</small><b>${total()}</b><span> / 500</span></div><div><small>${done?"Fim do desafio":"Chute"}</small><b>${done?"5/5":rec.p.length+1+"/5"}</b></div></div>
       <div class="t1-picks">${[0,1,2,3,4].map(i=>rec.p[i]?pickRow(th,rec.p[i],i+1):`<div class="t1-pick empty"><i>${i+1}</i><b>${i===rec.p.length?"Seu próximo chute":"—"}</b></div>`).join("")}</div>
       ${done?"":`<div class="t1-srch"></div><p class="muted">O último da lista vale 100 pontos e o primeiro vale muito pouco. Chute fundo na lista, mas quem está fora dela não pontua.</p>`}
-      ${done?`<div class="le-act"><p><b>Você fez ${total()} de 500 pontos.</b> ${total()>=400?"Que leitura de mercado!":total()>=250?"Bom jogo, volte amanhã para outro tema.":"Amanhã tem outro tema."}</p><div class="row"><button class="btn y" type="button" data-a="share">Copiar resultado</button></div></div>
+      ${done?`<div class="le-act"><p><b>Você fez ${total()} de 500 pontos.</b> ${total()>=400?"Que leitura de mercado!":total()>=250?"Bom jogo, volte amanhã para outro tema.":"Amanhã tem outro tema."}</p><div class="row"><button class="btn y" type="button" data-a="share">Gerar card</button></div></div>
         <h4 class="rc-h">O ranking completo</h4>${listH(th,Object.fromEntries(rec.p.filter(x=>x.id).map(x=>[x.id,{c:"me",by:"você"}])))}`:""}`;
     const host=st.querySelector(".t1-srch");
     if(host){const inp=makeSearch(host,{placeholder:"Chute um jogador…",sub,onPick:p=>{if(rec.p.some(x=>x.id===p.id)){toast("Você já chutou esse jogador");return}
@@ -115,7 +115,7 @@ export async function t100Play({mode,code,pfs}){ST.VIEW="top100";ST.PHASE="play"
     const marks=rr=>Object.fromEntries(rr.filter(x=>x.id).map(x=>[x.id,{c:x.m==="X"?"x":"o",by:nmOf(x.m)}]));
     if(S.ph==="over"){const w=S.over,rounds=[0,1,2].map(i=>{const t=byId(S.th[i]),a=S.g[i].filter(x=>x.m==="X").reduce((q,x)=>q+x.pts,0),b=S.g[i].filter(x=>x.m==="O").reduce((q,x)=>q+x.pts,0);return`<div class="t1-rrow"><span>${esc(t.t)}</span><b>${a} x ${b}</b></div>`}).join("");
       h+=`<div class="vl-status mine"><span><b>${w==="D"?"Empate!":(mode==="local"||seat===w)&&mode!=="local"?"Você venceu!":esc(nmOf(w))+" venceu!"}</b> ${S.sx} x ${S.so}</span></div><div class="t1-rounds">${rounds}</div>
-        <div class="row"><button class="btn y" type="button" data-a="again">Revanche</button><button class="btn" type="button" data-a="share">Copiar resultado</button></div>`}
+        <div class="row"><button class="btn y" type="button" data-a="again">Revanche</button><button class="btn" type="button" data-a="share">Gerar card</button></div>`}
     else{h+=`<div class="t1-theme"><small>Tema ${r+1} de 3</small><h3>${esc(th.t)}</h3><p class="muted">${esc(subT(th))}</p></div>`;
       if(S.ph==="play")h+=`<div class="vl-status ${turnMe?"mine":""}"><span>${turnMe?`<b>${mode==="local"?esc(nmOf(S.turn))+", seu":"Seu"} chute ${Math.floor(S.g[r].length/2)+1} de 3.</b> Quanto mais fundo na lista, mais pontos.`:`Vez de ${esc(nmOf(S.turn))}…`}</span><span class="pill vl-clock"></span></div>${turnMe?`<div class="t1-srch"></div>`:""}`;
       h+=`<div class="t1-picks">${rows(S.g[r])||`<p class="muted">Nenhum chute ainda.</p>`}</div>`;

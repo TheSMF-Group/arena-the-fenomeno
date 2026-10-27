@@ -292,7 +292,7 @@ export async function drPlay({mode,cfg,code,kind,pfs}){const LE=kind==="leilao",
         const ht=`<small class="fg-kick">Pênaltis</small><div class="dr-pr"><span>✕ ${esc(nX)}</span>${row("X")}</div><div class="dr-pr"><span>◯ ${esc(nO)}</span>${row("O")}</div><p class="muted">${esc(nameOf(lastK.m,lastK.i))} ${lastK.ok?"converteu":"perdeu"}.</p>`;
         if(ht!==lastHtml){pens.innerHTML=ht;lastHtml=ht}done=n>=R.pen.length&&pe>=R.pen.length*PK}
       if(done&&fin.hidden){clearInterval(animT);const seat=mySeat(),w=R.win,sc=`${R.gx} x ${R.go}${R.pen.length?` (pênaltis ${R.px} x ${R.po})`:""}`;
-        fin.hidden=false;fin.innerHTML=`<b>${mode==="local"?`${esc(w==="X"?nX:nO)} venceu! 🐐`:w===seat?"VOCÊ VENCEU! 🐐":"O adversário venceu."}</b><span>${sc}</span><div class="row" style="justify-content:center"><button class="btn y" type="button" data-a="again">Revanche</button><button class="btn" type="button" data-a="share">Copiar resultado</button></div>`;
+        fin.hidden=false;fin.innerHTML=`<b>${mode==="local"?`${esc(w==="X"?nX:nO)} venceu! 🐐`:w===seat?"VOCÊ VENCEU! 🐐":"O adversário venceu."}</b><span>${sc}</span><div class="row" style="justify-content:center"><button class="btn y" type="button" data-a="again">Revanche</button><button class="btn" type="button" data-a="share">Gerar card</button></div>`;
         const sk=st.querySelector("[data-a=skip]");sk&&sk.parentElement.remove()}};
     step();animT=setInterval(step,120)}
   st.addEventListener("click",e=>{const b=e.target.closest("button");if(!b||!S||b.disabled)return;
