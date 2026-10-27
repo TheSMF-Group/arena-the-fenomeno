@@ -31,6 +31,7 @@ import {home, openGame, updateToday} from "./home";
 import {META, ID_BY_SLUG} from "./meta";
 import {idFromLocation} from "./nav";
 import {initAds} from "./ads";
+import {liveHost, liveJoin} from "./live";
 import {pageview} from "./track";
 import {applyCopy} from "./copy";
 applyCopy(GAMES);
@@ -47,6 +48,10 @@ window.addEventListener("popstate",()=>{const id=idFromLocation(ID_BY_SLUG,GAMES
     ST.HARD=ST.P.filter(p=>p.fam===2&&ST.FOTOS[p.id]&&p.birth);
     ST.CRESTS=d.K.map(a=>{const c={id:a[0],name:a[1],pais:a[2],cc:a[3],liga:a[4],conf:a[5]};c.key=norm(c.name);c.words=c.key.split(" ");return c});
     $("#boot").remove();updateToday();
+    const sala=new URLSearchParams(location.search).get("sala");
+    /* sala ao vivo: sem anúncio e sem a navegação normal da Central */
+    if(document.body.dataset.live==="host"){liveHost();return}
+    if(sala){liveJoin(sala);return}
     const id=idFromLocation(ID_BY_SLUG,GAMES);if(id)openGame(id);else home();initAds();
   }catch(err){$("#boot").innerHTML=`<div><img src="${BODEHEAD}" alt=""><b>NÃO DEU PARA CARREGAR OS DADOS</b><span class="muted">Recarregue a página.</span></div>`}
 })();

@@ -2,8 +2,8 @@
 import "../styles/global.css";
 import img0 from "../assets/bdc95b0ba.webp?url";
 import { META, SITE, SITE_NAME } from "../meta";
-interface Props { title: string; description: string; path: string; game?: string; how?: string; h1?: string }
-const { title, description, path, game, how, h1 } = Astro.props;
+interface Props { title: string; description: string; path: string; game?: string; how?: string; h1?: string; live?: string; noindex?: boolean }
+const { title, description, path, game, how, h1, live, noindex } = Astro.props;
 const url = SITE + path;
 const ld = game
   ? { "@context": "https://schema.org", "@type": "Game", name: META[game].name, description, url, inLanguage: "pt-BR", isAccessibleForFree: true, genre: "Futebol", publisher: { "@type": "Organization", name: "The Fenômeno", url: "https://thefenomeno.com" } }
@@ -18,6 +18,7 @@ const games = Object.entries(META);
 <title>{title}</title>
 <meta name="description" content={description}>
 <link rel="canonical" href={url}>
+{noindex && <meta name="robots" content="noindex">}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content={SITE_NAME}>
 <meta property="og:locale" content="pt_BR">
@@ -32,7 +33,7 @@ const games = Object.entries(META);
 <script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
 <style is:global>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
-<body data-game={game || ""}>
+<body data-game={game || ""} data-live={live || ""}>
 <div id="boot"><div><img src={img0} alt=""><b>AQUECENDO O BODE…</b></div></div>
 
 <header class="top"><div class="wrap">

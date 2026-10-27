@@ -6,7 +6,7 @@ import {art} from "./art";
 import {route} from "./nav";
 import {rulesHTML} from "./ui";
 import {progressHTML, paintStreak} from "./fio";
-import {EXT, extCard} from "./promo";
+import {EXT, extCard, liveCard} from "./promo";
 import {inlineAd} from "./ads";
 import {ev} from "./track";
 import {META, CATS, CAT_LABELS} from "./meta";
@@ -69,6 +69,7 @@ function extras(app){
   const g=app.querySelector(".games");if(!g)return;
   if(!MODE.multi){const cs=[...g.children];
     g.insertBefore(Object.assign(document.createElement("div"),{innerHTML:extCard(EXT[0])}).firstElementChild,g.firstChild);
+    g.insertBefore(Object.assign(document.createElement("div"),{innerHTML:liveCard()}).firstElementChild,g.children[1]);
     [[EXT[1],5],[EXT[2],11]].forEach(([e,i])=>{const ref=g.children[Math.min(i+1,g.children.length-1)];const el=Object.assign(document.createElement("div"),{innerHTML:extCard(e)}).firstElementChild;if(ref&&i+1<g.children.length)g.insertBefore(el,ref);else g.appendChild(el)});
     const bar=document.createElement("div");bar.className="chips";bar.setAttribute("role","group");bar.setAttribute("aria-label","Filtrar jogos");
     bar.innerHTML=CAT_LABELS.map(([k,l],i)=>`<button type="button" class="fchip" data-c="${k}" aria-pressed="${i===0}">${l}</button>`).join("");

@@ -5,3 +5,4 @@ dist-single
 .work
 .vercel
 .DS_Store
+.env*

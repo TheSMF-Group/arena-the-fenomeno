@@ -20,6 +20,9 @@ export function extCard(e,medium="grade"){
   return`<a class="gcard ext${e.feat?" feat":""}" href="${u(e.url,medium,e.k)}" target="_blank" rel="noopener" data-ext="${e.k}"><span class="tag ext-tag">${e.tag}</span>
     <div class="art">${art(e.k)}</div><div class="meta"><span class="d">${e.name}</span><span class="mins">${e.mins}</span><p>${e.desc}</p>
     <div class="play"><span class="go">${e.feat?"JOGAR A CARREIRA":"ABRIR"} ↗</span><span class="chip">${e.feat?"jogo principal":"site do grupo"}</span></div></div></a>`}
+/* card da vitrine que leva pra sala ao vivo (pra streamers) */
+export function liveCard(){
+  return`<a class="gcard live" href="/ao-vivo"><span class="tag ext-tag">PRA STREAMERS</span><div class="art"><div class="x-live"><i></i><b>AO VIVO</b></div></div><div class="meta"><span class="d">SALA AO VIVO</span><span class="mins">chat inteiro jogando</span><p>Crie uma sala, mande o link pro chat e jogue valendo placar: cada um no seu celular.</p><div class="play"><span class="go">CRIAR SALA</span><span class="chip">grátis</span></div></div></a>`}
 /* faixa pequena depois da partida: o carro-chefe */
 export function promoMini(game){
   return`<a class="promo-mini" href="${u(FLAGSHIP.url,"resultado",game||"jogo")}" target="_blank" rel="noopener"><span class="d">THE FENÔMENO</span><span>Gostou? Agora viva a carreira inteira.</span><b>JOGAR →</b></a>`}
