@@ -18,7 +18,7 @@ export function fcBase(ch){const u=ch.toUpperCase();if(FC_EXTRA[u])return FC_EXT
 export const fcOk=name=>{const bs=[...name].map(fcBase);const n=bs.filter(b=>b&&b!=="?").length;return!bs.includes("?")&&n>=4&&n<=20};
 export function forcaGallows(){return`<svg class="fc-svg" viewBox="0 0 380 560" role="img" aria-label="Forca com o bode">
   <path class="fc-wood" d="M8 548H200M40 548V12M30 12H200M40 64 92 12"/><path class="fc-rope" d="M150 12V60"/>
-  <g transform="translate(27 58)">${FC_PARTS.map(([n,x,y,w,h,u],i)=>`<image class="fc-part" data-i="${i}" href="${u}" x="${x}" y="${y}" width="${w}" height="${h}"/>`).join("")}</g></svg>`}
+  <g class="fc-sway"><g transform="translate(27 58)">${FC_PARTS.map(([n,x,y,w,h,u],i)=>`<image class="fc-part" data-i="${i}" href="${u}" x="${x}" y="${y}" width="${w}" height="${h}"/>`).join("")}</g></g></svg>`}
 GAMES.forca={name:"FORCA",hard:"jogadores de nicho e qualquer um dos escudos da base, e a única dica só aparece no 3º erro.",
 desc:"Jogador ou time, letra por letra, antes do bode ficar inteiro na forca.",
 levels:{normal:["Craques e clubes conhecidos. A seleção do jogador (ou o país do time) aparece desde o começo e, a partir do 3º erro, o último clube (ou a liga).","dica desde o começo"],hard:["Jogadores de nicho e qualquer um dos escudos da base, de qualquer liga. Nenhuma dica até o 3º erro.","sem dica no começo"]},
@@ -57,9 +57,11 @@ start(st,r){
     if(need.has(k)){got.add(k);draw(k);if([...need].every(b=>got.has(b)))end(true)}
     else{bad.add(k);draw();const f=st.querySelector(".fc-fig");f.classList.remove("shake");void f.offsetWidth;f.classList.add("shake");if(bad.size>=FC_MAX)end(false)}}
   function end(won){done=true;won?hit():miss();draw();lostEl.innerHTML=won?"":`<b>ENFORCADO!</b>`;
+    /* vitória: as letras fazem a onda; derrota: o bode balança na corda */
+    if(won)wordEl.classList.add("won");else st.querySelector(".fc-svg").classList.add("hung");
     st.querySelector(".fc-end").innerHTML=`<div class="fc-reveal">${tipo==="j"?face(ans):`<img class="crest" src="${ST.ESC[ans.id]}" alt="">`}<div><small class="fg-kick">${won?"Acertou":"Era"}</small><b>${esc(NAME)}</b></div></div>`;
     const e=bad.size;
-    finish("forca",st,{won,score:won?FC_MAX-e:0,label:won?`${NAME} com ${e} erro${e===1?"":"s"}.`:`Era ${NAME}.`,chip:won?`${e}/${FC_MAX} erros`:"enforcado",share:`${shareHead("FORCA")} · ${tipo==="j"?"jogador":"time"}\n🐐 ${"🟥".repeat(e)}${"⬜".repeat(FC_MAX-e)}${won?" ✅":" ☠"}`})}
+    setTimeout(()=>finish("forca",st,{won,score:won?FC_MAX-e:0,label:won?`${NAME} com ${e} erro${e===1?"":"s"}.`:`Era ${NAME}.`,chip:won?`${e}/${FC_MAX} erros`:"enforcado",share:`${shareHead("FORCA")} · ${tipo==="j"?"jogador":"time"}\n🐐 ${"🟥".repeat(e)}${"⬜".repeat(FC_MAX-e)}${won?" ✅":" ☠"}`}),won?1100:900)}
   kb.addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(b)press(b.dataset.k)});
   const onKey=e=>{if(e.metaKey||e.ctrlKey||e.altKey||e.target.tagName==="INPUT")return;const k=fcBase(e.key.length===1?e.key:"");if(k&&k!=="?"){press(k);e.preventDefault()}};
   document.addEventListener("keydown",onKey);const prevClean=ST.CLEAN;ST.CLEAN=()=>{document.removeEventListener("keydown",onKey);prevClean&&prevClean()};

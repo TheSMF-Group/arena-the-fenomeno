@@ -1114,3 +1114,49 @@ button:not(:disabled):active,.gcard:active,.lvl:not(.locked):active{transform:sc
 @keyframes solvedin{0%{opacity:0;transform:scale(.92) translateY(-8px)}60%{transform:scale(1.03)}100%{opacity:1;transform:none}}
 .conn .solved.fresh{animation:solvedin .55s var(--kick)}
 @media (prefers-reduced-motion:reduce){.clues li.fresh,.gtable tr.new,.gtable tr.new td,.conn .tile.good,.conn .tile.bad,.conn .solved.fresh{animation:none}.quem .ph .face{transition:none}}
+
+/* ===== Forca: o bode cai, balança e a palavra faz a onda ===== */
+.fc-part{transform-box:fill-box;transform-origin:50% 0}
+@keyframes fcdrop{0%{opacity:0;transform:translateY(-90px) rotate(-8deg)}55%{opacity:1;transform:translateY(10px) rotate(3deg)}80%{transform:translateY(-3px)}100%{opacity:1;transform:none}}
+.fc-part.on{animation:fcdrop .6s var(--kick)}
+.fc-sway{transform-origin:150px 12px}
+@keyframes fcswing{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.fc-svg.hung .fc-sway{animation:fcswing 2.2s ease-in-out infinite}
+.fc-lost b{animation:stamp .55s var(--kick) both}
+@keyframes fcpop{0%{transform:scale(1.7);color:var(--yellow)}60%{transform:scale(.92)}100%{transform:scale(1)}}
+.fc-c.pop{animation:fcpop .45s var(--kick)}
+.fc-word.won .fc-c.on{color:var(--green-hi);border-color:var(--green-hi);animation:bwave .5s var(--kd,0s)}
+.fc-word.won .fc-w .fc-c:nth-child(1){--kd:0.00s}.fc-word.won .fc-w .fc-c:nth-child(2){--kd:0.06s}.fc-word.won .fc-w .fc-c:nth-child(3){--kd:0.12s}.fc-word.won .fc-w .fc-c:nth-child(4){--kd:0.18s}.fc-word.won .fc-w .fc-c:nth-child(5){--kd:0.24s}.fc-word.won .fc-w .fc-c:nth-child(6){--kd:0.30s}.fc-word.won .fc-w .fc-c:nth-child(7){--kd:0.36s}.fc-word.won .fc-w .fc-c:nth-child(8){--kd:0.42s}.fc-word.won .fc-w .fc-c:nth-child(9){--kd:0.48s}.fc-word.won .fc-w .fc-c:nth-child(10){--kd:0.54s}.fc-word.won .fc-w .fc-c:nth-child(11){--kd:0.60s}.fc-word.won .fc-w .fc-c:nth-child(12){--kd:0.66s}.fc-word.won .fc-w .fc-c:nth-child(13){--kd:0.72s}.fc-word.won .fc-w .fc-c:nth-child(14){--kd:0.78s}
+
+/* ===== Mais Velho: a vencedora fica, a próxima entra ===== */
+.duel .pc{transition:opacity .35s,box-shadow .3s}
+@keyframes pcleave{to{opacity:0;transform:translateX(-46px) scale(.9)}}
+@keyframes pcenter{from{opacity:0;transform:translateX(80px)}to{opacity:1;transform:none}}
+@keyframes dtflip{from{opacity:0;transform:rotateX(90deg) scale(1.5)}to{opacity:1;transform:none}}
+@keyframes streakbump{0%{transform:scale(1)}40%{transform:scale(1.5);color:var(--yellow)}100%{transform:scale(1)}}
+.duel .pc.leave{animation:pcleave .35s var(--kick) both}
+.duel .pc.enter{animation:pcenter .5s var(--kick) both}
+.duel .pc.stay{animation:none}
+.pc .dt.flip{animation:dtflip .5s var(--kick) .1s both}
+.streak.bump{animation:streakbump .45s var(--kick)}
+.duel .pc.right{box-shadow:0 0 0 2px var(--green),0 0 30px rgba(0,196,106,.35)}
+
+/* ===== Impostor: rodada em cascata, o intruso em destaque ===== */
+@keyframes cardup{from{opacity:0;transform:translateY(22px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes dotpulse{50%{transform:scale(1.4);opacity:.7}}
+.cards5 .pc.in{animation:cardup .45s var(--kick) calc(var(--i,0)*70ms) both}
+.cards5 .pc.dim{opacity:.4;filter:grayscale(.7);transition:opacity .4s,filter .4s}
+.cards5 .pc.right{box-shadow:0 0 0 2px var(--green),0 0 34px rgba(0,196,106,.4)}
+.cards5 .pc.wrong{box-shadow:0 0 0 2px var(--red)}
+.exp.rev{animation:rise .5s var(--kick)}
+.progress i.cur{animation:dotpulse 1.1s ease-in-out infinite}
+
+/* ===== Grade: a casa enche com onda, o contador pesa ===== */
+@keyframes cellfill{0%{transform:scale(.7) rotate(-4deg);opacity:0;box-shadow:0 0 0 0 rgba(0,196,106,.7)}60%{transform:scale(1.07);opacity:1;box-shadow:0 0 0 16px rgba(0,196,106,0)}100%{transform:none;opacity:1;box-shadow:0 0 0 0 rgba(0,196,106,0)}}
+@keyframes cornerbump{0%{transform:scale(1.6);color:var(--red)}100%{transform:scale(1)}}
+.grid3 .cell.done{animation:none}
+.grid3 .cell.done.fill{animation:cellfill .65s var(--kick)}
+.grid3 .cell.rev{animation:cellfill .55s var(--kick) calc(var(--i,0)*110ms) both}
+.corner b.bump{animation:cornerbump .5s var(--kick)}
+.modal .box{animation:rise .3s var(--kick)}
+@media (prefers-reduced-motion:reduce){.fc-part.on,.fc-svg.hung .fc-sway,.fc-c.pop,.fc-word.won .fc-c.on,.duel .pc.leave,.duel .pc.enter,.pc .dt.flip,.streak.bump,.cards5 .pc.in,.exp.rev,.progress i.cur,.grid3 .cell.done.fill,.grid3 .cell.rev,.corner b.bump,.modal .box{animation:none!important}}

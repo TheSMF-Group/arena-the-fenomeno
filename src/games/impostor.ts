@@ -21,10 +21,11 @@ start(st,r){
   const cards=st.querySelector(".cards5"),exp=st.querySelector(".exp"),nx=st.querySelector("[data-a=next]"),pr=st.querySelector(".progress");
   function draw(revealed,chosen){const R=rounds[ri];
     pr.innerHTML=rounds.map((_,i)=>`<i class="${res[i]===true?"ok":res[i]===false?"no":i===ri?"cur":""}"></i>`).join("");
-    cards.innerHTML=R.five.map(p=>`<button type="button" class="pc ${revealed?(p===R.imp?"right":p===chosen?"wrong":""):""}" data-id="${p.id}" ${revealed?"disabled":""}>${face(p)}<b>${esc(p.name)}</b>${revealed?`<small>${natFlag(p.nat)} ${year(p)}</small><small>${clubCrest(p.club)} ${esc(clubName(p.club))}</small>`:""}</button>`).join("");
+    cards.innerHTML=R.five.map((p,pi)=>`<button type="button" class="pc ${revealed?(p===R.imp?"right":p===chosen?"wrong":"dim"):"in"}" style="--i:${pi}" data-id="${p.id}" ${revealed?"disabled":""}>${face(p)}<b>${esc(p.name)}</b>${revealed?`<small>${natFlag(p.nat)} ${year(p)}</small><small>${clubCrest(p.club)} ${esc(clubName(p.club))}</small>`:""}</button>`).join("");
+    exp.className=revealed?"exp rev":"exp";
     exp.innerHTML=revealed?`${chosen===R.imp?"<b style='color:var(--green)'>Acertou.</b>":"<b style='color:var(--red)'>Errou.</b>"} Os quatro: <b>${R.ty==="nat"?natFlag(R.k)+" seleção "+esc(natName(R.k)):R.ty==="club"?"último clube "+esc(clubName(R.k)):"nascidos nos anos "+String(R.k).slice(2)}</b>. Impostor: <b>${esc(R.imp.name)}</b>.`:"Quem é o impostor?"}
   cards.addEventListener("click",e=>{const b=e.target.closest(".pc");if(!b||b.disabled)return;const R=rounds[ri];const ch=R.five.find(p=>p.id===+b.dataset.id);res[ri]=ch===R.imp;res[ri]?hit():miss();draw(true,ch);
-    if(ri===9){const sc=res.filter(Boolean).length;finish("impostor",st,{won:sc>=7,score:sc,label:`Você acertou ${sc}/10 impostores.`,chip:`${sc}/10`,share:`${shareHead("IMPOSTOR")} ${sc}/10\n${res.map(x=>x?"🟩":"🟥").join("")}`})}else nx.hidden=false});
+    if(ri===9){const sc=res.filter(Boolean).length;setTimeout(()=>finish("impostor",st,{won:sc>=7,score:sc,label:`Você acertou ${sc}/10 impostores.`,chip:`${sc}/10`,share:`${shareHead("IMPOSTOR")} ${sc}/10\n${res.map(x=>x?"🟩":"🟥").join("")}`}),1100)}else nx.hidden=false});
   nx.addEventListener("click",()=>{ri++;nx.hidden=true;draw(false)});
   draw(false);
 }};
