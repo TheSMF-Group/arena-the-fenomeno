@@ -5,11 +5,11 @@ import {makeSearch} from "../search";
 import {GAMES, share} from "../engine";
 import {VL_ART, VL_NAT, loadPass, vlCode} from "./velha";
 import {mqttRoom} from "../mqtt";
-import {DR_LG, DR_NAME, DR_POS, DR_TURN, TM_AB, drCN, drCanPlay, drCands, drClubs, drDraw, drFits, drOk, drPosAb, drPosOf, drPosTxt, drSim, loadPos} from "./draft-core";
+import {DR_LG, DR_NAME, DR_POS, DR_TURN, TM_AB, drPow, drCN, drCanPlay, drCands, drClubs, drDraw, drFits, drOk, drPosAb, drPosOf, drPosTxt, drSim, loadPos} from "./draft-core";
 import {fmtK, leAge, leB, leBegin, leCan, leCapOf, leCardEval, leCardTxt, leFresh, leNext, lePl, lePrice, leSlots, leT, leTeam, leToMatch, loadAtu} from "./leilao";
 import {pfGet, pfImg} from "../profile";
 import {maFresh, maRound, maStart, maT} from "./maleta";
-import {rcCap, rcFresh, rcRound, rcStart, rcT} from "./reconstruindo";
+import {rcCap, rcFresh, rcReserve, rcRound, rcStart, rcT} from "./reconstruindo";
 import {cleanup} from "../home";
 const MA_SEEN=new Set<string>();
 export async function drPlay({mode,cfg,code,kind,pfs}){const LE=kind==="leilao",MA=kind==="maleta",RC=kind==="reconstruindo",G=GAMES[kind||"draft"];ST.VIEW=kind||"draft";ST.PHASE="play";cleanup();
@@ -81,53 +81,62 @@ export async function drPlay({mode,cfg,code,kind,pfs}){const LE=kind==="leilao",
   function leFold(why){const s=cp(S);s.seq++;s.last=null;leWin(s,S.turn==="X"?"O":"X",S.bid.amt)}
   const leSteps=price=>[Math.max(500,Math.round(price*.05/100)*100),Math.max(1000,Math.round(price*.1/100)*100),Math.max(2500,Math.round(price*.25/100)*100)];
   /* ---- RECONSTRUINDO ---- */
-  let rcSel=-1;
-  const rcCp=s=>({...cp(s),cash:{...s.cash},pk:{...s.pk},used:s.used.slice(),hist:(s.hist||[]).slice()});
-  const rcPr=idx=>{const o=S.opts[idx];return o?lePrice(lePl(o.id)):0};
-  function rcTimeout(){if(S.ph==="pick")rcPick(-1);else if(S.ph==="bid")rcFold();else if(S.ph==="show")rcNext()}
-  function rcPick(idx){const m=S.turn,o=m==="X"?"O":"X",s=rcCp(S);s.seq++;
-    if(idx>=0&&rcPr(idx)>rcCap(S,m)){toast("Seu caixa não cobre essa opção");return}
-    s.pk[m]=idx;rcSel=-1;
+  let rcSel=-1,rcSell=false;
+  const rcCp=s=>({...cp(s),cash:{...s.cash},pk:{...s.pk},sale:s.sale&&{...s.sale},used:s.used.slice(),hist:(s.hist||[]).slice()});
+  const rcStarter=(s,m)=>lePl((m==="X"?s.tx:s.to)[s.slot]);
+  const rcVal=(s,m)=>{const p=rcStarter(s,m);return p?lePrice(p):0};
+  function rcTimeout(){if(S.ph==="pick")rcPick({t:"keep"});else if(S.ph==="bid")rcFold();else if(S.ph==="show")rcNext()}
+  /* decisão secreta de cada um: manter, vender e comprar uma das 5 opções, ou vender e subir o reserva */
+  function rcPick(d){const m=S.turn,o=m==="X"?"O":"X",s=rcCp(S);s.seq++;
+    if(d.t==="buy"){const pr=lePrice(lePl(d.id));if(pr>s.cash[m]+rcVal(S,m)){toast("Seu caixa não cobre essa opção");return}}
+    if(d.t==="res"&&!rcReserve(S,m)){toast("Seu clube não tem reserva para essa posição");return}
+    s.pk[m]=d;rcSel=-1;rcSell=false;
     if(s.pk[o]===undefined){s.turn=o;s.dl=Date.now()+rcT(s,"pick");return push(s)}
-    if(s.pk.X>=0&&s.pk.X===s.pk.O){s.ph="bid";s.bid={amt:rcPr(s.pk.X),by:null};s.turn=s.f;s.dl=Date.now()+rcT(s,"bid");return push(s)}
+    if(s.pk.X.t==="buy"&&s.pk.O.t==="buy"&&s.pk.X.id===s.pk.O.id){s.ph="bid";s.sale={X:rcVal(S,"X"),O:rcVal(S,"O")};s.bid={amt:lePrice(lePl(s.pk.X.id)),by:null};s.turn=s.f;s.dl=Date.now()+rcT(s,"bid");return push(s)}
     rcApply(s,null)}
-  /* aplica o resultado da rodada: cada um leva o que escolheu; no leilão, quem perde leva o melhor reserva que sobrou */
+  /* aplica a rodada: cada um leva o que decidiu; no leilão, quem perde fica com o reserva do próprio titular */
   function rcApply(s,auc){const slot=s.slot,res={};
-    const give=(m,idx,amt)=>{const o=idx>=0?s.opts[idx]:null;if(!o){res[m]={id:0,amt:0};return}leTeam(s,m)[slot]=o.id;s.cash[m]-=amt;s.used.push(o.id);res[m]={id:o.id,amt,t:o.t,k:o.k}};
-    if(auc){const w=auc.w,l=w==="X"?"O":"X";give(w,auc.idx,auc.amt);
-      const rest=s.opts.map((o,i)=>({o,i})).filter(x=>x.i!==auc.idx).sort((a,b)=>(a.o.t==="res"?0:1)-(b.o.t==="res"?0:1));const r=rest[0];
-      if(r&&lePrice(lePl(r.o.id))<=rcCap(s,l))give(l,r.i,lePrice(lePl(r.o.id)));else give(l,-1,0);res[l].auto=true}
-    else{give("X",s.pk.X,s.pk.X>=0?lePrice(lePl(s.opts[s.pk.X].id)):0);give("O",s.pk.O,s.pk.O>=0?lePrice(lePl(s.opts[s.pk.O].id)):0)}
-    s.last={t:"rcr",slot,res,auc:auc?{w:auc.w,amt:auc.amt}:null};s.hist.push({slot,res});
-    if(auc){s.last.m=auc.w;s.last.pid=res[auc.w].id;s.last.amt=auc.amt;s.last.ts=Date.now()}
-    s.ph="show";s.bid=null;s.dl=Date.now()+rcT(s,"show");push(s)}
+    for(const m of ["X","O"]){const arr=leTeam(s,m),st=rcStarter(s,m),v=st?lePrice(st):0;let d=s.pk[m]||{t:"keep"},amt=0;
+      const lost=auc&&auc.w!==m;
+      if(lost)d={t:"res"};
+      if(d.t==="buy"){amt=auc&&auc.w===m?auc.amt:lePrice(lePl(d.id));arr[slot]=d.id;s.cash[m]+=v-amt;s.used.push(d.id);if(st)s.used.push(st.id);res[m]={t:"buy",id:d.id,amt,sold:st&&st.id,v}}
+      else if(d.t==="res"){const r=rcReserve(s,m);
+        if(r){arr[slot]=r;s.cash[m]+=v;s.used.push(r);if(st)s.used.push(st.id);res[m]={t:"res",id:r,sold:st&&st.id,v,lost}}
+        else res[m]={t:"keep",id:st&&st.id,lost}}
+      else res[m]={t:"keep",id:st&&st.id}}
+    s.last={t:"rcr",slot,res,auc:auc?{w:auc.w,amt:auc.amt,id:s.pk[auc.w].id}:null};s.hist.push({slot,res});
+    if(auc){s.last.m=auc.w;s.last.pid=s.pk[auc.w].id;s.last.amt=auc.amt;s.last.ts=Date.now()}
+    s.ph="show";s.bid=null;s.sale=null;s.dl=Date.now()+rcT(s,"show");push(s)}
   function rcRaise(step){const m=S.turn,o=m==="X"?"O":"X",amt=S.bid.amt+step;if(amt>rcCap(S,m)){toast("Seu caixa não cobre esse lance");return}
     push({...S,seq:S.seq+1,bid:{amt,by:m},turn:o,dl:Date.now()+rcT(S,"bid")})}
-  function rcFold(){const s=rcCp(S);s.seq++;const w=S.turn==="X"?"O":"X";rcApply(s,{w,idx:S.pk[w],amt:S.bid.amt})}
+  function rcFold(){const s=rcCp(S);s.seq++;const w=S.turn==="X"?"O":"X";rcApply(s,{w,amt:S.bid.amt})}
   function rcNext(){if(S.ph!=="show")return;const s=rcCp(S);s.seq++;s.round++;if(s.round>=11){leToMatch(s);return push(s)}rcRound(s);push(s)}
   const rcSteps=price=>[Math.max(500,Math.round(price*.05/100)*100),Math.max(1000,Math.round(price*.1/100)*100),Math.max(2500,Math.round(price*.25/100)*100)];
   function rcPitch(arr,hl,small){return`<div class="dr-pitch ${small?"sm":""}">${DR_POS.map(([lab,r,c],i)=>{const p=pl(arr[i]);
       return p?`<div class="dr-slot full ${i===hl?"hl":""}" style="grid-row:${r};grid-column:${c}">${face(p)}<b>${esc(p.name)}</b><small>${lab}</small></div>`:`<div class="dr-slot ${i===hl?"hl":""}" style="grid-row:${r};grid-column:${c}"><span>+</span><small>${lab}</small></div>`}).join("")}</div>`}
   function rcBody(nX,nO,seat){const ms=m=>m==="X"?"✕":"◯",nm=m=>m==="X"?nX:nO,who=m=>mode==="local"?nm(m):(m===seat?"Você":nm(m));
-    const turnMe=seat===S.turn&&!S.over,ph=S.ph,slot=S.slot,m=mode==="local"?S.turn:(seat||"X");
-    const cl=k=>`<div class="rc-cl">${clubCrest(S.cl[k],"crest")}<b>${esc(clubName(S.cl[k]))}</b></div>`;
-    const clubs=`<div class="rc-pitches">${[0,1].map(k=>`<div class="dr-team"><h4>${cl(k)}</h4>${rcPitch(S.xi[k],slot,true)}</div>`).join("")}</div>`;
-    const optH=(o,i)=>{const p=lePl(o.id),pr=lePrice(p),taken=S.used.includes(o.id),sel=rcSel===i&&ph==="pick",ok=turnMe&&ph==="pick"&&pr<=rcCap(S,S.turn);
-      return`<button type="button" class="rc-opt ${sel?"sel":""} ${o.t==="res"?"res":""}" data-a="rc-opt" data-i="${i}" ${ok?"":"disabled"}><i class="rc-n">${i+1}</i>${face(p)}<b>${esc(p.name)}</b><small>${clubCrest(S.cl[o.k],"crest")} ${o.t==="tit"?"titular":"reserva"} · ${leAge(p)} anos</small><span class="rc-pr">${fmtK(pr)}</span></button>`};
+    const turnMe=seat===S.turn&&!S.over,ph=S.ph,slot=S.slot,m=S.turn,kOf=x=>x==="X"?0:1;
+    const optH=(id,i,ok)=>{const p=lePl(id),pr=lePrice(p),sel=rcSel===i;
+      return`<button type="button" class="rc-opt ${sel?"sel":""}" data-a="rc-opt" data-i="${i}" ${ok&&pr<=S.cash[m]+rcVal(S,m)?"":"disabled"}><i class="rc-n">${i+1}</i>${face(p)}<b>${esc(p.name)}</b><small>${leAge(p)} anos · força ${Math.round(drPow(p))}</small><span class="rc-pr">${fmtK(pr)}</span></button>`};
     let act="";
-    if(ph==="pick"){const first=S.pk[S.turn]===undefined&&Object.keys(S.pk).length===0;
-      act=`<div class="le-act"><p>${turnMe?`<b>${mode==="local"?esc(nm(S.turn))+", sua":"Sua"} escolha para ${DR_NAME[slot].toLowerCase()}.</b> Escolha em segredo: se o outro escolher o mesmo jogador, vai a leilão e quem perder fica com o reserva.`:`${esc(who(S.turn))} está escolhendo em segredo…`}</p>
-        <div class="rc-opts">${S.opts.map(optH).join("")}</div>
-        <div class="row"><span class="pill vl-clock"></span>${turnMe?`<button class="btn y" type="button" data-a="rc-ok" ${rcSel>=0?"":"disabled"}>Confirmar a opção ${rcSel>=0?rcSel+1:""}</button><button class="btn" type="button" data-a="rc-pass">Passar (reserva barato no fim)</button>`:""}</div>
-        <small class="muted">Caixa: ${fmtK(S.cash[S.turn])} · limite desta escolha: ${fmtK(Math.max(0,rcCap(S,S.turn)))}</small></div>`}
-    else if(ph==="bid"){const o=S.opts[S.pk.X],p=lePl(o.id),cap=rcCap(S,S.turn),st3=rcSteps(rcPr(S.pk.X));
+    if(ph==="pick"){const st=rcStarter(S,m),v=rcVal(S,m),opts=S.opts[m]||[],res=rcReserve(S,m),rp=res?lePl(res):null;
+      const card=st?`<div class="ma-pc">${face(st)}<div><small>Seu titular · ${DR_NAME[slot]}</small><b>${esc(st.name)}</b><span>${leAge(st)} anos · força ${Math.round(drPow(st))}</span></div><strong>${fmtK(v)}</strong></div>`:"";
+      act=`<div class="le-act"><p>${turnMe?`<b>${mode==="local"?esc(nm(m))+", ":""}${rcSell?"escolha quem entra no lugar":"manter ou vender?"}</b> ${rcSell?`O valor do titular entra no caixa. Se o outro escolher o mesmo jogador, vai a leilão e quem perder fica com o reserva.`:"Decisão em segredo."}`:`${esc(who(m))} está decidindo em segredo…`}</p>${turnMe?card:""}
+        ${turnMe&&rcSell?`<div class="rc-opts">${opts.map((id,i)=>optH(id,i,true)).join("")}</div>
+          <div class="row">${rcSel>=0?`<button class="btn y" type="button" data-a="rc-ok">Vender e comprar a opção ${rcSel+1}</button>`:""}${rp?`<button class="btn" type="button" data-a="rc-res">Vender e subir o reserva (${esc(rp.name)})</button>`:""}<button class="btn" type="button" data-a="rc-back">Voltar</button><span class="pill vl-clock"></span></div>`
+        :turnMe?`<div class="row"><button class="btn g" type="button" data-a="rc-keep">Manter ${st?esc(st.name):""}</button><button class="btn y" type="button" data-a="rc-sell" ${opts.length?"":"disabled"}>${opts.length?"Vender":"Sem opção melhor"}</button><span class="pill vl-clock"></span></div>`
+        :`<div class="row"><span class="pill vl-clock"></span></div>`}
+        <small class="muted">Caixa: ${fmtK(S.cash[m])}</small></div>`}
+    else if(ph==="bid"){const id=S.pk.X.id,p=lePl(id),cap=rcCap(S,S.turn),st3=rcSteps(lePrice(p));
       act=`<div class="le-act"><p><b>Os dois escolheram ${esc(p.name)}! Leilão.</b> ${S.bid.by?`Lance atual: ${fmtK(S.bid.amt)} de ${esc(who(S.bid.by))}.`:`Começa em ${fmtK(S.bid.amt)}.`}</p>
-        <div class="rc-opts">${optH(o,S.pk.X).replace('data-a="rc-opt"','data-a="x"').replace(/ data-i="\d+"/,"")}</div>
-        ${turnMe?`<div class="row">${st3.map(v=>`<button class="btn y" type="button" data-a="rc-raise" data-v="${v}" ${S.bid.amt+v>cap?"disabled":""}>+ ${fmtK(v)}</button>`).join("")}<button class="btn" type="button" data-a="rc-fold">Desistir</button><span class="pill vl-clock"></span></div><small class="muted">Seu limite: ${fmtK(Math.max(0,cap))}. Quem desistir leva o reserva.</small>`:`<div class="row"><span class="pill">Vez de ${esc(who(S.turn))} cobrir ou desistir</span><span class="pill vl-clock"></span></div>`}</div>`}
-    else if(ph==="show"&&S.last&&S.last.t==="rcr"){const L=S.last,line=x=>{const r=L.res[x],p=r.id?lePl(r.id):null;return`<p>${ms(x)} <b>${esc(nm(x))}</b>: ${p?`<b>${esc(p.name)}</b> por ${fmtK(r.amt)}${r.t==="res"?" (reserva)":""}${r.auto?" · levou o reserva":""}`:`passou: vaga para um reserva barato no fim`}.</p>`};
-      act=`<div class="le-act">${L.auc?`<p><b>Leilão decidido!</b> ${esc(nm(L.auc.w))} levou por ${fmtK(L.auc.amt)}.</p>`:""}${line("X")}${line("O")}<div class="row"><button class="btn y" type="button" data-a="rc-next">Próxima posição</button><span class="pill vl-clock"></span></div></div>`}
-    const team=x=>`<div class="dr-team ${seat===x?"me":""}"><h4>${ms(x)} ${esc(nm(x))} <small class="dr-rt">caixa ${fmtK(S.cash[x])}</small></h4>${rcPitch(leTeam(S,x),-1,true)}</div>`;
-    return`<div class="vl-status ${turnMe?"mine":""}"><span>Posição <b>${S.round+1}</b> de 11 · <b>${DR_NAME[slot]}</b></span></div>${clubs}${act}<div class="dr-teams le">${team("X")}${team("O")}</div>`}
+        <div class="rc-opts"><div class="rc-opt">${face(p)}<b>${esc(p.name)}</b><small>${leAge(p)} anos · força ${Math.round(drPow(p))}</small><span class="rc-pr">${fmtK(S.bid.amt)}</span></div></div>
+        ${turnMe?`<div class="row">${st3.map(v=>`<button class="btn y" type="button" data-a="rc-raise" data-v="${v}" ${S.bid.amt+v>cap?"disabled":""}>+ ${fmtK(v)}</button>`).join("")}<button class="btn" type="button" data-a="rc-fold">Desistir</button><span class="pill vl-clock"></span></div><small class="muted">Seu limite (caixa + venda do titular): ${fmtK(Math.max(0,cap))}. Quem desistir fica com o reserva.</small>`:`<div class="row"><span class="pill">Vez de ${esc(who(S.turn))} cobrir ou desistir</span><span class="pill vl-clock"></span></div>`}</div>`}
+    else if(ph==="show"&&S.last&&S.last.t==="rcr"){const L=S.last,line=x=>{const r=L.res[x],p=r.id?lePl(r.id):null,sold=r.sold?lePl(r.sold):null;
+        const txt=r.t==="buy"?`vendeu ${sold?esc(sold.name):"o titular"} (${fmtK(r.v)}) e contratou <b>${esc(p.name)}</b> por ${fmtK(r.amt)}`:r.t==="res"?`${r.lost?"perdeu o leilão e ":""}vendeu ${sold?esc(sold.name):"o titular"} (${fmtK(r.v)}) e subiu o reserva <b>${esc(p?p.name:"")}</b>`:`manteve <b>${esc(p?p.name:"o titular")}</b>${r.lost?" (perdeu o leilão e não tinha reserva)":""}`;
+        return`<p>${ms(x)} <b>${esc(nm(x))}</b> ${txt}.</p>`};
+      act=`<div class="le-act">${L.auc?`<p><b>Leilão decidido!</b> ${esc(nm(L.auc.w))} levou ${esc(lePl(L.auc.id).name)} por ${fmtK(L.auc.amt)}.</p>`:""}${line("X")}${line("O")}<div class="row"><button class="btn y" type="button" data-a="rc-next">Próxima posição</button><span class="pill vl-clock"></span></div></div>`}
+    const team=x=>`<div class="dr-team ${seat===x?"me":""}"><h4><span class="rc-cl">${clubCrest(S.cl[kOf(x)],"crest")}<b>${esc(clubName(S.cl[kOf(x)]))}</b></span> ${ms(x)} ${esc(nm(x))} <small class="dr-rt">caixa ${fmtK(S.cash[x])}</small></h4>${rcPitch(leTeam(S,x),slot,true)}</div>`;
+    return`<div class="vl-status ${turnMe?"mine":""}"><span>Posição <b>${S.round+1}</b> de 11 · <b>${DR_NAME[slot]}</b></span></div><div class="dr-teams le">${team("X")}${team("O")}</div>${act}`}
   function rcExtra(nX,nO){const nm=x=>x==="X"?nX:nO,ms=x=>x==="X"?"✕":"◯";
     const val=arr=>arr.map(lePl).filter(Boolean).reduce((a,p)=>a+lePrice(p),0);
     const au=["X","O"].map(x=>[x,(S.auto&&S.auto[x]||[]).length]).filter(a=>a[1]);
@@ -232,7 +241,7 @@ export async function drPlay({mode,cfg,code,kind,pfs}){const LE=kind==="leilao",
         <div class="row" style="justify-content:center"><button class="btn y" type="button" data-a="copy">Copiar código</button><button class="btn" type="button" data-a="invite">Copiar convite para o WhatsApp</button></div>
         <p class="muted">Esperando o adversário entrar… deixe esta tela aberta.</p></div>`;
       st.querySelector("[data-a=copy]").onclick=()=>share(S.code);
-      st.querySelector("[data-a=invite]").onclick=()=>share(`🐐⚽ ${RC?`Bora RECONSTRUIR no The Fenômeno? Dois clubes grandes, posição a posição, escolha em segredo e leilão se escolherem o mesmo. Quem é o melhor gestor?`:MA?`Bora uma MALETA de futebol no The Fenômeno? São 11 rodadas, cinco maletas por posição, escolha às cegas e troque por uma das que sobraram. No fim é mano a mano.`:LE?`Bora um LEILÃO de futebol no The Fenômeno? Cada um tem ${fmtK(S.cfg.bud)} para montar um time dando lance nos craques e no fim é mano a mano.`:`Bora um DRAFT de futebol no The Fenômeno? Cada um monta um 4-3-3 com o sorteio (${(DR_LG[S.cfg.lg]||DR_LG.eu).name}) e no fim é mano a mano.`}\nCódigo da partida: ${S.code}\nAbra ${/vercel\.app$/.test(location.hostname)?location.origin:VL_ART} → Multiplayer → ${RC?"Reconstruindo":MA?"Maleta":LE?"Leilão":"Draft"} → Entrar em jogo`);
+      st.querySelector("[data-a=invite]").onclick=()=>share(`🐐⚽ ${RC?`Bora RECONSTRUIR no The Fenômeno? Cada um gerencia um clube: mantenha ou venda o titular, compre um craque melhor e dispute no leilão se escolherem o mesmo. Quem é o melhor gestor?`:MA?`Bora uma MALETA de futebol no The Fenômeno? São 11 rodadas, cinco maletas por posição, escolha às cegas e troque por uma das que sobraram. No fim é mano a mano.`:LE?`Bora um LEILÃO de futebol no The Fenômeno? Cada um tem ${fmtK(S.cfg.bud)} para montar um time dando lance nos craques e no fim é mano a mano.`:`Bora um DRAFT de futebol no The Fenômeno? Cada um monta um 4-3-3 com o sorteio (${(DR_LG[S.cfg.lg]||DR_LG.eu).name}) e no fim é mano a mano.`}\nCódigo da partida: ${S.code}\nAbra ${/vercel\.app$/.test(location.hostname)?location.origin:VL_ART} → Multiplayer → ${RC?"Reconstruindo":MA?"Maleta":LE?"Leilão":"Draft"} → Entrar em jogo`);
       return}
     const nX=nm(S.X),nO=nm(S.O),cnt=a=>a.filter(Boolean).length;
     const chip=m=>`<div class="vl-p ${m.toLowerCase()} ${S.ph!=="match"&&S.turn===m&&!S.over?"on":""}"><span class="vl-mk">${m==="X"?"✕":"◯"}</span>${pfImg(S,m)}<span class="vl-nm">${esc(m==="X"?nX:nO)}</span><b>${S.ph==="match"?"":cnt(team(S,m))+"/11"}</b>${(LE||RC)&&S.ph!=="match"?`<small class="le-bud">${fmtK(LE?leB(S,m):S.cash[m])}</small>`:""}</div>`;
@@ -292,8 +301,10 @@ export async function drPlay({mode,cfg,code,kind,pfs}){const LE=kind==="leilao",
     if(b.dataset.a==="share"){const R=drSim(S);share(`🐐 THE FENÔMENO · ${RC?"RECONSTRUINDO":MA?"MALETA":LE?"LEILÃO ("+fmtK(S.cfg.bud)+")":"DRAFT ("+(DR_LG[S.cfg.lg]||DR_LG.eu).name+")"}\n✕ ${R.gx} x ${R.go} ◯${R.pen.length?`\nPênaltis: ${R.px} x ${R.po}`:""}`);return}
     if(RC){const a=b.dataset.a;if(a==="rc-next"&&S.ph==="show"){rcNext();return}
       if(S.ph==="match"||mySeat()!==S.turn)return;
-      if(S.ph==="pick"){if(a==="rc-opt"){const i=+b.dataset.i;rcSel=rcSel===i?-1:i;render();return}
-        if(a==="rc-ok"&&rcSel>=0){rcPick(rcSel);return}if(a==="rc-pass"){rcPick(-1);return}return}
+      if(S.ph==="pick"){const opts=S.opts[S.turn]||[];
+        if(a==="rc-keep"){rcPick({t:"keep"});return}if(a==="rc-sell"){rcSell=true;rcSel=-1;render();return}if(a==="rc-back"){rcSell=false;rcSel=-1;render();return}
+        if(a==="rc-opt"){const i=+b.dataset.i;rcSel=rcSel===i?-1:i;render();return}
+        if(a==="rc-ok"&&rcSel>=0){rcPick({t:"buy",id:opts[rcSel]});return}if(a==="rc-res"){rcPick({t:"res"});return}return}
       if(S.ph==="bid"){if(a==="rc-raise"){rcRaise(+b.dataset.v);return}if(a==="rc-fold"){rcFold();return}}
       return}
     if(MA){const a=b.dataset.a;if(S.ph==="show"&&a==="ma-next"){maNextRound();return}
