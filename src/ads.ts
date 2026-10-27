@@ -5,6 +5,9 @@
    Ritmo: sem pop-up e sem intersticial. O anúncio renova só em pausa natural (troca de jogo, fim de partida) e nunca em menos de 60s,
    que é o que a documentação de jogos casuais recomenda pra não derrubar retenção nem viewability.
    ?adpreview=1 desenha o espaço dos anúncios sem criativo (o Ad Manager não serve em localhost). */
+/* ECA Digital (Lei 15.211/2025, art. 22 e 26; Decreto 12.880/2026, art. 33): sem perfilamento para direcionar anúncio a menores.
+   Enquanto o hub não afere idade, todo anúncio é não personalizado. Pra voltar à personalização é só trocar para false. */
+const NON_PERSONALIZED=true;
 const NET="/23362641595/",BANNER=NET+"fenomeno_top_banner",RAIL=NET+"fenomeno_sidebar_desktop",MIN_GAP=60000,PREVIEW=new URLSearchParams(location.search).has("adpreview");
 let last=Date.now(),lastInline=0,ready=false,seq=0;const slots={};
 window.googletag=window.googletag||{cmd:[]};
@@ -30,7 +33,7 @@ export function initAds(){
       if(b){b.hidden=e.isEmpty;document.body.style.paddingBottom=e.isEmpty?"":b.offsetHeight+"px"}
       if(inl)inl.hidden=e.isEmpty});
     for(const [id,side] of [["div-gpt-ad-fenomeno-rail-left","l"],["div-gpt-ad-fenomeno-rail-right","r"]])slots[id]=googletag.defineSlot(RAIL,[[160,600]],id).addService(googletag.pubads());
-    googletag.pubads().enableSingleRequest();googletag.enableServices();
+    googletag.pubads().enableSingleRequest();if(NON_PERSONALIZED)googletag.pubads().setPrivacySettings({nonPersonalizedAds:true});googletag.enableServices();
     googletag.display("div-gpt-ad-fenomeno-rail-left");googletag.display("div-gpt-ad-fenomeno-rail-right");
     if(bar)defineBanner("div-gpt-ad-hub-bar")});
 }

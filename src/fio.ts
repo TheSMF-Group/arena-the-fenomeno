@@ -13,13 +13,14 @@ export function dayStreak(){
   const s=playedDays(),d=new Date(),today=s.has(dkey(d));if(!today)d.setDate(d.getDate()-1);
   let n=0;while(s.has(dkey(d))){n++;d.setDate(d.getDate()-1)}
   const best=Math.max(n,(store.get("diastreak")||{best:0}).best);if(n>(store.get("diastreak")||{best:0}).best)store.set("diastreak",{best:n});
-  return{n,best,today};
+  return{n,best,today,total:s.size};
 }
-export function paintStreak(){const el=document.getElementById("dayStreak");if(!el)return;const{n,today}=dayStreak();
-  if(!n){el.hidden=true;return}
+export function paintStreak(){const el=document.getElementById("dayStreak");if(!el)return;const{n,today,total}=dayStreak();
+  if(!total){el.hidden=true;return}
   el.hidden=false;el.classList.toggle("idle",!today);
-  el.innerHTML=`<b>${n}</b> ${n===1?"dia seguido":"dias seguidos"}`;
-  el.title=today?`Você jogou hoje. Amanhã, o dia ${n+1}.`:`Feche 1 desafio hoje e a sequência vai a ${n+1} dias.`}
+  /* a sequência pode zerar, o total de dias jogados nunca: quem perde a sequência continua vendo o que já fez */
+  el.innerHTML=n?`<b>${n}</b> ${n===1?"dia seguido":"dias seguidos"}`:`<b>${total}</b> ${total===1?"dia jogado":"dias jogados"}`;
+  el.title=`${total} ${total===1?"dia jogado":"dias jogados"} no total`+(n?` · sequência atual: ${n}`:"")+` · melhor sequência: ${Math.max(n,dayStreak().best)}`}
 const mins=id=>parseInt(META[id]&&META[id].mins)||5;
 export function progressHTML(done,total){
   const left=total-done,pct=Math.round(done/total*100);
