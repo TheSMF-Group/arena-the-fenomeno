@@ -27,5 +27,6 @@ export function art(id){
     case"entrosa":return`<div class="mini-link">${["Hristo Stoichkov","Kaká","Romário"].map(n=>`<img src="${im(byName(n))}" alt="">`).join("<i></i>")}<i></i><b>?</b></div>`;
     case"piramide":return`<div class="mini-pyr"><div><i class="y"></i></div><div><i class="g"></i><i class="g"></i></div><div><i class="g"></i><i></i><i class="g"></i></div><div><i></i><i class="g"></i><i></i><i></i></div></div>`;
     case"top10":return`<div class="mini-t10">${[1,2,3,4,5,6,7,8,9,10].map(i=>`<span class="${[1,2,4,7,9].includes(i)?"ok":""}">${i}<i></i></span>`).join("")}</div>`;
+    case"top100":return`<div class="mini-t100"><b>100</b><span>PTS</span><i style="width:38%"></i><i style="width:62%"></i><i style="width:100%"></i></div>`;
     case"velho":return`<div class="vs"><img src="${im(byName("Cafu"))}" alt=""><b>VS</b><img src="${im(byName("Cristiano Ronaldo"))}" alt=""></div>`;
   }return""}

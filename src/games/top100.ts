@@ -2,7 +2,7 @@
 import {ST} from "../state";
 import {$, BODEHEAD, clubName, dayNum, esc, face, hash, rngOf, shuffle, store, toast, year} from "../core";
 import {makeSearch} from "../search";
-import {GAMES, share} from "../engine";
+import {GAMES, MODE, share} from "../engine";
 import {VL_ART, vlCode} from "./velha";
 import {mqttRoom} from "../mqtt";
 import {pfGet, pfImg, pfLocal, pfMount} from "../profile";
@@ -29,8 +29,8 @@ const pickRow=(th,x,n)=>{const p=pl(x.id);return`<div class="t1-pick ${x.pts===1
 
 /* ---------- desafio do dia ---------- */
 async function daily(){ST.VIEW="top100";ST.PHASE="play";cleanup();if(location.hash!=="#top100")history.replaceState(null,"","#top100");
-  const app=$("#app");app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Top 100</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">DIA ${dayNum()}</span></div><div class="stage"><div class="fg-load"><img src="${BODEHEAD}" alt=""><b>MONTANDO O RANKING…</b></div></div>`;
-  app.querySelector(".back").addEventListener("click",()=>GAMES.top100.open());
+  const app=$("#app");app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">DIA ${dayNum()}</span></div><div class="stage"><div class="fg-load"><img src="${BODEHEAD}" alt=""><b>MONTANDO O RANKING…</b></div></div>`;
+  app.querySelector(".back").addEventListener("click",home);
   const ths=await loadT100(),th=dailyTheme(ths),key="top100:"+dayNum(),rec=store.get(key)||{p:[]},st=app.querySelector(".stage");
   const total=()=>rec.p.reduce((a,x)=>a+x.pts,0);
   const draw=()=>{const done=rec.p.length>=5;
@@ -123,14 +123,13 @@ export async function t100Play({mode,code,pfs}){ST.VIEW="top100";ST.PHASE="play"
     if(a==="again")push(mk({...S,seq:S.seq+1}));
     if(a==="share")share(`🐐 THE FENÔMENO · TOP 100\n✕ ${S.sx} x ${S.so} ◯\n${S.th.map(id=>byId(id).t).join("\n")}`)})}
 
-GAMES.top100={name:"TOP 100",multi:true,hard:"sem nível difícil",desc:"Rankings de 100 jogadores. Chute um nome: quanto mais fundo na lista, mais pontos. Desafio do dia ou duelo multiplayer.",rules:RULES,
-open(){ST.VIEW="top100";ST.PHASE="choose";cleanup();if(location.hash!=="#top100")history.replaceState(null,"","#top100");
-  const app=$("#app"),rec=store.get("top100:"+dayNum()),tot=rec?rec.p.reduce((a,x)=>a+x.pts,0):0,done=rec&&rec.p.length>=5;
-  app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">DIA + MULTIPLAYER</span></div>
+GAMES.top100={name:"TOP 100",multi:true,dayToo:true,hard:"sem nível difícil",desc:"Rankings de 100 jogadores. Chute um nome: quanto mais fundo na lista, mais pontos. Desafio do dia ou duelo multiplayer.",rules:RULES,
+cardFoot(){const rec=store.get("top100:"+dayNum());if(!rec||!rec.p.length)return null;const tot=rec.p.reduce((a,x)=>a+x.pts,0);return rec.p.length>=5?`<span class="res score">${tot} PTS</span><span class="chip">feito</span>`:`<span class="go">CONTINUAR</span><span class="chip">${tot} pts</span>`},
+open(){if(!MODE.multi)return daily();ST.VIEW="top100";ST.PHASE="choose";cleanup();if(location.hash!=="#top100")history.replaceState(null,"","#top100");
+  const app=$("#app");
+  app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
     <p class="rules">${RULES}</p>
     <div class="vl-lobby">
-      <section class="vl-box" style="grid-column:1/-1"><h3 class="d">DESAFIO DO DIA</h3><p class="muted">5 chutes em um tema, máximo de 500 pontos. ${done?`Hoje você fez <b>${tot}</b>. Volte amanhã para outro tema.`:rec&&rec.p.length?`Você está com ${tot} pontos em ${rec.p.length} de 5 chutes.`:"Um tema novo todo dia."}</p>
-        <button class="btn y vl-go" type="button" data-a="daily">${done?"Ver o resultado":rec&&rec.p.length?"Continuar o desafio":"Jogar o desafio do dia"}</button></section>
       <section class="vl-box"><h3 class="d">CRIAR JOGO</h3><p class="muted">3 temas, 3 chutes de cada um por tema. Quem somar mais pontos vence.</p>
         <button class="btn y vl-go" type="button" data-a="create">Criar partida</button>
         <button class="btn vl-go" type="button" data-a="local">Jogar no mesmo aparelho</button></section>
@@ -142,7 +141,6 @@ open(){ST.VIEW="top100";ST.PHASE="choose";cleanup();if(location.hash!=="#top100"
   const inp=app.querySelector(".vl-code");inp.addEventListener("input",()=>{inp.value=inp.value.toUpperCase().replace(/[^A-Z0-9]/g,"")});
   inp.addEventListener("keydown",e=>{if(e.key==="Enter")app.querySelector("[data-a=join]").click()});
   app.querySelector(".vl-lobby").addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;
-    if(a==="daily")daily();
     if(a==="create")t100Play({mode:"host"});
     if(a==="local")pfLocal(pfs=>t100Play({mode:"local",pfs}));
     if(a==="join"){const c=inp.value.trim();if(c.length!==5){toast("O código tem 5 letras/números");inp.focus();return}t100Play({mode:"join",code:c})}});
