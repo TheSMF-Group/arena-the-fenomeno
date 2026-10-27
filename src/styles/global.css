@@ -915,3 +915,69 @@ footer{border-top:1px solid var(--line-soft)}
 .gam-rail[data-preview]{min-height:600px;outline:2px dashed rgba(255,212,0,.5);background:repeating-linear-gradient(45deg,rgba(255,212,0,.04) 0 10px,transparent 10px 20px)}
 .gam-rail[data-preview]::after{content:"ad 160×600";position:absolute;top:6px;left:0;right:0;text-align:center;font:10px/1.2 system-ui;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,212,0,.6)}
 .dayprog{flex-wrap:wrap}.dayprog .bar{min-width:140px}.dayprog span{white-space:normal}
+
+/* ===== acabamento visual: hero, vitrine, telas de jogo ===== */
+.hero{position:relative;padding-block:34px 14px;isolation:isolate}
+.hero::before{content:"";position:absolute;right:-4%;top:-6%;width:min(560px,70vw);aspect-ratio:1;z-index:-1;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,212,0,.16),transparent 62%),repeating-radial-gradient(circle,transparent 0 46px,rgba(255,255,255,.045) 46px 48px);pointer-events:none}
+.hero .kick{font-size:clamp(18px,2.2vw,24px);letter-spacing:.14em;color:var(--yellow);margin-bottom:10px}
+.hero h1{font-size:clamp(52px,8.4vw,108px);line-height:.86;letter-spacing:.005em}
+.hero h1 span{text-shadow:0 0 42px rgba(255,212,0,.35)}
+.hero p{font-size:17px;line-height:1.5;color:#c9c9c9;max-width:46ch}
+.hero .goat{max-height:380px;filter:drop-shadow(0 22px 40px rgba(0,0,0,.7)) drop-shadow(0 0 40px rgba(255,212,0,.18))}
+.herostats{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--muted);font-size:14px;font-weight:600}
+.herostats b{font-family:var(--display);font-weight:400;font-size:30px;line-height:1;color:var(--fg);margin-right:5px;letter-spacing:.02em;vertical-align:-3px}
+.daybar{margin-top:20px}
+.mode{background:#000;border-color:var(--line-soft);padding:3px}.mode button{border-radius:999px;transition:background .15s,color .15s}
+.sect{display:flex;align-items:baseline;gap:14px;margin:26px 0 0;font-family:var(--display);font-weight:400;font-size:clamp(26px,3.4vw,36px);letter-spacing:.06em;line-height:1}
+.sect span::after{content:"";display:inline-block;width:34px;height:4px;margin-left:12px;vertical-align:5px;background:var(--yellow);border-radius:2px}
+.sect small{font-family:var(--body);font-size:13px;letter-spacing:0;color:var(--muted);font-weight:600}
+.games{padding-block:16px 28px}
+.gcard .art{background:radial-gradient(120% 90% at 50% 0%,rgba(255,212,0,.09),#070707 70%)}
+.gcard .meta{gap:6px;padding:14px 16px 16px}
+.gcard .meta .d{font-size:29px;line-height:.95}
+.gcard .meta .mins{align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--yellow);background:rgba(255,212,0,.1);border:1px solid rgba(255,212,0,.28);padding:2px 8px;border-radius:999px;margin-bottom:2px}
+.gcard .meta p{font-size:13.5px;line-height:1.4;color:#a8a8a8}
+.gcard .play .go{font-size:22px}
+.gcard .tag{border-radius:6px;letter-spacing:.1em;font-size:10.5px;padding:3px 8px 2px}
+
+/* cabeçalho e regras do jogo */
+.stagehead{padding-block:22px 8px;gap:12px}
+.stagehead h2{font-size:clamp(38px,6vw,60px);letter-spacing:.01em}
+.back{background:#000;border-color:var(--line-soft);transition:border-color .15s,transform .15s var(--kick)}.back:hover{border-color:var(--yellow);transform:translateX(-2px)}
+.lvbadge{font-family:var(--display);font-size:18px;letter-spacing:.08em;padding:3px 12px 1px;border:1.5px solid currentColor;border-radius:999px;align-self:center}
+.rules{max-width:68ch;margin:6px 0 18px}
+.rules .lead{margin:0;font-size:17px;line-height:1.45;color:#ececec;border-left:3px solid var(--yellow);padding:2px 0 2px 14px}
+.rules details{margin:10px 0 0 17px}
+.rules summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--yellow)}
+.rules summary::-webkit-details-marker{display:none}
+.rules summary::after{content:"▾";transition:transform .2s}.rules details[open] summary::after{transform:rotate(180deg)}
+.rules details p{margin:8px 0 0;color:#a8a8a8;font-size:14px;line-height:1.55}
+.rules.choosenote{color:#bdbdbd;font-size:15px}.rules.choosenote b{color:var(--fg)}
+.stage{position:relative;padding-top:6px}
+
+/* escolha de nível */
+.choose{gap:18px}
+.lvl{background:#000;border:1px solid var(--line-soft);border-radius:20px;padding:22px;transition:transform .2s var(--kick),border-color .2s,box-shadow .2s var(--kick)}
+.lvl.normal{border-top:3px solid var(--yellow)}
+.lvl.normal:hover{box-shadow:var(--flood);transform:translateY(-4px)}
+.lvl .lv-top .d{font-size:44px;letter-spacing:.03em}
+.lvl p{color:#b5b5b5;line-height:1.5}
+
+/* resultado: o veredito é o herói */
+.result{background:#000;border-color:var(--line-soft);border-radius:20px;padding:20px;gap:20px;max-width:720px;box-shadow:var(--lift)}
+.verdict{font-size:46px;padding:6px 16px 2px;border-width:3px;letter-spacing:.03em}
+.result .d{font-size:clamp(30px,5vw,46px);line-height:.95}
+.result p{line-height:1.45}
+.nextup{border-radius:20px}
+.promo-mini{border-radius:14px}
+
+@media (max-width:700px){
+  .hero{padding-block:22px 8px}.hero::before{right:-30%;top:0}
+  .hero p{font-size:16px}.herostats b{font-size:26px}
+  .gcard .meta .d{font-size:27px}
+}
+@media (prefers-reduced-motion:reduce){.hero .goat{animation:none}}
+html,body{overflow-x:clip}
+.sect small{white-space:nowrap}
+@media (max-width:700px){.sect{justify-content:space-between;align-items:center}.sect span::after{display:none}.sect small{font-size:12px}}

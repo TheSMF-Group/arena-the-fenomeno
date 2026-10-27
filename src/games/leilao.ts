@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {ST} from "../state";
+import {rulesHTML} from "../ui";
 import {route} from "../nav";
 import {$, hash, pick, rngOf, shuffle, store, toast} from "../core";
 import {GAMES} from "../engine";
@@ -99,7 +100,7 @@ rules:"Só jogam craques da atualidade (quem atuou na temporada 2025/26), com o 
 open(){ST.VIEW="leilao";ST.PHASE="choose";cleanup();route("leilao");
   const app=$("#app");let cfg={diff:"normal",bud:"1000000"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>LEILÃO</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
-    <p class="rules">${this.rules}</p>
+    ${rulesHTML("leilao",this.rules)}
     <div class="vl-lobby">
       <section class="vl-box"><h3 class="d">CRIAR JOGO</h3>
         <div class="vl-opt"><small>Nível</small><div class="vl-seg" data-k="diff"><button type="button" data-v="normal">Normal</button><button type="button" data-v="hard">Difícil ☠</button></div>

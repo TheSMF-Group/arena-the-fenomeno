@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {ST} from "../state";
+import {rulesHTML} from "../ui";
 import {route} from "../nav";
 import {$, sample, shuffle, toast} from "../core";
 import {GAMES} from "../engine";
@@ -43,7 +44,7 @@ rules:"Sorteiam-se dois clubes e cada jogador gerencia um deles, com os 11 titul
 open(){ST.VIEW="reconstruindo";ST.PHASE="choose";cleanup();route("reconstruindo");
   const app=$("#app");let cfg={diff:"normal"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>RECONSTRUINDO</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
-    <p class="rules">${this.rules}</p>
+    ${rulesHTML("reconstruindo",this.rules)}
     <div class="vl-lobby">
       <section class="vl-box"><h3 class="d">CRIAR JOGO</h3>
         <div class="vl-opt"><small>Nível</small><div class="vl-seg" data-k="diff"><button type="button" data-v="normal">Normal</button><button type="button" data-v="hard">Difícil ☠</button></div>

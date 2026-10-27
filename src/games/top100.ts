@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {ST} from "../state";
+import {rulesHTML} from "../ui";
 import {route} from "../nav";
 import {$, BODEHEAD, clubName, dayNum, esc, face, hash, rngOf, shuffle, store, toast, year} from "../core";
 import {makeSearch} from "../search";
@@ -133,7 +134,7 @@ cardFoot(){const rec=store.get("top100:"+dayNum());if(!rec||!rec.p.length)return
 open(){if(!MODE.multi)return daily();ST.VIEW="top100";ST.PHASE="choose";cleanup();route("top100");
   const app=$("#app");
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
-    <p class="rules">${RULES}</p>
+    ${rulesHTML("top100",RULES)}
     <div class="vl-lobby">
       <section class="vl-box"><h3 class="d">CRIAR JOGO</h3><p class="muted">3 temas, 3 chutes de cada um por tema. Quem somar mais pontos vence.</p>
         <button class="btn y vl-go" type="button" data-a="create">Criar partida</button>

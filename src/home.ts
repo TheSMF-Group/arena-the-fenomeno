@@ -4,6 +4,7 @@ import {GAMES, KIND, MODE, clockStop, dayLevel, dayLockKey, dayResult, drawFire,
 import {ST} from "./state";
 import {art} from "./art";
 import {route} from "./nav";
+import {rulesHTML} from "./ui";
 import {progressHTML, paintStreak} from "./fio";
 import {promoHome} from "./promo";
 import {inlineAd} from "./ads";
@@ -35,9 +36,11 @@ export function cleanup(){clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}docu
 export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();cleanup();
   route("home");
   $("#app").innerHTML=`<section class="hero"><div><div class="kick">CENTRAL THE FENÔMENO DE MINI GAMES</div><h1>VOCÊ É O<span>FENÔMENO?</span></h1><p>22 jogos de futebol pro intervalo, pro ônibus, pra fila. Desafio novo todo dia, modo infinito pra não parar e duelo contra amigo. Sem cadastro, sem baixar nada.</p>
+    <ul class="herostats" aria-label="Em números"><li><b>22</b> jogos</li><li><b>15 mil</b> jogadores</li><li><b>1</b> desafio novo por dia</li></ul>
     <div class="daybar">${modeToggle(true)}<span class="pill">Novos desafios em <span id="cd">${countdown()}</span></span></div></div>
     <img class="goat" src="${BODE}" alt="O bode do The Fenômeno com a camisa 10"></section>
     ${!MODE.free&&!MODE.multi&&allDone()?`<div class="sumbar"><div><b>DESAFIOS DE HOJE COMPLETOS</b><div class="muted">Veja vitórias, derrotas e quanto tempo você jogou.</div></div><button class="btn y" type="button" data-a="sum">Resumo do dia →</button></div>`:""}
+    <h2 class="sect"><span>ESCOLHA O SEU JOGO</span><small id="gcount"></small></h2>
     <section class="games">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:(!GAMES[id].multi||GAMES[id].dayToo)).map((id,i)=>{const g=GAMES[id];
       const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,played=dr?[[dr.d,dr.res]]:[];
       const first=played[0]?verdict(id,played[0][1]):null;
@@ -51,6 +54,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
   const sb=$("#app").querySelector(".sumbar [data-a=sum]");sb&&sb.addEventListener("click",daySummary);
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});
   const app=$("#app");if(!MODE.free&&!MODE.multi){const OD=DAILY();app.querySelector(".daybar").insertAdjacentHTML("afterend",progressHTML(OD.filter(g=>dayResult(g)).length,OD.length))}
+  {const gc=app.querySelector("#gcount");if(gc)gc.textContent=app.querySelectorAll(".gcard").length+(MODE.multi?" jogos com amigo":MODE.free?" jogos sem fim":" desafios hoje")}
   app.querySelector(".games").after(inlineAd("home"));app.insertAdjacentHTML("beforeend",promoHome());
   updateToday();window.scrollTo(0,0)}
 /* tela de escolha: normal ou difícil */
@@ -61,7 +65,7 @@ export function openGame(id){if(GAMES[id]&&GAMES[id].open)return GAMES[id].open(
     hard:["Para quem conhece futebol de verdade: 740 jogadores de clubes grandes, de 1970 até hoje, ídolos cult e elencos atuais. Menos dicas, foto mais escondida, menos erros.","740 jogadores · menos dicas"]};
   const lv=g.levels||info;
   $("#app").innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2>${g.name.replace(/\?$/,"<b>?</b>")}</h2><span class="spacer"></span>${modeToggle(false)}</div>
-    <p class="rules">Escolha o nível. ${MODE.free?"No modo infinito as rodadas não acabam: cada acerto aumenta a sequência e um erro apaga o fogo. Jogue qualquer nível, quantas vezes quiser.":"No desafio do dia você joga um nível só: escolheu, valeu. O outro fica travado até amanhã."}</p>
+    <p class="rules choosenote"><b>Escolha o nível.</b> ${MODE.free?"Acerte, emende a sequência e não deixe o fogo apagar. Qualquer nível, quantas vezes quiser.":"Hoje vale um nível só: escolheu, valeu. O outro destrava amanhã."}</p>
     <div class="choose">${DIFFS.map(d=>{const dl=MODE.free?null:dayLevel(id),locked=dl&&dl!==d;const res=!MODE.free&&!locked&&store.get(resultKey(id,null,d));const v=res?verdict(id,res):null;
       return`<button type="button" class="lvl ${d}${locked?" locked":""}" data-d="${d}" ${locked?`aria-disabled="true"`:""}><span class="lv-top"><span class="d">${DNAME[d]}</span>${d==="hard"?`<span class="skull">☠</span>`:""}</span><p>${lv[d][0]}</p><span class="lv-foot"><small>${lv[d][1]}</small>${MODE.free?`<span class="rec">${fireHTML(bestOf(id,d))} recorde</span>`:locked?`<span class="lock-note">🔒 hoje você jogou no ${DNAME[dl].toLowerCase()}</span>`:v?`<span class="verdict ${v.cls}">${v.cls==="score"?esc(v.word)+" "+v.detail.toUpperCase():v.word}</span>`:dl===d?`<span class="go">CONTINUAR →</span>`:`<span class="go">JOGAR →</span>`}</span></button>`}).join("")}</div>`;
   $("#app").querySelector(".back").addEventListener("click",home);
@@ -73,7 +77,7 @@ export function openGame(id){if(GAMES[id]&&GAMES[id].open)return GAMES[id].open(
 export function startGame(id){ev("game_start",{game:id,mode:MODE.free?"infinito":"dia"});ST.VIEW=id;ST.PHASE="play";ST.PLAYDAY=todayKey();cleanup();ST.CURGAME=id;loadStreak();
   const g=GAMES[id];
   if(!MODE.free&&!g.multi){const dl=dayLevel(id);if(dl&&dl!==ST.DIFF)ST.DIFF=dl}
-  $("#app").innerHTML=`<div class="stagehead"><button class="back" type="button">← Níveis</button><h2>${g.name.replace(/\?$/,"<b>?</b>")}</h2><span class="lvbadge ${ST.DIFF}">${DNAME[ST.DIFF]}</span><span class="spacer"></span>${MODE.free?`<div id="fireBox" class="firebox"></div>`:modeToggle(false)}</div><p class="rules">${g.rules}${isHard()?` <b class="hardnote">Difícil: ${g.hard}</b>`:""}</p><div class="stage"></div>`;
+  $("#app").innerHTML=`<div class="stagehead"><button class="back" type="button">← Níveis</button><h2>${g.name.replace(/\?$/,"<b>?</b>")}</h2><span class="lvbadge ${ST.DIFF}">${DNAME[ST.DIFF]}</span><span class="spacer"></span>${MODE.free?`<div id="fireBox" class="firebox"></div>`:modeToggle(false)}</div>${rulesHTML(id,g.rules,isHard()?` <b class="hardnote">Difícil: ${g.hard}</b>`:"")}<div class="stage"></div>`;
   $("#app").querySelector(".back").addEventListener("click",()=>openGame(id));
   const mt=$("#app").querySelector(".stagehead .mode");mt&&mt.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.free=b.dataset.m==="f";startGame(id)});
   drawFire(false);

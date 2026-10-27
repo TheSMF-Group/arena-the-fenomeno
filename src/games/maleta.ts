@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {$, pick, shuffle, store, toast} from "../core";
+import {rulesHTML} from "../ui";
 import {route} from "../nav";
 import {GAMES} from "../engine";
 import {drPlay} from "./draft-play";
@@ -26,7 +27,7 @@ rules:"São 11 rodadas, uma para cada posição do 4-3-3 (goleiro, laterais, zag
 open(){ST.VIEW="maleta";ST.PHASE="choose";cleanup();route("maleta");
   const app=$("#app");let cfg={diff:"normal"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>MALETA</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
-    <p class="rules">${this.rules}</p>
+    ${rulesHTML("maleta",this.rules)}
     <div class="vl-lobby">
       <section class="vl-box"><h3 class="d">CRIAR JOGO</h3>
         <div class="vl-opt"><small>Nível</small><div class="vl-seg" data-k="diff"><button type="button" data-v="normal">Normal</button><button type="button" data-v="hard">Difícil ☠</button></div>

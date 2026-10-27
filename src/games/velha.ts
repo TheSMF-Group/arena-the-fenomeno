@@ -1,5 +1,6 @@
 // @ts-nocheck
 import __A9__ from "../assets/af12da171.webp?url";
+import {rulesHTML} from "../ui";
 import {route} from "../nav";
 import __A10__ from "../assets/ac222521c.webp?url";
 import __A11__ from "../assets/aa48dd3f0.webp?url";
@@ -60,7 +61,7 @@ rules:"Cada casa pede um jogador que passou pelo clube da coluna, em qualquer é
 open(){ST.VIEW="velha";ST.PHASE="choose";cleanup();route("velha");
   const app=$("#app");let cfg={diff:"normal",lg:"ucl",md:3};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2>JOGO DA <b>VELHA</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
-    <p class="rules">${this.rules}</p>
+    ${rulesHTML("velha",this.rules)}
     <div class="vl-lobby">
       <section class="vl-box"><h3 class="d">CRIAR JOGO</h3>
         <div class="vl-opt"><small>Nível</small><div class="vl-seg" data-k="diff"><button type="button" data-v="normal">Normal</button><button type="button" data-v="hard">Difícil ☠</button></div>
