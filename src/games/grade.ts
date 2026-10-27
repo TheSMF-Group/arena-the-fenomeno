@@ -2,15 +2,21 @@
 import {BODEHEAD, clubCrest, clubName, esc, face, flag, natName, sample, toast} from "../core";
 import {ST} from "../state";
 import {makeSearch} from "../search";
+import {failBox, loadingBox} from "./entrosa";
+import {VLPASS, loadPass, vlIn} from "./velha";
 import {GAMES, MODE, finish, hit, isHard, memAdd, memList, miss, shareHead} from "../engine";
 
 /* 3. GRADE */
 export let BUCKET=null,CLUBCOUNT=null,NATCOUNT=null;
 export function buckets(){if(BUCKET)return;BUCKET=new Map();CLUBCOUNT={};NATCOUNT={};
-  for(const p of ST.P){const k=p.nat*100000+p.club;if(!BUCKET.has(k))BUCKET.set(k,[]);BUCKET.get(k).push(p);CLUBCOUNT[p.club]=(CLUBCOUNT[p.club]||0)+1;NATCOUNT[p.nat]=(NATCOUNT[p.nat]||0)+1}}
-GAMES.grade={hard:"clubes e seleções menos óbvios, cada quadrado tem pouquíssimas respostas e o contador some.",name:"GRADE",desc:"3×3: seleção na linha, último clube na coluna.",
-rules:"Cada quadrado pede um jogador daquela seleção cujo último clube registrado é o da coluna. Você tem 9 chutes no total, e cada jogador só pode ser usado uma vez.",
-start(st,r){buckets();
+  const add=(p,c)=>{const k=p.nat*100000+c;if(!BUCKET.has(k))BUCKET.set(k,[]);BUCKET.get(k).push(p);CLUBCOUNT[c]=(CLUBCOUNT[c]||0)+1};
+  const byId=new Map(ST.P.map(p=>[p.id,p]));
+  for(const p of ST.P){add(p,p.club);NATCOUNT[p.nat]=(NATCOUNT[p.nat]||0)+1}
+  /* qualquer clube por onde o jogador passou também vale */
+  if(VLPASS)for(const k in VLPASS){const c=+k;for(const id of VLPASS[k]){const p=byId.get(id);if(p&&p.club!==c)add(p,c)}}}
+GAMES.grade={hard:"clubes e seleções menos óbvios, cada quadrado tem pouquíssimas respostas e o contador some.",name:"GRADE",desc:"3×3: seleção na linha, clube na coluna. Vale qualquer clube por onde o jogador passou.",
+rules:"Cada quadrado pede um jogador daquela seleção que já passou pelo clube da coluna (qualquer época, não só o último clube). Você tem 9 chutes no total, e cada jogador só pode ser usado uma vez.",
+start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"MONTANDO A GRADE…");loadPass().then(()=>{if(!alive)return;buckets();
   const HG=isHard(),famClubs=new Set(ST.FAM.map(p=>p.club));
   const cPool=Object.keys(CLUBCOUNT).map(Number).filter(c=>HG?CLUBCOUNT[c]>=15:ST.CLUBS[c][1]&&CLUBCOUNT[c]>=30&&famClubs.has(c));
   const nPool=Object.keys(NATCOUNT).map(Number).filter(n=>NATCOUNT[n]>=(HG?40:150));
@@ -38,8 +44,8 @@ start(st,r){buckets();
     const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="box"><h3><i class="flag">${flag(ST.NATS[n][1])}</i>${esc(natName(n))} + ${clubCrest(c)}${esc(clubName(c))}</h3><div class="s"></div><div class="row" style="margin-top:12px"><button class="btn" data-x>Cancelar</button></div></div>`;
     document.body.appendChild(m);const close=()=>m.remove();m.addEventListener("click",ev=>{if(ev.target===m||ev.target.closest("[data-x]"))close()});
     const inp=makeSearch(m.querySelector(".s"),{onPick(p){close();if(used.has(p.id)){toast("Esse jogador já foi usado");return}left--;
-      if(p.nat===n&&p.club===c){cells[i]={p};used.add(p.id);hit();draw()}else{miss();draw();const cell=grid.querySelector(`[data-i="${i}"]`);cell&&cell.classList.add("bad");toast(`${p.name}: ${natName(p.nat)}, último clube ${clubName(p.club)}`)}
+      if(p.nat===n&&vlIn(p,c)){cells[i]={p};used.add(p.id);hit();draw()}else{miss();draw();const cell=grid.querySelector(`[data-i="${i}"]`);cell&&cell.classList.add("bad");toast(`${p.name}: ${natName(p.nat)}, ${vlIn(p,c)?"passou pelo clube, mas a seleção não bate":"não passou por "+clubName(c)}`)}
       if(left<=0||cells.every(Boolean))end()}});setTimeout(()=>inp.focus(),30)});
   st.querySelector("[data-a=give]").addEventListener("click",()=>{if(over)return;cells.forEach((v,i)=>{if(!v){const n=ns[Math.floor(i/3)],c=cs[i%3];const opts=(BUCKET.get(n*100000+c)||[]).filter(p=>!used.has(p.id)).sort((a,b)=>(a.fam||9)-(b.fam||9)||b.season-a.season);if(opts[0]){cells[i]={p:opts[0],rev:true};used.add(opts[0].id)}}});end()});
   draw();
-}};
+})}};
