@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {$, toast} from "../core";
+import {route} from "../nav";
 import {GAMES} from "../engine";
 import {VL_TROF} from "./velha";
 import {drPlay} from "./draft-play";
@@ -8,7 +9,7 @@ import {ST} from "../state";
 import {cleanup, home} from "../home";
 GAMES.draft={name:"DRAFT",multi:true,desc:"Monte um 4-3-3 com o sorteio da vez e vença o amigo numa partida simulada.",
 rules:"Escolha a liga (Brasileirão ou Europa). Na sua vez, o bode sorteia um clube e uma seleção, só um clube ou só uma seleção: escolha um jogador que bata com o sorteio (vale qualquer passagem pelo clube, aposentados também) e coloque numa posição vazia do seu 4-3-3. Depois é a vez do amigo, com outro sorteio, e cada um só vê o próprio time. Cada jogador só entra nas posições em que joga ou já jogou (Transfermarkt): centroavante não vira zagueiro. Com os dois times completos, os dois se enfrentam numa partida simulada, que leva em conta a força de cada setor. Empatou, vai para os pênaltis.",
-open(){ST.VIEW="draft";ST.PHASE="choose";cleanup();if(location.hash!=="#draft")history.replaceState(null,"","#draft");
+open(){ST.VIEW="draft";ST.PHASE="choose";cleanup();route("draft");
   const app=$("#app");let cfg={diff:"normal",lg:"eu"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>DRAFT</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
     <p class="rules">${this.rules}</p>

@@ -7,7 +7,7 @@ import {failBox, loadingBox} from "./entrosa";
 import {TM_POS, drPosOf, loadPos} from "./draft-core";
 import {ATU, leAge, loadAtu} from "./leilao";
 export let CAMD=null,CAMP=null,KITS={};
-export function loadCam(){if(!CAMP)CAMP=Promise.all([fetch("camisas.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})),loadAtu(),loadPos(),fetch("kits.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([m,,,k])=>{CAMD=m;KITS=k||{};return m});return CAMP}
+export function loadCam(){if(!CAMP)CAMP=Promise.all([fetch("/camisas.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})),loadAtu(),loadPos(),fetch("/kits.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([m,,,k])=>{CAMD=m;KITS=k||{};return m});return CAMP}
 export const camNum=p=>CAMD&&CAMD[p.id]&&CAMD[p.id][0]>0?CAMD[p.id][0]:null;
 export const camCrest=p=>p.club!=null&&ST.CLUBS[p.club]?ST.CLUBS[p.club][1]:null;
 export const camShirt=p=>KITS[camCrest(p)]?`<div class="cam-shirt kit"><img class="cam-kit" src="${KITS[camCrest(p)]}" alt="Camisa do ${esc(clubName(p.club))}"><b class="cam-n">${camNum(p)}</b></div>`:`<div class="cam-shirt"><svg viewBox="0 0 200 190" aria-hidden="true"><path d="M62 8 12 38l18 40 22-12v116h96V66l22 12 18-40L138 8c-8 18-22 26-38 26S70 26 62 8Z" fill="#1c1c1c" stroke="#ffd400" stroke-width="4" stroke-linejoin="round"/></svg><img class="cam-cr" src="${ST.ESC[camCrest(p)]||""}" alt=""><b class="cam-n">${camNum(p)}</b></div>`;

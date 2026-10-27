@@ -28,7 +28,7 @@ export const initials=n=>n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).
 export function face(p,cls="",alt){const u=ST.FOTOS[p.id];return u?`<img class="face ${cls}" src="${u}" alt="${esc(alt||p.name)}">`:`<div class="face ava ${cls}" ${p.id>0?`data-pid="${p.id}"`:""} data-cls="${cls}" data-alt="${esc(alt||p.name)}"><span>${esc(initials(p.name))}</span></div>`}
 /* fotos dos demais jogadores: pacotes fotos/sN.json, baixados só quando alguém daquele pacote aparece na tela */
 export const NSHARD=64,SHARDS={};
-export function loadShard(k){if(!SHARDS[k])SHARDS[k]=fetch(`fotos/s${k}.json`).then(r=>r.ok?r.json():{}).then(m=>{Object.assign(ST.FOTOS,m);return m}).catch(()=>({}));return SHARDS[k]}
+export function loadShard(k){if(!SHARDS[k])SHARDS[k]=fetch(`/fotos/s${k}.json`).then(r=>r.ok?r.json():{}).then(m=>{Object.assign(ST.FOTOS,m);return m}).catch(()=>({}));return SHARDS[k]}
 export let hydT=null;
 export function hydrate(){hydT=null;const els=[...document.querySelectorAll(".ava[data-pid]")];if(!els.length)return;
   const need=new Set(els.map(e=>(+e.dataset.pid)%NSHARD));

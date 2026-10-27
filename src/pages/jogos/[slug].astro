@@ -1,0 +1,10 @@
+---
+import Shell from "../../layouts/Shell.astro";
+import { META } from "../../meta";
+export function getStaticPaths() {
+  return Object.entries(META).map(([id, m]) => ({ params: { slug: m.slug }, props: { id } }));
+}
+const { id } = Astro.props;
+const m = META[id];
+---
+<Shell title={m.title} description={m.seo} path={"/jogos/" + m.slug} game={id} how={m.how} h1={m.name.replace(/\?$/, "") + ": jogo de futebol grátis"} />

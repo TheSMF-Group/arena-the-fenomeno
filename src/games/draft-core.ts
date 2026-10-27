@@ -11,7 +11,7 @@ export const DR_TURN={normal:60,hard:40};
 export const TM_POS={1:{n:"goleiro",s:["GOL"]},2:{n:"líbero",s:["ZAG"]},3:{n:"zagueiro",s:["ZAG"]},4:{n:"lateral-esquerdo",s:["LE"]},5:{n:"lateral-direito",s:["LD"]},6:{n:"volante",s:["VOL","MC"]},7:{n:"meio-campo",s:["MC","VOL","MEI"]},8:{n:"meia-direita",s:["MC","MEI","PD"]},9:{n:"meia-esquerda",s:["MC","MEI","PE"]},10:{n:"meia-atacante",s:["MEI","MC"]},11:{n:"ponta-esquerda",s:["PE"]},12:{n:"ponta-direita",s:["PD"]},13:{n:"segundo atacante",s:["CA","MEI"]},14:{n:"centroavante",s:["CA"]}};
 export let DRPOS=null,DRPOSP=null;
 /* posicoes.json: {id: [maior valor de mercado em euros, posição principal, secundária, secundária]} */
-export function loadPos(){if(!DRPOSP)DRPOSP=fetch("posicoes.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>DRPOS=m);return DRPOSP}
+export function loadPos(){if(!DRPOSP)DRPOSP=fetch("/posicoes.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>DRPOS=m);return DRPOSP}
 export const drPosOf=p=>DRPOS&&DRPOS[p.id]?DRPOS[p.id].slice(1):[];
 export const drCanPlay=(p,slot)=>drPosOf(p).some(id=>TM_POS[id]&&TM_POS[id].s.includes(DR_POS[slot][0]));
 export const TM_AB={1:"GOL",2:"LIB",3:"ZAG",4:"LE",5:"LD",6:"VOL",7:"MC",8:"MD",9:"ME",10:"MEI",11:"PE",12:"PD",13:"SA",14:"CA"};

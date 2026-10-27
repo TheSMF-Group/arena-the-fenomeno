@@ -1,0 +1,65 @@
+---
+import "../styles/global.css";
+import img0 from "../assets/bdc95b0ba.webp?url";
+import { META, SITE, SITE_NAME } from "../meta";
+interface Props { title: string; description: string; path: string; game?: string; how?: string; h1?: string }
+const { title, description, path, game, how, h1 } = Astro.props;
+const url = SITE + path;
+const ld = game
+  ? { "@context": "https://schema.org", "@type": "Game", name: META[game].name, description, url, inLanguage: "pt-BR", isAccessibleForFree: true, genre: "Futebol", publisher: { "@type": "Organization", name: "The Fenômeno", url: "https://thefenomeno.com" } }
+  : { "@context": "https://schema.org", "@type": "WebSite", name: SITE_NAME, url: SITE, inLanguage: "pt-BR", publisher: { "@type": "Organization", name: "The Fenômeno", url: "https://thefenomeno.com" } };
+const games = Object.entries(META);
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={url}>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content={SITE_NAME}>
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={url}>
+<meta property="og:image" content={SITE + "/og.png"}>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
+<style is:global>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body data-game={game || ""}>
+<div id="boot"><div><img src={img0} alt=""><b>AQUECENDO O BODE…</b></div></div>
+
+<header class="top"><div class="wrap">
+  <a class="brand" id="home" href="/" aria-label="Início"><img src={img0} alt=""><span class="d">THE <b>FENÔMENO</b></span><small>CENTRAL DE MINI GAMES</small></a>
+  <span class="spacer"></span>
+  <a class="careerlink" id="careerLink" href="https://thefenomeno.com/?utm_source=jogue&utm_medium=header&utm_campaign=carreira" target="_blank" rel="noopener">Viva a carreira <b>→</b></a>
+  <span class="pill" id="dayStreak" hidden></span>
+  <span class="pill" id="todayPill"><span class="dot"></span><span id="todayScore">0 ganhas · 0 perdidas</span></span>
+</div></header>
+
+<main id="app" class="wrap">
+  <section class="seo">
+    <h1>{h1 || "Jogos de futebol grátis: desafio novo todo dia"}</h1>
+    <p>{how ? how + " " : ""}{description}</p>
+    <nav aria-label="Todos os jogos"><ul>{games.map(([id, m]) => <li><a href={"/jogos/" + m.slug}>{m.name}</a>: {m.desc}</li>)}</ul></nav>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <nav class="foot-links" aria-label="Mais do The Fenômeno">
+    <a href="https://thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">The Fenômeno</a>
+    <a href="https://conecte.thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">Conecte os Fenômenos</a>
+    <a href="https://maisoumenos.thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">Mais ou Menos</a>
+    <a href="https://kingsleague.thefenomeno.com/?utm_source=jogue&utm_medium=rodape" target="_blank" rel="noopener">Kings League</a>
+  </nav>
+  Fotos, escudos e dados: <a href="https://github.com/TheSMF-Group/assets" target="_blank" rel="noopener">TheSMF-Group/assets</a> e <a href="https://github.com/TheSMF-Group/thefenomeno-assets" target="_blank" rel="noopener">thefenomeno-assets</a>. "Último clube" é o clube da temporada mais recente do jogador na base. Entrosamento, Pirâmide e Top 10 são inspirados no futbol11; as listas foram montadas à mão com números até o início de 2025/26. Desafios novos todo dia à meia-noite.
+</div></footer>
+<script>import "../main";</script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import __A9__ from "../assets/af12da171.webp?url";
+import {route} from "../nav";
 import __A10__ from "../assets/ac222521c.webp?url";
 import __A11__ from "../assets/aa48dd3f0.webp?url";
 import {ST} from "../state";
@@ -25,7 +26,7 @@ export const VL_MD={3:2,5:3,10:6},VL_TURN={normal:45,hard:30},VL_LINES=[[0,1,2],
 export const VL_ART="https://claude.ai/artifact/1aeY4bTMLALyFD1XsS3kXR";
 export let VLC=null,VLPASS=null,VLPASSP=null;
 /* passagens.json: por clube, os jogadores que já passaram por ele (Wikidata), além do último clube */
-export function loadPass(){if(!VLPASSP)VLPASSP=fetch("passagens.json").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>{VLPASS={};for(const k in m)VLPASS[k]=new Set(m[k]);VLC=null;return VLPASS});return VLPASSP}
+export function loadPass(){if(!VLPASSP)VLPASSP=fetch("/passagens.json").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>{VLPASS={};for(const k in m)VLPASS[k]=new Set(m[k]);VLC=null;return VLPASS});return VLPASSP}
 export function vlPrep(){if(VLC)return VLC;const byCrest={},count={},isoIdx={};
   for(const p of ST.P)count[p.club]=(count[p.club]||0)+1;
   ST.CLUBS.forEach((c,i)=>{if(c[1]&&(!byCrest[c[1]]||(count[i]||0)>(count[byCrest[c[1]]]||0)))byCrest[c[1]]=i});
@@ -56,7 +57,7 @@ export function vlLine(b){for(const l of VL_LINES){const m=b[l[0]]&&b[l[0]][0];i
 
 GAMES.velha={name:"JOGO DA VELHA",multi:true,desc:"Multiplayer: crie a partida, mande o código e jogue contra um amigo.",
 rules:"Cada casa pede um jogador que passou pelo clube da coluna, em qualquer época, e que bata com a linha: seleção ou década de nascimento. Na sua vez, clique numa casa e diga o jogador; acertou, a casa é sua. Errou ou o tempo acabou, a vez passa. Três em linha vence a rodada.",
-open(){ST.VIEW="velha";ST.PHASE="choose";cleanup();if(location.hash!=="#velha")history.replaceState(null,"","#velha");
+open(){ST.VIEW="velha";ST.PHASE="choose";cleanup();route("velha");
   const app=$("#app");let cfg={diff:"normal",lg:"ucl",md:3};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2>JOGO DA <b>VELHA</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
     <p class="rules">${this.rules}</p>

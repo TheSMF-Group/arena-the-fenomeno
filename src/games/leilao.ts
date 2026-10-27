@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {ST} from "../state";
+import {route} from "../nav";
 import {$, hash, pick, rngOf, shuffle, store, toast} from "../core";
 import {GAMES} from "../engine";
 import {qsCont} from "./questoes";
@@ -12,7 +13,7 @@ export const LE_FLOOR=500,LE_RES=500;
 export const fmtK=k=>k>=1000000?`€${(k/1e6).toLocaleString("pt-BR",{maximumFractionDigits:2})} bi`:k>=1000?`€${(k/1000).toLocaleString("pt-BR",{maximumFractionDigits:1})} mi`:`€${k} mil`;
 /* atuais.json: {id: valor de mercado ATUAL em euros} só de quem jogou 2025/26 (Transfermarkt) */
 export let ATU=null,ATUP=null;
-export function loadAtu(){if(!ATUP)ATUP=fetch("atuais.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>ATU=m);return ATUP}
+export function loadAtu(){if(!ATUP)ATUP=fetch("/atuais.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>ATU=m);return ATUP}
 export const lePrice=p=>Math.max(LE_FLOOR,Math.round((ATU&&ATU[p.id]||0)/1000/100)*100);
 export const lePl=id=>(lePl.m||(lePl.m=new Map(ST.P.map(p=>[p.id,p])))).get(id);
 export const leEmpty=a=>a.map((x,i)=>x?-1:i).filter(i=>i>=0),leTeam=(s,m)=>m==="X"?s.tx:s.to,leB=(s,m)=>m==="X"?s.bx:s.bo;
@@ -95,7 +96,7 @@ export const leFresh=base=>{const s={...base,kind:"leilao",ph:"ask",tx:Array(11)
   return base.O?leBegin(s):s};
 GAMES.leilao={name:"LEILÃO",multi:true,desc:"Cada um tem um orçamento. O craque aparece: quer? Se os dois querem, vai a leilão.",
 rules:"Só jogam craques da atualidade (quem atuou na temporada 2025/26), com o valor de mercado atual do Transfermarkt. Cada jogador começa com o mesmo orçamento (você escolhe) para montar um time de 11. Um craque aparece para os dois e cada um responde QUER ou NÃO. Se só um quer, leva pelo preço de mercado. Se os dois querem, vai a leilão a partir do preço de mercado: um cobre o lance do outro até alguém desistir, e quem ficar leva e paga o último lance. Quem ganha escolhe a posição do time. O orçamento sempre guarda um mínimo para as vagas que faltam. Os craques bons, médios e ruins aparecem misturados: se você recusar demais e os lotes acabarem, as vagas que sobrarem são preenchidas com jogadores aleatórios mais baratos que o jogador mais barato comprado pelos dois (os RES). No nível difícil, antes da partida cada um vê 5 cartas viradas, escolhe 2 sem saber o que são e elas viram mostrando os objetivos secretos (como comprar 3 sul-americanos): cumprir dá +2 nos setores do time, falhar tira 2. Com os dois times prontos, a partida é simulada e, se empatar, vai para os pênaltis.",
-open(){ST.VIEW="leilao";ST.PHASE="choose";cleanup();if(location.hash!=="#leilao")history.replaceState(null,"","#leilao");
+open(){ST.VIEW="leilao";ST.PHASE="choose";cleanup();route("leilao");
   const app=$("#app");let cfg={diff:"normal",bud:"1000000"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>LEILÃO</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
     <p class="rules">${this.rules}</p>

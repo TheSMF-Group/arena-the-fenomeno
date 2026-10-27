@@ -7,7 +7,7 @@ import {ST} from "../state";
 export const libs={};
 export function loadScript(u){if(!libs[u])libs[u]=new Promise((ok,no)=>{const s=document.createElement("script");s.crossOrigin="anonymous";s.src=u;s.onload=ok;s.onerror=no;document.head.appendChild(s)});return libs[u]}
 export let GEO=null;
-export function loadGeo(){if(!GEO)GEO=Promise.all([loadScript("https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"),fetch("futgeo.json").then(r=>r.json()),fetch(FG_STYLE).then(r=>r.json())]).then(([_,fg,style])=>({Q:fg.Q,C:fg.C,style})).catch(e=>{GEO=null;throw e});return GEO}
+export function loadGeo(){if(!GEO)GEO=Promise.all([loadScript("https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"),fetch("/futgeo.json").then(r=>r.json()),fetch(FG_STYLE).then(r=>r.json())]).then(([_,fg,style])=>({Q:fg.Q,C:fg.C,style})).catch(e=>{GEO=null;throw e});return GEO}
 /* mapa vetorial do OpenFreeMap (OpenStreetMap): ruas, bairros, estádios e lugares. Nomes em inglês no mundo todo,
    menos na América do Sul, que fica no idioma local. No difícil o mapa vem sem nome nenhum. Satélite da Esri nos dois */
 export const FG_STYLE="https://tiles.openfreemap.org/styles/liberty";

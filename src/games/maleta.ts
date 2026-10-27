@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {$, pick, shuffle, store, toast} from "../core";
+import {route} from "../nav";
 import {GAMES} from "../engine";
 import {drPlay} from "./draft-play";
 import {lePool} from "./leilao";
@@ -22,7 +23,7 @@ export const maFresh=base=>{const s={...base,kind:"maleta",tx:Array(11).fill(0),
 export const maStart=s=>maRound(s);
 GAMES.maleta={name:"MALETA",multi:true,desc:"Cinco maletas por posição, cada uma com um craque escondido. Escolha, arrisque e troque.",
 rules:"São 11 rodadas, uma para cada posição do 4-3-3 (goleiro, laterais, zagueiros…). Em cada rodada há 5 maletas numeradas, cada uma escondendo um jogador da posição. Quem abre primeiro escolhe uma maleta e mostra o craque; o outro escolhe às cegas entre as 4 que sobraram. Aí cada um, começando por quem abriu primeiro, decide: ficar com o seu craque ou trocar. Trocar descarta o seu jogador (ele não volta para maleta nenhuma) e você abre, às cegas, uma das maletas que sobraram, e leva o que estiver lá dentro. Depois todas as maletas viram e todo mundo vê o que deixou passar. Quem abre primeiro (e também troca primeiro) alterna a cada rodada. Só entram jogadores em atividade. Com os dois times prontos, a partida é simulada e, se empatar, vai para os pênaltis.",
-open(){ST.VIEW="maleta";ST.PHASE="choose";cleanup();if(location.hash!=="#maleta")history.replaceState(null,"","#maleta");
+open(){ST.VIEW="maleta";ST.PHASE="choose";cleanup();route("maleta");
   const app=$("#app");let cfg={diff:"normal"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>MALETA</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
     <p class="rules">${this.rules}</p>

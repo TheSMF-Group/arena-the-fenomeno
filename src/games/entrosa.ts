@@ -6,7 +6,7 @@ import {GAMES, MODE, dailyPick, finish, hit, isHard, memAdd, memList, miss, shar
 
 /* 10-12. ENTROSAMENTO, PIRÂMIDE e TOP 10 (inspirados no Link, Pyramid e Top10 do futbol11). Listas em novos.json, curadas à mão */
 export let NOVOS=null;export const XP=[];
-export function loadNovos(){if(!NOVOS)NOVOS=Promise.all([fetch("novos.json").then(r=>{if(!r.ok)throw new Error("novos");return r.json()}),fetch("lendas.json").then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([n,lendas])=>{
+export function loadNovos(){if(!NOVOS)NOVOS=Promise.all([fetch("/novos.json").then(r=>{if(!r.ok)throw new Error("novos");return r.json()}),fetch("/lendas.json").then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([n,lendas])=>{
     const byId=new Map(ST.P.map(p=>[p.id,p])),keys=new Set(ST.P.map(p=>p.key)),xk={};
     const who=(name,pid)=>{if(pid&&byId.has(pid))return byId.get(pid);const k=norm(name);if(!xk[k]){xk[k]={id:-(XP.length+1),name,nat:null,birth:0,club:null,season:2000,fam:1,key:k,words:k.split(" ")};XP.push(xk[k])}return xk[k]};
     const nick=(p,a)=>{const k=norm(a);if(!keys.has(k)&&k!==p.key)(p.ak=p.ak||[]).push(k)};
@@ -23,7 +23,7 @@ export function failBox(st){st.innerHTML=`<p class="muted">Não deu para carrega
 /* 10. ENTROSAMENTO — o "Link" do futbol11 */
 /* modo infinito: companheiros gerados das passagens com data (Transfermarkt). Meses contados desde jan/1900 */
 export let ENTD=null;
-export function loadEnt(){if(!ENTD)ENTD=fetch("entrosa.json?v=3").then(r=>{if(!r.ok)throw new Error("entrosa");return r.json()}).then(d=>{
+export function loadEnt(){if(!ENTD)ENTD=fetch("/entrosa.json?v=3").then(r=>{if(!r.ok)throw new Error("entrosa");return r.json()}).then(d=>{
     const byId=new Map(ST.P.map(p=>[p.id,p])),idx={},S=new Map();
     for(const k in d.S){const p=byId.get(+k);if(!p)continue;const a=d.S[k],st=[];for(let i=0;i<a.length;i+=3){st.push([a[i],a[i+1],a[i+2]]);(idx[a[i]]=idx[a[i]]||[]).push([p,a[i+1],a[i+2]])}S.set(p.id,st)}
     const K={};for(const k in d.K||{})K[k]=d.K[k];return{C:d.C,S,idx,K,E:d.E||{}}}).catch(e=>{ENTD=null;throw e});return ENTD}

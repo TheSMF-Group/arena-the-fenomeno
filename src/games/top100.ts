@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {ST} from "../state";
+import {route} from "../nav";
 import {$, BODEHEAD, clubName, dayNum, esc, face, hash, rngOf, shuffle, store, toast, year} from "../core";
 import {makeSearch} from "../search";
 import {GAMES, MODE, share} from "../engine";
@@ -11,7 +12,7 @@ import {cleanup, home} from "../home";
 /* TOP 100: cada tema é um ranking de 100 jogadores (public/top100.json).
    Chutou um nome da lista? A posição dele vale os pontos: o 1º vale 1 e o 100º vale 100. Fora da lista = 0. */
 let TH=null;
-export const loadT100=()=>TH||(TH=fetch("top100.json?v=1").then(r=>r.json()).then(d=>d.themes));
+export const loadT100=()=>TH||(TH=fetch("/top100.json?v=1").then(r=>r.json()).then(d=>d.themes));
 const pl=id=>ST.P.find(p=>p.id===id);
 const sub=p=>[year(p)||"",p.club!=null?clubName(p.club):""].filter(Boolean).join(" · ");
 const ptsAt=(th,i)=>Math.round((i+1)*100/th.ids.length);
@@ -32,7 +33,7 @@ const listH=(th,marks)=>`<ol class="t1-list">${th.ids.map((id,i)=>{const p=pl(id
 const pickRow=(th,x,n)=>{const p=pl(x.id);return`<div class="t1-pick ${x.pts===100?"top":x.pts?"in":"out"}"><i>${n}</i><span class="mini">${p?face(p):""}</span><b>${esc(p?p.name:"Sem chute")}</b><span class="t1-res">${!x.id?"passou":x.pts?rkTxt(th,x):"fora da lista"}</span><strong>${x.pts} pts</strong></div>`};
 
 /* ---------- desafio do dia ---------- */
-async function daily(){ST.VIEW="top100";ST.PHASE="play";cleanup();if(location.hash!=="#top100")history.replaceState(null,"","#top100");
+async function daily(){ST.VIEW="top100";ST.PHASE="play";cleanup();route("top100");
   const app=$("#app");app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">DIA ${dayNum()}</span></div><div class="stage"><div class="fg-load"><img src="${BODEHEAD}" alt=""><b>MONTANDO O RANKING…</b></div></div>`;
   app.querySelector(".back").addEventListener("click",home);
   const ths=await loadT100(),th=dailyTheme(ths),key="top100:"+dayNum(),rec=store.get(key)||{p:[]},st=app.querySelector(".stage");rec.p.forEach(x=>{x.pts=ptsOf(th,x.id)});
@@ -129,7 +130,7 @@ export async function t100Play({mode,code,pfs}){ST.VIEW="top100";ST.PHASE="play"
 
 GAMES.top100={name:"TOP 100",multi:true,dayToo:true,hard:"sem nível difícil",desc:"Rankings de 100 jogadores. Chute um nome: quanto mais fundo na lista, mais pontos. Desafio do dia ou duelo multiplayer.",rules:RULES,
 cardFoot(){const rec=store.get("top100:"+dayNum());if(!rec||!rec.p.length)return null;const tot=rec.p.reduce((a,x)=>a+x.pts,0);return rec.p.length>=5?`<span class="res score">${tot} PTS</span><span class="chip">feito</span>`:`<span class="go">CONTINUAR</span><span class="chip">${tot} pts</span>`},
-open(){if(!MODE.multi)return daily();ST.VIEW="top100";ST.PHASE="choose";cleanup();if(location.hash!=="#top100")history.replaceState(null,"","#top100");
+open(){if(!MODE.multi)return daily();ST.VIEW="top100";ST.PHASE="choose";cleanup();route("top100");
   const app=$("#app");
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>TOP 100</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
     <p class="rules">${RULES}</p>
