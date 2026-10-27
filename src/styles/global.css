@@ -981,3 +981,56 @@ footer{border-top:1px solid var(--line-soft)}
 html,body{overflow-x:clip}
 .sect small{white-space:nowrap}
 @media (max-width:700px){.sect{justify-content:space-between;align-items:center}.sect span::after{display:none}.sect small{font-size:12px}}
+
+/* ===== rodada 3: vitrine integrada, arena, movimento ===== */
+body{background-image:radial-gradient(900px 520px at 50% -12%,rgba(255,212,0,.10),transparent 62%),repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 90px,transparent 90px 180px);background-attachment:fixed}
+header.top{background:rgba(10,10,10,.72);backdrop-filter:blur(16px) saturate(1.2);border-bottom:0;box-shadow:0 1px 0 rgba(255,212,0,.16)}
+.brand img{width:46px;height:38px}.brand .d{font-size:31px}
+@keyframes cardin{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.games .gcard{animation:cardin .55s var(--kick) both}
+.games .gcard:nth-child(1){animation-delay:35ms}.games .gcard:nth-child(2){animation-delay:70ms}.games .gcard:nth-child(3){animation-delay:105ms}.games .gcard:nth-child(4){animation-delay:140ms}.games .gcard:nth-child(5){animation-delay:175ms}.games .gcard:nth-child(6){animation-delay:210ms}.games .gcard:nth-child(7){animation-delay:245ms}.games .gcard:nth-child(8){animation-delay:280ms}.games .gcard:nth-child(9){animation-delay:315ms}.games .gcard:nth-child(10){animation-delay:350ms}.games .gcard:nth-child(11){animation-delay:385ms}.games .gcard:nth-child(12){animation-delay:420ms}
+.gcard[hidden]{display:none!important}
+a.gcard{text-decoration:none;color:inherit}
+
+/* filtros */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 2px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.fchip{flex:none;border:1px solid var(--line-soft);background:#000;color:#bdbdbd;border-radius:999px;padding:8px 16px;font-weight:700;font-size:13.5px;transition:background .15s,color .15s,border-color .15s,transform .15s var(--kick)}
+.fchip:hover{border-color:var(--yellow);color:#fff;transform:translateY(-1px)}
+.fchip[aria-pressed=true]{background:var(--yellow);border-color:var(--yellow);color:#000}
+
+/* jogos do grupo na grade */
+.gcard.ext{border-color:rgba(255,212,0,.32)}
+.gcard.ext .ext-tag{background:#000;color:var(--yellow);border:1px solid rgba(255,212,0,.5)}
+.gcard.feat{grid-column:span 2;flex-direction:row;border-color:var(--yellow);box-shadow:var(--flood)}
+.gcard.feat .art{flex:1 1 46%;height:auto;min-height:190px;border-bottom:0;border-right:1px solid var(--line-soft)}
+.gcard.feat .meta{flex:1 1 54%;justify-content:center;padding:20px 22px}
+.gcard.feat .meta .d{font-size:clamp(36px,4.4vw,52px);color:var(--yellow)}
+.gcard.feat .meta p{font-size:15px;color:#c9c9c9}
+.gcard.feat .go{font-size:26px}
+@media (max-width:900px){.gcard.feat{grid-column:1/-1}}
+@media (max-width:560px){.gcard.feat{flex-direction:column}.gcard.feat .art{border-right:0;border-bottom:1px solid var(--line-soft);min-height:150px}}
+.x-fen{display:flex;align-items:center;gap:14px}.x-fen img{width:74px;filter:drop-shadow(0 8px 14px #000)}
+.x-fen b{display:block;font-family:var(--display);font-weight:400;font-size:84px;line-height:.8;color:var(--yellow);text-shadow:0 0 30px rgba(255,212,0,.45)}
+.x-fen small{font-weight:800;letter-spacing:.16em;color:#aaa;font-size:11px}.x-fen span{font-family:var(--display);font-size:15px;letter-spacing:.08em;line-height:1.1;color:#8f8f8f}
+.x-con{display:flex;align-items:center;gap:6px}.x-con i{width:42px;height:42px;border-radius:50%;border:2px solid var(--yellow);display:grid;place-items:center;font-style:normal;font-family:var(--display);font-size:22px;color:var(--yellow);background:#000}
+.x-con i.q{border-style:dashed}.x-con u{width:22px;height:2px;background:repeating-linear-gradient(90deg,var(--yellow) 0 4px,transparent 4px 8px)}
+.x-mom{display:grid;gap:2px;text-align:center}.x-mom b{font-family:var(--display);font-weight:400;font-size:46px;line-height:1}
+.x-mom .up{color:var(--green-hi);font-weight:800;font-size:12px;letter-spacing:.12em}.x-mom .dn{color:var(--red);font-weight:800;font-size:12px;letter-spacing:.12em}
+
+/* botão do dia */
+.herocta{display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;border-radius:16px;padding:10px 22px 8px;font-size:24px;line-height:1.05}
+.herocta small{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.02em;opacity:.75}
+.daybar{gap:12px}
+
+/* arena: o jogo ganha moldura */
+.stage{background:linear-gradient(180deg,#101010,#080808 280px);border:1px solid var(--line-soft);border-radius:24px;padding:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),var(--lift);margin-bottom:56px}
+.stage:empty{display:none}
+.stage .result{box-shadow:none;background:#0b0b0b}
+@media (max-width:600px){.stage{padding:12px;border-radius:18px}}
+
+/* rodapé */
+footer{margin-top:24px;padding-block:28px 40px;background:linear-gradient(180deg,transparent,#000 70%);color:#8f8f8f;font-size:13px;line-height:1.6}
+.foot-links a{font-family:var(--display);font-size:20px;letter-spacing:.06em;font-weight:400}
+@media (prefers-reduced-motion:reduce){.games .gcard{animation:none}}
+.gcard.feat .play{flex-wrap:wrap;gap:8px 12px;justify-content:flex-start}.gcard.feat .go{white-space:nowrap;font-size:24px}
+.x-fen{gap:18px}.x-fen img{width:92px}.x-fen b{font-size:104px}

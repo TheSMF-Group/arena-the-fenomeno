@@ -1,20 +1,25 @@
 // @ts-nocheck
-/* Promoção cruzada: o The Fenômeno (carro-chefe) em destaque e os outros jogos do grupo. Todos abrem em aba nova pra não perder a Central,
+import {BODEHEAD} from "./core";
+/* Jogos do grupo The Fenômeno dentro da vitrine, junto com os da Central. Abrem em aba nova pra não perder o jogador daqui,
    com utm_source=jogue pra o GA4 mostrar quanto tráfego a Central manda pra cada um. */
 const u=(base,medium,campaign)=>`${base}/?utm_source=jogue&utm_medium=${medium}&utm_campaign=${campaign}`;
-export const FLAGSHIP={url:"https://thefenomeno.com",title:"THE FENÔMENO",kick:"O JOGO PRINCIPAL",
-  text:"Roube os craques, viva a carreira inteira e descubra se você entra entre os maiores de todos os tempos. Do primeiro contrato à Copa."};
-export const OTHERS=[
-  {url:"https://conecte.thefenomeno.com",title:"CONECTE OS FENÔMENOS",text:"Ligue dois craques por uma cadeia de companheiros. Quantos passos você precisa?"},
-  {url:"https://maisoumenos.thefenomeno.com",title:"MAIS OU MENOS",text:"Esse craque vale mais ou menos? Acerte e emende a sequência."},
-  {url:"https://kingsleague.thefenomeno.com",title:"KINGS LEAGUE",text:"A Kings League dentro do PES 2014: times, elencos e regras da liga."}
-];
-const a=(url,medium,campaign,cls,inner)=>`<a class="${cls}" href="${u(url,medium,campaign)}" target="_blank" rel="noopener">${inner}</a>`;
-/* bloco grande da home, depois da grade de jogos */
-export function promoHome(){
-  return`<section class="promo" aria-label="Mais do The Fenômeno">
-    ${a(FLAGSHIP.url,"home","flagship","flagship",`<span class="fk">${FLAGSHIP.kick}</span><span class="d ft">${FLAGSHIP.title}</span><p>${FLAGSHIP.text}</p><span class="go">JOGAR A CARREIRA →</span>`)}
-    <div class="promo-grid">${OTHERS.map(o=>a(o.url,"home",o.title.toLowerCase().replace(/\W+/g,"-"),"pcard",`<span class="d">${o.title}</span><p>${o.text}</p><span class="go">ABRIR →</span>`)).join("")}</div></section>`}
-/* faixa pequena depois da partida: o carro-chefe, contextual ao jogo que acabou */
+export const FLAGSHIP={url:"https://thefenomeno.com"};
+export const EXT=[
+  {k:"fenomeno",url:"https://thefenomeno.com",name:"THE FENÔMENO",tag:"O JOGO PRINCIPAL",mins:"carreira inteira",feat:true,
+    desc:"Roube os craques, viva a carreira do primeiro contrato à Copa e descubra se você entra entre os maiores de todos os tempos."},
+  {k:"conecte",url:"https://conecte.thefenomeno.com",name:"CONECTE OS FENÔMENOS",tag:"JOGO DO GRUPO",mins:"3 min",
+    desc:"Ligue dois craques por uma cadeia de companheiros de time. Em quantos passos você chega?"},
+  {k:"maisoumenos",url:"https://maisoumenos.thefenomeno.com",name:"MAIS OU MENOS",tag:"JOGO DO GRUPO",mins:"2 min",
+    desc:"Esse craque vale mais ou menos que o outro? Acerte e emende a maior sequência."}];
+const art=k=>k==="fenomeno"
+  ?`<div class="x-fen"><img src="${BODEHEAD}" alt=""><div><b>99</b><small>OVR</small></div></div>`
+  :k==="conecte"
+  ?`<div class="x-con"><i></i><u></u><i class="q">?</i><u></u><i></i></div>`
+  :`<div class="x-mom"><span class="up">▲ MAIS</span><b>1.250</b><span class="dn">▼ MENOS</span></div>`;
+export function extCard(e,medium="grade"){
+  return`<a class="gcard ext${e.feat?" feat":""}" href="${u(e.url,medium,e.k)}" target="_blank" rel="noopener" data-ext="${e.k}"><span class="tag ext-tag">${e.tag}</span>
+    <div class="art">${art(e.k)}</div><div class="meta"><span class="d">${e.name}</span><span class="mins">${e.mins}</span><p>${e.desc}</p>
+    <div class="play"><span class="go">${e.feat?"JOGAR A CARREIRA":"ABRIR"} ↗</span><span class="chip">${e.feat?"jogo principal":"site do grupo"}</span></div></div></a>`}
+/* faixa pequena depois da partida: o carro-chefe */
 export function promoMini(game){
-  return a(FLAGSHIP.url,"resultado",game||"jogo","promo-mini",`<span class="d">THE FENÔMENO</span><span>Gostou? Agora viva a carreira inteira.</span><b>JOGAR →</b>`)}
+  return`<a class="promo-mini" href="${u(FLAGSHIP.url,"resultado",game||"jogo")}" target="_blank" rel="noopener"><span class="d">THE FENÔMENO</span><span>Gostou? Agora viva a carreira inteira.</span><b>JOGAR →</b></a>`}

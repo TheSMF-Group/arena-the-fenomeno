@@ -18,6 +18,9 @@ export interface GameMeta {
   mins: string;
 }
 
+export const CATS: Record<string,string> = {"camisa": "adivinhe", "carreira": "adivinhe", "questoes": "adivinhe", "entrosa": "adivinhe", "quem": "adivinhe", "escudo": "adivinhe", "piramide": "ranking", "top10": "ranking", "top100": "ranking", "forca": "palavras", "bodle": "palavras", "grade": "logica", "conexoes": "logica", "impostor": "logica", "bingo": "logica", "velho": "logica", "futgeo": "mapa"};
+export const CAT_LABELS: [string,string][] = [["todos","Todos"],["adivinhe","Adivinhe o craque"],["ranking","Rankings"],["logica","Lógica"],["palavras","Palavras"],["mapa","Mapa"],["rapidos","Rápidos"]];
+
 export const META: Record<string, GameMeta> = {
   camisa: {
     slug: "camisa-e-conta", name: "CAMISA E CONTA", mins: "2 min",

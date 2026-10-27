@@ -6,10 +6,10 @@ import {art} from "./art";
 import {route} from "./nav";
 import {rulesHTML} from "./ui";
 import {progressHTML, paintStreak} from "./fio";
-import {promoHome} from "./promo";
+import {EXT, extCard} from "./promo";
 import {inlineAd} from "./ads";
 import {ev} from "./track";
-import {META} from "./meta";
+import {META, CATS, CAT_LABELS} from "./meta";
 
 /* ---------- telas ---------- */
 export const NEW=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100"];
@@ -50,13 +50,35 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
       return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${art(id)}${stamp}</div><div class="meta"><span class="d">${g.name}</span><span class="mins">${META[id]?"⏱ "+META[id].mins:""}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>`;
-  $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(c)openGame(c.dataset.g)});
+  $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(!c)return;if(c.dataset.ext){ev("outbound_click",{dest:c.dataset.ext,from:"grade"});return}if(c.dataset.g)openGame(c.dataset.g)});
   const sb=$("#app").querySelector(".sumbar [data-a=sum]");sb&&sb.addEventListener("click",daySummary);
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});
   const app=$("#app");if(!MODE.free&&!MODE.multi){const OD=DAILY();app.querySelector(".daybar").insertAdjacentHTML("afterend",progressHTML(OD.filter(g=>dayResult(g)).length,OD.length))}
   {const gc=app.querySelector("#gcount");if(gc)gc.textContent=app.querySelectorAll(".gcard").length+(MODE.multi?" jogos com amigo":MODE.free?" jogos sem fim":" desafios hoje")}
-  app.querySelector(".games").after(inlineAd("home"));app.insertAdjacentHTML("beforeend",promoHome());
+  app.querySelector(".games").after(inlineAd("home"));extras(app);
   updateToday();window.scrollTo(0,0)}
+/* vitrine: jogos do grupo no meio dos nossos, filtros por categoria e o botão "jogar o desafio de hoje" */
+function extras(app){
+  const g=app.querySelector(".games");if(!g)return;
+  if(!MODE.multi){const cs=[...g.children];
+    g.insertBefore(Object.assign(document.createElement("div"),{innerHTML:extCard(EXT[0])}).firstElementChild,g.firstChild);
+    [[EXT[1],5],[EXT[2],11]].forEach(([e,i])=>{const ref=g.children[Math.min(i+1,g.children.length-1)];const el=Object.assign(document.createElement("div"),{innerHTML:extCard(e)}).firstElementChild;if(ref&&i+1<g.children.length)g.insertBefore(el,ref);else g.appendChild(el)});
+    const bar=document.createElement("div");bar.className="chips";bar.setAttribute("role","group");bar.setAttribute("aria-label","Filtrar jogos");
+    bar.innerHTML=CAT_LABELS.map(([k,l],i)=>`<button type="button" class="fchip" data-c="${k}" aria-pressed="${i===0}">${l}</button>`).join("");
+    g.before(bar);
+    bar.addEventListener("click",e=>{const b=e.target.closest(".fchip");if(!b)return;const c=b.dataset.c;
+      bar.querySelectorAll(".fchip").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+      let n=0;g.querySelectorAll(".gcard").forEach(card=>{const id=card.dataset.g,ext=!!card.dataset.ext;
+        const show=c==="todos"?true:ext?false:c==="rapidos"?parseInt(META[id]&&META[id].mins)<=2:CATS[id]===c;
+        card.hidden=!show;if(show)n++});
+      const gc=app.querySelector("#gcount");if(gc)gc.textContent=n+(n===1?" jogo":" jogos")})}
+  /* um botão só pro dia: menos escolha, mais jogo. O mais curto que ainda não foi jogado. */
+  if(!MODE.free&&!MODE.multi){const host=app.querySelector(".daybar");if(!host)return;
+    const pend=DAILY().filter(id=>!dayResult(id)).sort((a,b)=>(parseInt(META[a]&&META[a].mins)||9)-(parseInt(META[b]&&META[b].mins)||9));
+    const b=document.createElement("button");b.type="button";b.className="btn y herocta";
+    if(pend.length){const id=pend[0];b.innerHTML=`JOGAR O DESAFIO DE HOJE <small>${GAMES[id].name} · ${META[id]?META[id].mins:""}</small>`;b.addEventListener("click",()=>openGame(id))}
+    else{b.innerHTML=`DIA FECHADO <small>ver o resumo</small>`;b.addEventListener("click",daySummary)}
+    host.prepend(b)}}
 /* tela de escolha: normal ou difícil */
 export function openGame(id){if(GAMES[id]&&GAMES[id].open)return GAMES[id].open();MODE.multi=false;ST.VIEW=id;ST.PHASE="choose";ST.PLAYDAY=todayKey();cleanup();
   const g=GAMES[id];if(!g)return home();
