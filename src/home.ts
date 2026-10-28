@@ -28,10 +28,11 @@ export function stampFor(id,d,res){const v=verdict(id,res);
 export function cleanup(){clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
 export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();cleanup();
   if(location.hash)history.replaceState(null,"",location.pathname+location.search);
-  $("#app").innerHTML=`<section class="hero"><div><div class="kick">CENTRAL THE FENÔMENO DE MINI GAMES</div><h1>VOCÊ É O<span>FENÔMENO?</span></h1><p>Todos os mini games de futebol do The Fenômeno num lugar só: vinte e dois jogos com 15 mil jogadores, fotos e escudos, do Jogo da Velha contra um amigo ao FutGeo no mapa. Cada um tem nível normal e difícil, um desafio do dia igual para todo mundo e o modo infinito, para jogar sem parar e acender o fogo da sequência. No multiplayer, você desafia um amigo no Jogo da Velha, no Draft, no Leilão, na Maleta ou no Reconstruindo.</p>
+  $("#app").innerHTML=`<section class="hero"><div><div class="kick">BEM-VINDO À ARENA</div><h1>VOCÊ É O<span>FENÔMENO?</span></h1><p>Arena é onde os jogos do The Fenômeno se encontram: 22 mini games de futebol, um desafio novo todo dia e duelos contra os amigos.</p>
     <div class="daybar">${modeToggle(true)}<span class="pill">Novos desafios em <span id="cd">${countdown()}</span></span></div></div>
     <img class="goat" src="${BODE}" alt="O bode do The Fenômeno com a camisa 10"></section>
     ${!MODE.free&&!MODE.multi&&allDone()?`<div class="sumbar"><div><b>DESAFIOS DE HOJE COMPLETOS</b><div class="muted">Veja vitórias, derrotas e quanto tempo você jogou.</div></div><button class="btn y" type="button" data-a="sum">Resumo do dia →</button></div>`:""}
+    <p class="pick">Escolha o seu jogo:</p>
     <section class="games">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:(!GAMES[id].multi||GAMES[id].dayToo)).map((id,i)=>{const g=GAMES[id];
       const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,played=dr?[[dr.d,dr.res]]:[];
       const first=played[0]?verdict(id,played[0][1]):null;
