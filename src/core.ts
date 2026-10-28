@@ -34,7 +34,11 @@ export function hydrate(){hydT=null;const els=[...document.querySelectorAll(".av
   const need=new Set(els.map(e=>(+e.dataset.pid)%NSHARD));
   need.forEach(k=>loadShard(k).then(()=>{document.querySelectorAll(".ava[data-pid]").forEach(e=>{const u=ST.FOTOS[e.dataset.pid];if(!u)return;
     const img=document.createElement("img");img.className="face "+e.dataset.cls;img.alt=e.dataset.alt;img.src=u;e.replaceWith(img)})}))}
-new MutationObserver(()=>{if(!hydT)hydT=setTimeout(hydrate,60)}).observe(document.body,{childList:true,subtree:true});
+/* cabeçalho de cada jogo: voltar à esquerda, nome no meio e controles à direita */
+function centerHeads(){document.querySelectorAll(".stagehead:not([data-c])").forEach(h=>{h.dataset.c="1";const back=h.querySelector(":scope>.back"),c=document.createElement("div"),r=document.createElement("div");c.className="sh-c";r.className="sh-r";
+  [...h.children].forEach(el=>{if(el===back)return;if(el.tagName==="H2"||el.classList.contains("lvbadge"))c.appendChild(el);else if(el.classList.contains("spacer"))el.remove();else r.appendChild(el)});
+  if(!back)h.prepend(document.createElement("span"));h.append(c,r)})}
+new MutationObserver(()=>{centerHeads();if(!hydT)hydT=setTimeout(hydrate,60)}).observe(document.body,{childList:true,subtree:true});
 export function shieldSVG(name){const t=esc(initials(name).slice(0,3));return`<svg class="shield" viewBox="0 0 40 46" aria-hidden="true"><path d="M20 2 37 8v14c0 11-8 18-17 22C11 40 3 33 3 22V8z" fill="#1d2a22" stroke="#3b4d40" stroke-width="2"/><text x="20" y="27" text-anchor="middle" font-family="Bebas Neue,Arial Narrow,sans-serif" font-size="14" fill="#97a59b">${t}</text></svg>`}
 export function crestImg(id,name,cls="ci"){return id&&ST.ESC[id]?`<img class="crest ${cls}" src="${ST.ESC[id]}" alt="${esc(name||"")}">`:`<span class="${cls}" style="display:inline-block">${shieldSVG(name||"?")}</span>`}
 export const clubName=ci=>ST.CLUBS[ci][0];
