@@ -56,7 +56,7 @@ export function t10Build(D){if(T10G)return T10G;
 GAMES.top10={name:"TOP 10",hard:"Rankings menos óbvios, sem dicas, 3 erros e 2 minutos.",
 desc:"Rankings de verdade: artilheiros, valor de mercado, carreiras. Complete o Top 10.",
 levels:{normal:["Rankings de verdade: artilheiros, valores de mercado e carreiras mais longas. Sem tempo e com 5 erros.","centenas de rankings · 5 erros"],hard:["Rankings com nomes menos óbvios. Sem dicas, 3 erros e 2 minutos.","centenas de rankings · 2 minutos"]},
-rules:"Digite os jogadores do ranking do dia. Cada acerto entra na posição certa e cada nome fora da lista custa uma vida. No fim, 1 ponto por nome encontrado.",
+rules:"Digite os jogadores do ranking do dia. Cada acerto entra na posição certa e cada nome fora da lista custa uma vida. Completou os 10, ganhou. Faltou algum, perdeu.",
 start(st,r){let alive=true,timer=null;ST.CLEAN=()=>{alive=false;clearInterval(timer)};loadingBox(st,"MONTANDO A LISTA…");
   Promise.all([loadNovos(),loadPass(),loadEnt(),loadPos()]).then(([N,,D])=>{if(!alive)return;
     const HG=isHard(),cur=N.L.filter(l=>l.k==="stat"&&(HG?l.dif===3:l.dif===1)),gen=t10Build(D).filter(l=>l.dif===(HG?3:1)&&(HG||!l.club||l.big));
@@ -78,7 +78,7 @@ start(st,r){let alive=true,timer=null;ST.CLEAN=()=>{alive=false;clearInterval(ti
     function tick(){const left=Math.max(0,deadline-Date.now()),s=Math.ceil(left/1000);const el=st.querySelector(".t10-time");if(el){el.textContent=`⏱ ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;el.classList.toggle("low",s<=20)}if(left<=0)end("tempo")}
     function end(why){if(done)return;done=true;clearInterval(timer);srch.innerHTML="";st.querySelector("[data-a=give]").remove();draw();
       const n=found.size;if(n<10&&MODE.free&&why!=="vida")miss();
-      finish("top10",st,{won:n===10,score:n,label:`${n===10?"Lista completa!":`Você achou ${n} de 10.`}${why==="tempo"?" O tempo acabou.":why==="vida"?" Acabaram as vidas.":why==="desistiu"?" Você desistiu.":""}`,chip:`${n}/10`,share:`${shareHead("TOP 10")}\n${L.t}\n${L.it.map((_,i)=>found.has(i)?"🟩":"⬛").join("")}`})}
+      finish("top10",st,{won:n===10,score:n,label:`${n===10?"Lista completa!":`Você não completou a lista: achou ${n} de 10.`}${why==="tempo"?" O tempo acabou.":why==="vida"?" Acabaram as vidas.":why==="desistiu"?" Você desistiu.":""}`,chip:`${n}/10`,share:`${shareHead("TOP 10")}\n${L.t}\n${L.it.map((_,i)=>found.has(i)?"🟩":"⬛").join("")}`})}
     st.querySelector("[data-a=give]").addEventListener("click",()=>end("desistiu"));
     makeSearch(srch,{onPick(p){if(done)return;if(tried.has(p.key)){toast("Você já tentou esse");return}tried.add(p.key);
       let i=L.open?(L.test(p)&&!L.it.some(x=>x&&x.p.id===p.id)?L.it.indexOf(null):-1):L.it.findIndex((x,j)=>!found.has(j)&&isAns(p,x.p,x.keys));
