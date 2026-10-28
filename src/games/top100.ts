@@ -18,10 +18,12 @@ const ptsAt=(th,i)=>Math.round((i+1)*100/th.ids.length);
 const ptsOf=(th,id)=>{const i=th.ids.indexOf(id);return i<0?0:ptsAt(th,i)};
 const rkTxt=(th,x)=>`${th.ids.indexOf(x.id)+1}º de ${th.ids.length}`;
 const fmtT=(th,i)=>!th.u||th.u==="€"?fmtV(th.v[i]):`${String(th.v[i]).replace(".",",")} ${th.u}`;
+/* maior total possível em 5 chutes diferentes: do último da lista para cima (100+99+98+97+96 = 490) */
+const maxPts=th=>[0,1,2,3,4].reduce((a,k)=>a+ptsAt(th,th.ids.length-1-k),0);
 const subT=th=>th.ids.length<100?`${th.s} Ranking com ${th.ids.length} jogadores: o último vale 100 pontos.`:th.s;
 const fmtV=v=>v>=1?`€${String(v).replace(".",",")} mi`:`€${Math.round(v*1000)} mil`;
 const dailyTheme=ths=>{const order=shuffle(rngOf(hash("top100")),ths.map((_,i)=>i));return ths[order[(dayNum()-1)%order.length]]};
-const RULES="Cada tema é um ranking de 100 jogadores. Chute um nome: o 1º da lista vale 1 ponto e o 100º vale 100. Fora da lista, 0. Desafio do dia: 5 chutes (máximo de 500 pontos). Multiplayer: 3 temas, 3 chutes cada, vence quem somar mais.";
+const RULES="Cada tema é um ranking de 100 jogadores. Chute um nome: o 1º da lista vale 1 ponto e o 100º vale 100. Fora da lista, 0. Desafio do dia: 5 chutes (máximo de 490 pontos). Multiplayer: 3 temas, 3 chutes cada, vence quem somar mais.";
 const confetti=()=>Array.from({length:36},(_,i)=>`<i class="confetti-piece" style="left:${(Math.random()*100).toFixed(1)}%;width:${6+Math.floor(Math.random()*6)}px;height:${10+Math.floor(Math.random()*8)}px;background:${["#ffd400","#22c55e","#fff","#f97316"][i%4]};animation-duration:${(1.8+Math.random()*1.6).toFixed(2)}s;animation-delay:${(Math.random()*.8).toFixed(2)}s"></i>`).join("");
 /* acertou exatamente o 100º da lista */
 function boom(){const el=document.createElement("div");el.className="t1-boom";
@@ -39,15 +41,15 @@ async function daily(){ST.VIEW="top100";ST.PHASE="play";cleanup();if(location.ha
   const total=()=>rec.p.reduce((a,x)=>a+x.pts,0);
   const draw=()=>{const done=rec.p.length>=5;
     st.innerHTML=`<div class="t1-theme"><small>Tema de hoje</small><h3>${esc(th.t)}</h3><p class="muted">${esc(subT(th))}</p></div>
-      <div class="t1-score"><div><small>Pontos</small><b>${total()}</b><span> / 500</span></div><div><small>${done?"Fim do desafio":"Chute"}</small><b>${done?"5/5":rec.p.length+1+"/5"}</b></div></div>
+      <div class="t1-score"><div><small>Pontos</small><b>${total()}</b><span> / ${maxPts(th)}</span></div><div><small>${done?"Fim do desafio":"Chute"}</small><b>${done?"5/5":rec.p.length+1+"/5"}</b></div></div>
       <div class="t1-picks">${[0,1,2,3,4].map(i=>rec.p[i]?pickRow(th,rec.p[i],i+1):`<div class="t1-pick empty"><i>${i+1}</i><b>${i===rec.p.length?"Seu próximo chute":"—"}</b></div>`).join("")}</div>
       ${done?"":`<div class="t1-srch"></div><p class="muted">O último da lista vale 100 pontos e o primeiro vale muito pouco. Chute fundo na lista, mas quem está fora dela não pontua.</p>`}
-      ${done?`<div class="le-act"><p><b>Você fez ${total()} de 500 pontos.</b> ${total()>=400?"Que leitura de mercado!":total()>=250?"Bom jogo, volte amanhã para outro tema.":"Amanhã tem outro tema."}</p><div class="row"><button class="btn y" type="button" data-a="share">Copiar resultado</button></div></div>
+      ${done?`<div class="le-act"><p><b>Você fez ${total()} de ${maxPts(th)} pontos.</b> ${total()>=400?"Que leitura de mercado!":total()>=250?"Bom jogo, volte amanhã para outro tema.":"Amanhã tem outro tema."}</p><div class="row"><button class="btn y" type="button" data-a="share">Copiar resultado</button></div></div>
         <h4 class="rc-h">O ranking completo</h4>${listH(th,Object.fromEntries(rec.p.filter(x=>x.id).map(x=>[x.id,{c:"me",by:"você"}])))}`:""}`;
     const host=st.querySelector(".t1-srch");
     if(host){const inp=makeSearch(host,{placeholder:"Chute um jogador…",sub,onPick:p=>{if(rec.p.some(x=>x.id===p.id)){toast("Você já chutou esse jogador");return}
         const pts=ptsOf(th,p.id);rec.p.push({id:p.id,pts});store.set(key,rec);draw();if(pts===100)boom()}});inp.focus()}
-    const sh=st.querySelector("[data-a=share]");if(sh)sh.onclick=()=>share(`🐐 THE FENÔMENO · TOP 100 #${dayNum()}\n${th.t}\n${rec.p.map(x=>x.pts===100?"🟣":x.pts>=70?"🟩":x.pts>=30?"🟨":x.pts?"🟧":"⬛").join("")} ${total()}/500`)};
+    const sh=st.querySelector("[data-a=share]");if(sh)sh.onclick=()=>share(`🐐 THE FENÔMENO · TOP 100 #${dayNum()}\n${th.t}\n${rec.p.map(x=>x.pts===100?"🟣":x.pts>=70?"🟩":x.pts>=30?"🟨":x.pts?"🟧":"⬛").join("")} ${total()}/${maxPts(th)}`)};
   draw();window.scrollTo(0,0)}
 
 /* ---------- multiplayer ---------- */
