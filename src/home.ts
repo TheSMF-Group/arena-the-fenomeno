@@ -1,4 +1,8 @@
 // @ts-nocheck
+import oFen from "./assets/outro-fen.webp?url";
+import oMm from "./assets/outro-mm.webp?url";
+import oCon from "./assets/outro-con.webp?url";
+import oRec from "./assets/outro-rec.webp?url";
 import {$, BODE, BODEHEAD, dayNum, esc, store, toast, todayKey} from "./core";
 import {GAMES, KIND, MODE, clockStop, dayLevel, dayLockKey, dayResult, drawFire, fireHTML, fmtDur, gameRng, isHard, loadStreak, resultKey, share, verdict} from "./engine";
 import {ST} from "./state";
@@ -8,10 +12,10 @@ import {art} from "./art";
 export const NEW=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100"];
 export const ORDER=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100","futgeo","quem","grade","conexoes","bodle","impostor","escudo","bingo","velho"];
 export const OUTROS=[
-  {n:"THE FENÔMENO",d:"Simulador de carreira no futebol: roube dos craques, viva uma carreira e descubra onde você fica entre os maiores.",u:"https://www.thefenomeno.com",h:"thefenomeno.com"},
-  {n:"MAIS OU MENOS",d:"Qual é maior? Acerte em sequência e compartilhe o placar.",u:"https://maisoumenos.thefenomeno.com",h:"maisoumenos.thefenomeno.com"},
-  {n:"CONECTE OS FENÔMENOS",d:"Ligue dois craques pelos clubes que os dois vestiram. Um confronto novo todo dia.",u:"https://conecte.thefenomeno.com",h:"conecte.thefenomeno.com"},
-  {n:"RECONSTRUINDO",d:"Monte o XI ideal do seu time: decida quem fica, quem sai e quem chega.",u:"https://reconstruindo.thefenomeno.com",h:"reconstruindo.thefenomeno.com"}];
+  {n:"THE FENÔMENO",i:oFen,d:"Simulador de carreira no futebol: roube dos craques, viva uma carreira e descubra onde você fica entre os maiores.",u:"https://www.thefenomeno.com",h:"thefenomeno.com"},
+  {n:"MAIS OU MENOS",i:oMm,d:"Qual é maior? Acerte em sequência e compartilhe o placar.",u:"https://maisoumenos.thefenomeno.com",h:"maisoumenos.thefenomeno.com"},
+  {n:"CONECTE OS FENÔMENOS",i:oCon,d:"Ligue dois craques pelos clubes que os dois vestiram. Um confronto novo todo dia.",u:"https://conecte.thefenomeno.com",h:"conecte.thefenomeno.com"},
+  {n:"RECONSTRUINDO",i:oRec,d:"Monte o XI ideal do seu time: decida quem fica, quem sai e quem chega.",u:"https://reconstruindo.thefenomeno.com",h:"reconstruindo.thefenomeno.com"}];
 export const DIFFS=["normal","hard"],DNAME={normal:"NORMAL",hard:"DIFÍCIL"};
 export const DAILY=()=>ORDER.filter(id=>!GAMES[id].multi);
 export const allDone=()=>DAILY().every(id=>dayResult(id));
@@ -47,7 +51,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
       return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${art(id)}${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>
-    <section class="more"><h2 class="d">CONHEÇA NOSSOS OUTROS JOGOS</h2><div class="more-grid">${OUTROS.map(o=>`<a class="more-card" href="${o.u}" target="_blank" rel="noopener"><b class="d">${o.n}</b><p>${o.d}</p><small class="more-h">${o.h}</small><span class="more-go">ABRIR →</span></a>`).join("")}</div></section>`;
+    <section class="more"><h2 class="d">CONHEÇA NOSSOS OUTROS JOGOS</h2><div class="more-grid">${OUTROS.map(o=>`<a class="more-card" href="${o.u}" target="_blank" rel="noopener"><img class="more-img" src="${o.i}" alt="${o.n}" loading="lazy"><b class="d">${o.n}</b><p>${o.d}</p><small class="more-h">${o.h}</small><span class="more-go">ABRIR →</span></a>`).join("")}</div></section>`;
   $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(c)openGame(c.dataset.g)});
   const sb=$("#app").querySelector(".sumbar [data-a=sum]");sb&&sb.addEventListener("click",daySummary);
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});

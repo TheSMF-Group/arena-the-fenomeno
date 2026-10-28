@@ -862,3 +862,4 @@ header.top #todayPill{grid-column:3;justify-self:end}
 .more-card{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;color:var(--fg);text-decoration:none;transition:transform .15s,border-color .15s}
 .more-card:hover{transform:translateY(-3px);border-color:var(--yellow)}.more-card b{font-size:22px;font-weight:400;line-height:1.05}.more-card p{margin:0;font-size:13px;color:var(--muted);flex:1}
 .more-h{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.more-go{display:flex;justify-content:flex-end;white-space:nowrap;margin-top:4px;font-family:var(--display);font-size:18px;color:var(--yellow)}
+.more-card{padding:0 0 14px;overflow:hidden}.more-card>*:not(.more-img){margin-left:16px;margin-right:16px}.more-img{display:block;width:100%;aspect-ratio:1200/630;object-fit:cover;border-bottom:1px solid var(--line);margin-bottom:8px}
