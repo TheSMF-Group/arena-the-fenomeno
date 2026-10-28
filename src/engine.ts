@@ -1,6 +1,7 @@
 // @ts-nocheck
 import {BODEHEAD, dayNum, esc, hash, pick, rngOf, shuffle, store, toast, todayKey} from "./core";
 import {ST} from "./state";
+import {slugRank} from "./bigclubs";
 import {DIFFS, allDone, daySummary, startGame, updateToday} from "./home";
 
 /* ---------- moldura de jogo ---------- */
@@ -39,6 +40,9 @@ export function prefer(arr,seen,n){if(!seen.size)return arr;const f=arr.filter(p
 export const markPeople=(id,ps)=>memAdd(id+":p",ps.map(p=>p.id));
 export function dailyPick(id,pool,r){if(MODE.free)return freshPick(id,pool,r);const order=shuffle(rngOf(hash("ordem:"+id+":"+ST.DIFF)),pool.slice().sort((a,b)=>String(a.id)<String(b.id)?-1:1));const n=dayNum()-1;return order[((n%order.length)+order.length)%order.length]}
 export const KIND={camisa:"wl",carreira:"wl",questoes:"wl",forca:"wl",entrosa:"wl",piramide:10,top10:"wl",quem:"wl",bodle:"wl",escudo:"wl",conexoes:"wl",grade:9,impostor:10,bingo:16,velho:0,futgeo:25000};
+/* clubes que um jogo pode usar: no difícil, todos; no normal do dia, só os 50 de expressão; no infinito, começa nos 50 e abre 10 clubes a cada acerto seguido (no 10.000 entra tudo) */
+export const clubSlugOk=slug=>isHard()||slugRank(slug)<(MODE.free?50+STREAK*10:50);
+export const clubOk=ci=>clubSlugOk(ST.CLUBS[ci]&&ST.CLUBS[ci][1]);
 export function verdict(id,res){const k=KIND[id];
   if(k==="wl")return res.won?{cls:"win",word:"GANHOU",detail:res.chip}:{cls:"loss",word:"PERDEU",detail:res.chip};
   return k>1000?{cls:"score",word:Math.round(res.score).toLocaleString("pt-BR"),detail:`de ${k.toLocaleString("pt-BR")} pts`}:{cls:"score",word:k?`${res.score}/${k}`:String(res.score),detail:k?"pontos":"acertos seguidos"}}

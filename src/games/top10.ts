@@ -2,7 +2,7 @@
 import {ST} from "../state";
 import {clubName, dayNum, esc, face, natName, pick, toast} from "../core";
 import {makeSearch} from "../search";
-import {GAMES, MODE, dailyPick, finish, hit, isHard, memAdd, memList, miss, shareHead} from "../engine";
+import {clubOk, clubSlugOk, GAMES, MODE, dailyPick, finish, hit, isHard, memAdd, memList, miss, shareHead} from "../engine";
 import {groupsBy} from "./conexoes";
 import {fmtN} from "./futgeo";
 import {QS_POS} from "./questoes";
@@ -11,7 +11,6 @@ import {failBox, isAns, isoFlag, loadEnt, loadNovos, loadingBox, natByIso} from 
 import {anosMeses} from "./piramide";
 import {VLPASS, loadPass} from "./velha";
 import {DRPOS, loadPos} from "./draft-core";
-import {BIG, bigClub} from "../bigclubs";
 
 /* 12. TOP 10 — o "Top10" do futbol11: complete a lista */
 /* listas abertas do modo infinito: 10 jogadores de uma seleção que passaram por um clube (qualquer época) */
@@ -19,7 +18,7 @@ export function openList(r,HG){const crestOf=ci=>ST.CLUBS[ci][1],cn=ci=>(ST.CRES
   if(!openList.by){openList.by={};for(const k in VLPASS){const ci=+k,cr=crestOf(ci),ids=VLPASS[k];openList.by[ci]=ST.P.filter(p=>p.nat!=null&&(crestOf(p.club)===cr&&cr||ids.has(p.id)))}}
   const by=openList.by,past=new Set(memList("top10")),opts=[];
   const fit=mem=>{const fam=mem.filter(p=>p.fam===1).length;return HG?mem.length>=10&&mem.length<=22&&fam<=8:mem.length>=18&&fam>=10};
-  const cs=Object.keys(by).map(Number).filter(ci=>HG||bigClub(ci));
+  const cs=Object.keys(by).map(Number).filter(ci=>clubOk(ci));
   for(const ci of cs){const mem=by[ci];
     for(const [n,m] of groupsBy(mem,p=>p.nat,10))if(fit(m))opts.push({key:"o"+ci+":"+n,m,t:`${natName(n)} + ${cn(ci)}: 10 que passaram por lá`})}
   for(let a=0;a<cs.length;a++)for(let b=a+1;b<cs.length;b++){const sb=new Set(by[cs[b]].map(p=>p.id)),m=by[cs[a]].filter(p=>sb.has(p.id));
@@ -41,14 +40,14 @@ export function t10Build(D){if(T10G)return T10G;
     const keys=["g:"+g,"n:"+p.nat,"n:"+p.nat+"|g:"+g],ss=D.S.get(p.id);
     if(ss)for(const c of new Set(ss.map(x=>{const n=(D.C[x[0]]||"").trim();return CR_YOUTH.test(n)||n==="?"?"":(T10_CN[n]||n)}))){if(c){keys.push("c:"+c);keys.push("c:"+c+"|g:"+g)}}
     for(const k of keys){rv&&add(GV,k,rv);rl&&add(GL,k,rl)}}
-  const out=[],bigNames=new Set(D.C.map((n,i)=>BIG.has(D.E[i])?(T10_CN[n.trim()]||n.trim()):null).filter(Boolean));
+  const out=[],nameSlug={};D.C.forEach((n,i)=>{const k=T10_CN[n.trim()]||n.trim();if(D.E[i]&&!nameSlug[k])nameSlug[k]=D.E[i]});
   const run=(G,pre,fmt,head,sub0)=>{for(const [key,rows] of G){if(rows.length<10)continue;rows.sort((a,b)=>b.v-a.v);const top=rows.slice(0,10);if(new Set(top.map(x=>x.v)).size<7)continue;
     const parts=key.split("|").map(x=>[x[0],x.slice(2)]),pg=parts.find(x=>x[0]==="g"),pn=parts.find(x=>x[0]==="n"),pc=parts.find(x=>x[0]==="c");
     const who=pg?T10_POSN[pg[1]]:"Jogadores";let t,sub=sub0;
     if(pn){t=pg?`${head(who)}: ${natName(+pn[1])}`:`${head("")} da seleção: ${natName(+pn[1])}`;sub+=" · só jogadores dessa seleção"}
     else if(pc){t=pg?`${head(who)} que passaram pelo ${pc[1]}`:`${head("")} entre quem passou pelo ${pc[1]}`;sub+=" · qualquer época, qualquer passagem"}
     else{t=`${head(who)} da história`;sub+=" · de todas as épocas"}
-    out.push({id:pre+key,k:"val",gen:true,club:!!pc,big:pc?bigNames.has(pc[1]):true,t:t.replace(/^ /,""),s:sub,dif:(f=>f>=8?1:f<=5?3:0)(top.filter(x=>x.p.fam===1).length),
+    out.push({id:pre+key,k:"val",gen:true,club:!!pc,slug:pc?nameSlug[pc[1]]:null,t:t.replace(/^ /,""),s:sub,dif:(f=>f>=8?1:f<=5?3:0)(top.filter(x=>x.p.fam===1).length),
       it:top.map(x=>({name:x.p.name,v:fmt(x.v),h:ST.NATS[x.p.nat][1],alt:[],p:x.p,keys:[x.p.key]}))})}};
   run(GV,"v:",fmtEur,w=>w?`${w} mais valiosos`:"Mais valiosos","maior valor de mercado que o jogador já teve no Transfermarkt");
   run(GL,"l:",anosMeses,w=>w?`${w} com a carreira mais longa`:"Carreira mais longa","do primeiro contrato profissional ao último jogo, pelo Transfermarkt");
@@ -59,7 +58,7 @@ levels:{normal:["Rankings de verdade: artilheiros, valores de mercado e carreira
 rules:"Digite os jogadores do ranking do dia. Cada acerto entra na posição certa e cada nome fora da lista custa uma vida. Completou os 10, ganhou. Faltou algum, perdeu.",
 start(st,r){let alive=true,timer=null;ST.CLEAN=()=>{alive=false;clearInterval(timer)};loadingBox(st,"MONTANDO A LISTA…");
   Promise.all([loadNovos(),loadPass(),loadEnt(),loadPos()]).then(([N,,D])=>{if(!alive)return;
-    const HG=isHard(),cur=N.L.filter(l=>l.k==="stat"&&(HG?l.dif===3:l.dif===1)),gen=t10Build(D).filter(l=>l.dif===(HG?3:1)&&(HG||!l.club||l.big));
+    const HG=isHard(),cur=N.L.filter(l=>l.k==="stat"&&(HG?l.dif===3:l.dif===1)),gen=t10Build(D).filter(l=>l.dif===(HG?3:1)&&(!l.club||clubSlugOk(l.slug)));
     let L;if(MODE.free)L=gen.length&&r()<.85?dailyPick("top10v",gen,r):dailyPick("top10",cur,r);
     else L=gen.length&&dayNum()%4!==0?dailyPick("top10v",gen,r):dailyPick("top10",cur,r);
     const LIVES=HG?3:5,TIME=HG?120:0;let lives=LIVES,done=false,deadline=Date.now()+TIME*1000;const found=new Set(),tried=new Set(),ev=[];
