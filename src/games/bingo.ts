@@ -1,7 +1,7 @@
 // @ts-nocheck
 import {ST} from "../state";
 import {clubCrest, clubName, esc, face, flag, natName, pick, sample, shuffle, toast, year} from "../core";
-import {clubOk, GAMES, finish, hit, isHard, markPeople, miss, pool, prefer, seenPeople, shareHead} from "../engine";
+import {clubOk, markClubs, GAMES, finish, hit, isHard, markPeople, miss, pool, prefer, seenPeople, shareHead} from "../engine";
 import {crit, groupsBy} from "./conexoes";
 
 /* 7. BINGO */
@@ -11,13 +11,13 @@ start(st,r){
   let cats,deck;const PL=pool(),EXTRA=isHard()?4:8,seenP=seenPeople("bingo");
   for(let t=0;t<3000;t++){
     const nats=sample(r,groupsBy(PL,p=>p.nat,3).map(x=>x[0]),6).map(v=>crit("nat",v));
-    const clubs=sample(r,groupsBy(PL,p=>p.club,3).filter(x=>clubOk(x[0])).map(x=>x[0]),7).map(v=>crit("club",v));
+    const clubG=groupsBy(PL,p=>p.club,3),clubOkL=clubG.filter(x=>clubOk(x[0])),clubs=sample(r,(clubOkL.length>=14?clubOkL:clubG).map(x=>x[0]),7).map(v=>crit("club",v));
     const decs=sample(r,[1940,1950,1960,1970,1980,1990,2000].filter(d=>PL.filter(p=>Math.floor(year(p)/10)*10===d).length>=3),3).map(v=>crit("dec",v));
     cats=shuffle(r,[...nats,...clubs,...decs]);if(cats.length!==16)continue;
     const used=new Set();let ok=true;
     for(const c of cats){const opts=PL.filter(p=>c.test(p)&&!used.has(p.id));if(!opts.length){ok=false;break}used.add(pick(r,prefer(opts,seenP,1)).id)}
     if(!ok)continue;const extra=sample(r,prefer(PL.filter(p=>!used.has(p.id)),seenP,EXTRA),EXTRA);deck=shuffle(r,[...PL.filter(p=>used.has(p.id)),...extra]);break}
-  markPeople("bingo",deck);
+  markPeople("bingo",deck);markClubs(cats.filter(c=>c.type==="club").map(c=>c.v));
   const filled=Array(16).fill(null);let di=0,errors=0,over=false;
   st.innerHTML=`<div class="bingo"><div class="now"></div><div class="bgrid"></div></div>`;
   const now=st.querySelector(".now"),bg=st.querySelector(".bgrid");

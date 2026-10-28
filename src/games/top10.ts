@@ -2,7 +2,7 @@
 import {ST} from "../state";
 import {clubName, dayNum, esc, face, natName, pick, toast} from "../core";
 import {makeSearch} from "../search";
-import {clubOk, clubSlugOk, GAMES, MODE, dailyPick, finish, hit, isHard, memAdd, memList, miss, shareHead} from "../engine";
+import {clubOk, clubSlugOk, markClubs, GAMES, MODE, dailyPick, finish, hit, isHard, memAdd, memList, miss, shareHead} from "../engine";
 import {groupsBy} from "./conexoes";
 import {fmtN} from "./futgeo";
 import {QS_POS} from "./questoes";
@@ -18,15 +18,15 @@ export function openList(r,HG){const crestOf=ci=>ST.CLUBS[ci][1],cn=ci=>(ST.CRES
   if(!openList.by){openList.by={};for(const k in VLPASS){const ci=+k,cr=crestOf(ci),ids=VLPASS[k];openList.by[ci]=ST.P.filter(p=>p.nat!=null&&(crestOf(p.club)===cr&&cr||ids.has(p.id)))}}
   const by=openList.by,past=new Set(memList("top10")),opts=[];
   const fit=mem=>{const fam=mem.filter(p=>p.fam===1).length;return HG?mem.length>=10&&mem.length<=22&&fam<=8:mem.length>=18&&fam>=10};
-  const cs=Object.keys(by).map(Number).filter(ci=>clubOk(ci));
+  const csAll=Object.keys(by).map(Number),csOk=csAll.filter(ci=>clubOk(ci)),cs=csOk.length>=10?csOk:csAll;
   for(const ci of cs){const mem=by[ci];
-    for(const [n,m] of groupsBy(mem,p=>p.nat,10))if(fit(m))opts.push({key:"o"+ci+":"+n,m,t:`${natName(n)} + ${cn(ci)}: 10 que passaram por lá`})}
+    for(const [n,m] of groupsBy(mem,p=>p.nat,10))if(fit(m))opts.push({key:"o"+ci+":"+n,cis:[ci],m,t:`${natName(n)} + ${cn(ci)}: 10 que passaram por lá`})}
   for(let a=0;a<cs.length;a++)for(let b=a+1;b<cs.length;b++){const sb=new Set(by[cs[b]].map(p=>p.id)),m=by[cs[a]].filter(p=>sb.has(p.id));
-    if(m.length>=10&&fit(m))opts.push({key:"c"+cs[a]+":"+cs[b],m,t:`${cn(cs[a])} + ${cn(cs[b])}: 10 que jogaram nos dois`})}
+    if(m.length>=10&&fit(m))opts.push({key:"c"+cs[a]+":"+cs[b],cis:[cs[a],cs[b]],m,t:`${cn(cs[a])} + ${cn(cs[b])}: 10 que jogaram nos dois`})}
   const fresh=opts.filter(o=>!past.has(o.key));if(!fresh.length)return null;const o=pick(r,fresh);memAdd("top10",o.key);
   const cand=o.m.slice().sort((a,b)=>(a.fam||9)-(b.fam||9)||b.season-a.season).map(p=>({name:p.name,v:"",h:"",alt:[],p,keys:[p.key]}));
   const set=new Set(o.m.map(p=>p.id));
-  return{open:true,k:"open",id:o.key,t:o.t,s:`qualquer época, não precisa ser o último clube · ${o.m.length} possíveis na base`,test:p=>set.has(p.id),cand}}
+  return{open:true,k:"open",cis:o.cis,id:o.key,t:o.t,s:`qualquer época, não precisa ser o último clube · ${o.m.length} possíveis na base`,test:p=>set.has(p.id),cand}}
 /* listas geradas do Top 10: ranking pelo pico de valor de mercado (Transfermarkt), por posição, seleção e clube */
 export const T10_POSN={gol:"Goleiros",zag:"Zagueiros",ld:"Laterais-direitos",le:"Laterais-esquerdos",mc:"Meio-campistas",vol:"Volantes",mei:"Meias-atacantes",pd:"Pontas-direitos",pe:"Pontas-esquerdos",ata:"Atacantes"};
 export const T10_CN={"Florenz":"Fiorentina","AC Parma":"Parma","Atlético":"Atlético de Madrid"};
@@ -61,6 +61,7 @@ start(st,r){let alive=true,timer=null;ST.CLEAN=()=>{alive=false;clearInterval(ti
     const HG=isHard(),cur=N.L.filter(l=>l.k==="stat"&&(HG?l.dif===3:l.dif===1)),gen=t10Build(D).filter(l=>l.dif===(HG?3:1)&&(!l.club||clubSlugOk(l.slug)));
     let L;if(MODE.free)L=gen.length&&r()<.85?dailyPick("top10v",gen,r):dailyPick("top10",cur,r);
     else L=gen.length&&dayNum()%4!==0?dailyPick("top10v",gen,r):dailyPick("top10",cur,r);
+    if(L.slug)markClubs([L.slug]);if(L.cis)markClubs(L.cis);
     const LIVES=HG?3:5,TIME=HG?120:0;let lives=LIVES,done=false,deadline=Date.now()+TIME*1000;const found=new Set(),tried=new Set(),ev=[];
     const KL={stat:"Ranking",award:"Vencedores",xi:"Escalação",open:"Passaram por lá",val:"Valor de mercado"};
     st.innerHTML=`<div class="t10"><div class="t10-head"><div class="fg-kick">${KL[L.k]}</div><div class="t10-title">${esc(L.t)}</div><small>${esc(L.s)}</small></div>

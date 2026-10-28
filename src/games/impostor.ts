@@ -1,6 +1,6 @@
 // @ts-nocheck
 import {clubCrest, clubName, esc, face, natFlag, natName, pick, sample, shuffle, year} from "../core";
-import {clubOk, GAMES, finish, hit, isHard, markPeople, memAdd, memList, miss, pool, prefer, seenPeople, shareHead} from "../engine";
+import {clubOk, markClubs, GAMES, finish, hit, isHard, markPeople, memAdd, memList, miss, pool, prefer, seenPeople, shareHead} from "../engine";
 import {groupsBy} from "./conexoes";
 
 /* 5. IMPOSTOR */
@@ -9,13 +9,13 @@ rules:"Em cada rodada, 4 dos 5 jogadores têm algo em comum (seleção, último 
 start(st,r){
   const T={nat:p=>p.nat,club:p=>p.club,dec:p=>Math.floor(year(p)/10)*10};
   const PL=pool();
-  const pools={nat:groupsBy(PL,T.nat,4),club:groupsBy(PL,T.club,4).filter(([k])=>clubOk(k)),dec:groupsBy(PL,T.dec,4)};
+  const pools={nat:groupsBy(PL,T.nat,4),club:(cl=>{const ok=cl.filter(([k])=>clubOk(k));return ok.length>=8?ok:cl})(groupsBy(PL,T.club,4)),dec:groupsBy(PL,T.dec,4)};
   const rounds=[],seenP=seenPeople("impostor"),pastC=new Set(memList("impostor").slice(-40));let guard=0;
   while(rounds.length<10){guard++;const ty=pick(r,rounds.length%3===0?["club"]:["nat","club","dec"]);let opts=pools[ty].filter(([k])=>!rounds.some(x=>x.ty===ty&&x.k===k));if(ty==="club"&&guard<300){const o2=opts.filter(([k])=>!pastC.has(ty+k));if(o2.length)opts=o2}const [k,mem]=pick(r,opts.length?opts:pools[ty]);const four=sample(r,prefer(mem,seenP,4),4);
     const imp=pick(r,prefer(PL.filter(p=>T[ty](p)!==k&&(!isHard()||ty==="dec"||Math.abs(year(p)-year(four[0]))<=12)),seenP,1));const five=shuffle(r,[...four,imp]);
     const bad=Object.keys(T).some(t=>{const c={};five.forEach(p=>{const v=T[t](p);c[v]=(c[v]||0)+1});return Object.entries(c).some(([v,n])=>n===4&&T[t](imp)==v)});
     if(bad)continue;rounds.push({ty,k,five,imp})}
-  memAdd("impostor",rounds.map(x=>x.ty+x.k));markPeople("impostor",rounds.flatMap(x=>x.five));
+  memAdd("impostor",rounds.map(x=>x.ty+x.k));markClubs(rounds.filter(x=>x.ty==="club").map(x=>x.k));markPeople("impostor",rounds.flatMap(x=>x.five));
   let ri=0;const res=[];
   st.innerHTML=`<div class="progress"></div><div class="cards5"></div><p class="exp" style="min-height:48px;margin:14px 0 8px"></p><button class="btn y" data-a="next" hidden>Próxima rodada</button>`;
   const cards=st.querySelector(".cards5"),exp=st.querySelector(".exp"),nx=st.querySelector("[data-a=next]"),pr=st.querySelector(".progress");

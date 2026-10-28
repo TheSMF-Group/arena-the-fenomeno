@@ -40,8 +40,15 @@ export function prefer(arr,seen,n){if(!seen.size)return arr;const f=arr.filter(p
 export const markPeople=(id,ps)=>memAdd(id+":p",ps.map(p=>p.id));
 export function dailyPick(id,pool,r){if(MODE.free)return freshPick(id,pool,r);const order=shuffle(rngOf(hash("ordem:"+id+":"+ST.DIFF)),pool.slice().sort((a,b)=>String(a.id)<String(b.id)?-1:1));const n=dayNum()-1;return order[((n%order.length)+order.length)%order.length]}
 export const KIND={camisa:"wl",carreira:"wl",questoes:"wl",forca:"wl",entrosa:"wl",piramide:10,top10:"wl",quem:"wl",bodle:"wl",escudo:"wl",conexoes:"wl",grade:9,impostor:10,bingo:16,velho:0,futgeo:25000};
-/* clubes que um jogo pode usar: no difícil, todos; no normal do dia, só os 50 de expressão; no infinito, começa nos 50 e abre 10 clubes a cada acerto seguido (no 10.000 entra tudo) */
-export const clubSlugOk=slug=>isHard()||slugRank(slug)<(MODE.free?50+STREAK*10:50);
+/* clubes que um jogo pode usar:
+   difícil: todos; normal do dia: só os 50 de expressão;
+   infinito normal: nenhum clube repete nos primeiros 350 clubes diferentes (depois, no máximo 5 vezes) e a lista abre aos poucos,
+   dos mais famosos para os menos famosos, sempre só um pouco à frente dos que já saíram. */
+let CU=null;
+const clubUses=()=>{if(!CU||CU.g!==ST.CURGAME)CU={g:ST.CURGAME,v:store.get("clubuse:"+ST.CURGAME)||{}};return CU.v};
+export function markClubs(items){if(!MODE.free)return;const u=clubUses();for(const it of items){const s=typeof it==="number"?(ST.CLUBS[it]&&ST.CLUBS[it][1]):it;if(s)u[s]=(u[s]||0)+1}store.set("clubuse:"+ST.CURGAME,u)}
+export const clubSlugOk=slug=>{if(isHard())return true;if(!MODE.free)return slugRank(slug)<50;
+  const u=clubUses(),n=Object.keys(u).length;return(u[slug]||0)<(n<350?1:5)&&slugRank(slug)<n+60};
 export const clubOk=ci=>clubSlugOk(ST.CLUBS[ci]&&ST.CLUBS[ci][1]);
 export function verdict(id,res){const k=KIND[id];
   if(k==="wl")return res.won?{cls:"win",word:"GANHOU",detail:res.chip}:{cls:"loss",word:"PERDEU",detail:res.chip};
