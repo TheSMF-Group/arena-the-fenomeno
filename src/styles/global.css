@@ -856,3 +856,9 @@ header.top #todayPill{grid-column:3;justify-self:end}
 .soc a:hover{transform:translateY(-2px);border-color:var(--yellow);color:var(--yellow)}.soc svg{width:18px;height:18px}
 @media (max-width:760px){header.top .wrap{grid-template-columns:1fr;justify-items:center;gap:8px}header.top .hbar,header.top #todayPill{grid-column:1;justify-self:center}.brand small{display:none}}
 @media (max-width:420px){.brand .d{font-size:22px}.soc a{width:32px;height:32px}.hbar{gap:10px}}
+/* outros jogos do The Fenômeno */
+.more{margin:34px 0 10px}.more h2{margin:0 0 12px;font-family:var(--display);font-weight:400;font-size:clamp(24px,3.4vw,34px);color:var(--yellow);letter-spacing:.02em}
+.more-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.more-card{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;color:var(--fg);text-decoration:none;transition:transform .15s,border-color .15s}
+.more-card:hover{transform:translateY(-3px);border-color:var(--yellow)}.more-card b{font-size:22px;font-weight:400;line-height:1.05}.more-card p{margin:0;font-size:13px;color:var(--muted);flex:1}
+.more-h{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.more-go{display:flex;justify-content:flex-end;white-space:nowrap;margin-top:4px;font-family:var(--display);font-size:18px;color:var(--yellow)}
