@@ -2,6 +2,7 @@
 import {ST} from "../state";
 import {clubCrest, clubName, esc, face, flag, natName, pick, sample, shuffle, toast, year} from "../core";
 import {GAMES, finish, hit, isHard, markPeople, memAdd, memList, miss, pool, prefer, seenPeople, shareHead} from "../engine";
+import {bigClub} from "../bigclubs";
 
 /* 4. CONEXÕES */
 export function crit(type,v){
@@ -15,7 +16,7 @@ GAMES.conexoes={hard:"Jogadores de nicho e só 3 erros.",name:"CONEXÕES",desc:"
 rules:"Separe os 16 jogadores em 4 grupos de 4 com algo em comum: mesmo último clube, mesma seleção ou mesmo ano de nascimento. Você pode errar até 4 vezes.",
 start(st,r){
   const PL=pool(),MAXL=isHard()?3:4,seenP=seenPeople("conexoes"),pastC=new Set(memList("conexoes").slice(-24));
-  const by={club:groupsBy(PL,p=>p.club,4),nat:groupsBy(PL,p=>p.nat,4),year:groupsBy(PL,p=>year(p),4)};
+  const by={club:groupsBy(PL,p=>p.club,4).filter(([k])=>isHard()||bigClub(k)),nat:groupsBy(PL,p=>p.nat,4),year:groupsBy(PL,p=>year(p),4)};
   let groups;
   for(let t=0;t<5000;t++){const types=pick(r,[["club","club","nat","year"],["club","club","club","nat"],["club","nat","year","year"],["club","club","year","year"]]);
     const usedV=new Set(),usedP=new Set();groups=[];let ok=true;

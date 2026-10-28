@@ -2,6 +2,7 @@
 import {clubCrest, clubName, esc, face, natFlag, natName, pick, sample, shuffle, year} from "../core";
 import {GAMES, finish, hit, isHard, markPeople, memAdd, memList, miss, pool, prefer, seenPeople, shareHead} from "../engine";
 import {groupsBy} from "./conexoes";
+import {bigClub} from "../bigclubs";
 
 /* 5. IMPOSTOR */
 GAMES.impostor={hard:"Jogadores de nicho, e o intruso é da mesma época dos outros.",name:"IMPOSTOR",desc:"Quatro têm algo em comum. Ache o intruso.",
@@ -9,7 +10,7 @@ rules:"Em cada rodada, 4 dos 5 jogadores têm algo em comum (seleção, último 
 start(st,r){
   const T={nat:p=>p.nat,club:p=>p.club,dec:p=>Math.floor(year(p)/10)*10};
   const PL=pool();
-  const pools={nat:groupsBy(PL,T.nat,4),club:groupsBy(PL,T.club,4),dec:groupsBy(PL,T.dec,4)};
+  const pools={nat:groupsBy(PL,T.nat,4),club:groupsBy(PL,T.club,4).filter(([k])=>isHard()||bigClub(k)),dec:groupsBy(PL,T.dec,4)};
   const rounds=[],seenP=seenPeople("impostor"),pastC=new Set(memList("impostor").slice(-40));let guard=0;
   while(rounds.length<10){guard++;const ty=pick(r,rounds.length%3===0?["club"]:["nat","club","dec"]);let opts=pools[ty].filter(([k])=>!rounds.some(x=>x.ty===ty&&x.k===k));if(ty==="club"&&guard<300){const o2=opts.filter(([k])=>!pastC.has(ty+k));if(o2.length)opts=o2}const [k,mem]=pick(r,opts.length?opts:pools[ty]);const four=sample(r,prefer(mem,seenP,4),4);
     const imp=pick(r,prefer(PL.filter(p=>T[ty](p)!==k&&(!isHard()||ty==="dec"||Math.abs(year(p)-year(four[0]))<=12)),seenP,1));const five=shuffle(r,[...four,imp]);

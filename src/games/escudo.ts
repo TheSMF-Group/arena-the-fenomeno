@@ -3,6 +3,7 @@ import {ST} from "../state";
 import {crestImg, esc, pick} from "../core";
 import {makeSearch} from "../search";
 import {GAMES, dailyPick, finish, hit, isHard, miss, shareHead} from "../engine";
+import {BIG} from "../bigclubs";
 
 /* 6. ESCUDO */
 GAMES.escudo={hard:"Qualquer um dos 811 escudos, sem cor, 5 chutes e dicas só no fim.",name:"ESCUDO",desc:"Um pedaço do escudo. Qual é o clube?",
@@ -10,7 +11,7 @@ rules:"O escudo aparece ampliado e borrado. A cada erro ele abre um pouco e ganh
 start(st,r){
   const linked=new Set(ST.CLUBS.map(c=>c[1]).filter(Boolean));
   const HE=isHard(),MAXE=HE?5:6;
-  const epool=HE?ST.CRESTS.filter(c=>ST.ESC[c.id]):ST.CRESTS.filter(c=>linked.has(c.id));const ans=dailyPick("escudo",epool,r);const ox=pick(r,["25% 25%","75% 30%","30% 75%","70% 70%","50% 20%"]);
+  const epool=HE?ST.CRESTS.filter(c=>ST.ESC[c.id]):ST.CRESTS.filter(c=>linked.has(c.id)&&BIG.has(c.id));const ans=dailyPick("escudo",epool,r);const ox=pick(r,["25% 25%","75% 30%","30% 75%","70% 70%","50% 20%"]);
   const g=[];let done=false;
   st.innerHTML=`<div class="esc"><div class="cbox"><img src="${ST.ESC[ans.id]}" alt="Escudo misterioso"></div><div><ul class="clues"></ul><div class="srch"></div><div class="guesses"></div></div></div>`;
   const img=st.querySelector(".cbox img"),clues=st.querySelector(".clues"),gl=st.querySelector(".guesses"),srch=st.querySelector(".srch");

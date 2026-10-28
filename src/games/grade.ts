@@ -5,6 +5,7 @@ import {makeSearch} from "../search";
 import {failBox, loadingBox} from "./entrosa";
 import {VLPASS, loadPass, vlIn} from "./velha";
 import {GAMES, MODE, finish, hit, isHard, memAdd, memList, miss, shareHead} from "../engine";
+import {bigClub} from "../bigclubs";
 
 /* 3. GRADE */
 export let BUCKET=null,CLUBCOUNT=null,NATCOUNT=null;
@@ -18,7 +19,7 @@ GAMES.grade={hard:"Quadrados com poucas respostas e sem contador.",name:"GRADE",
 rules:"Preencha os 9 quadrados com jogadores da seleção da linha que já passaram pelo clube da coluna. São 9 chutes, sem repetir jogador.",
 start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"MONTANDO A GRADE…");loadPass().then(()=>{if(!alive)return;buckets();
   const HG=isHard(),famClubs=new Set(ST.FAM.map(p=>p.club));
-  const cPool=Object.keys(CLUBCOUNT).map(Number).filter(c=>HG?CLUBCOUNT[c]>=15:ST.CLUBS[c][1]&&CLUBCOUNT[c]>=30&&famClubs.has(c));
+  const cPool=Object.keys(CLUBCOUNT).map(Number).filter(c=>HG?CLUBCOUNT[c]>=15:ST.CLUBS[c][1]&&CLUBCOUNT[c]>=30&&famClubs.has(c)&&bigClub(c));
   const nPool=Object.keys(NATCOUNT).map(Number).filter(n=>NATCOUNT[n]>=(HG?40:150));
   const need=t=>HG?(t<12000?1:1):(t<8000?3:t<15000?2:1),cap=t=>HG?(t<12000?2:4):Infinity;
   const past=MODE.free?memList("grade").slice(-40).map(k=>new Set(k.split(","))):[],heads=(cs,ns)=>[...cs.map(c=>"c"+c),...ns.map(n=>"n"+n)];

@@ -3,6 +3,7 @@ import {ST} from "../state";
 import {clubCrest, clubName, esc, face, flag, natName, pick, sample, shuffle, toast, year} from "../core";
 import {GAMES, finish, hit, isHard, markPeople, miss, pool, prefer, seenPeople, shareHead} from "../engine";
 import {crit, groupsBy} from "./conexoes";
+import {bigClub} from "../bigclubs";
 
 /* 7. BINGO */
 GAMES.bingo={hard:"Jogadores de nicho e só 20 cartas.",name:"BINGO",desc:"Encaixe cada craque na casa certa da cartela.",
@@ -11,7 +12,7 @@ start(st,r){
   let cats,deck;const PL=pool(),EXTRA=isHard()?4:8,seenP=seenPeople("bingo");
   for(let t=0;t<3000;t++){
     const nats=sample(r,groupsBy(PL,p=>p.nat,3).map(x=>x[0]),6).map(v=>crit("nat",v));
-    const clubs=sample(r,groupsBy(PL,p=>p.club,3).map(x=>x[0]),7).map(v=>crit("club",v));
+    const clubs=sample(r,groupsBy(PL,p=>p.club,3).filter(x=>isHard()||bigClub(x[0])).map(x=>x[0]),7).map(v=>crit("club",v));
     const decs=sample(r,[1940,1950,1960,1970,1980,1990,2000].filter(d=>PL.filter(p=>Math.floor(year(p)/10)*10===d).length>=3),3).map(v=>crit("dec",v));
     cats=shuffle(r,[...nats,...clubs,...decs]);if(cats.length!==16)continue;
     const used=new Set();let ok=true;
