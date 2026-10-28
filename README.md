@@ -1,6 +1,6 @@
-# The Fenômeno Arena
+# Arena The Fenômeno
 
-The Fenômeno Arena: 22 mini games de futebol num lugar só. Agora em **Astro + TypeScript**.
+Arena The Fenômeno: 22 mini games de futebol num lugar só. Agora em **Astro + TypeScript**.
 
 ## Estrutura
 - `src/pages/index.astro`: página (head, cabeçalho, `#app`, rodapé) e entrada do script.
