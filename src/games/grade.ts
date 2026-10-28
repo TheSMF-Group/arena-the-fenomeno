@@ -14,8 +14,8 @@ export function buckets(){if(BUCKET)return;BUCKET=new Map();CLUBCOUNT={};NATCOUN
   for(const p of ST.P){add(p,p.club);NATCOUNT[p.nat]=(NATCOUNT[p.nat]||0)+1}
   /* qualquer clube por onde o jogador passou também vale */
   if(VLPASS)for(const k in VLPASS){const c=+k;for(const id of VLPASS[k]){const p=byId.get(id);if(p&&p.club!==c)add(p,c)}}}
-GAMES.grade={hard:"clubes e seleções menos óbvios, cada quadrado tem pouquíssimas respostas e o contador some.",name:"GRADE",desc:"3×3: seleção na linha, clube na coluna. Vale qualquer clube por onde o jogador passou.",
-rules:"Cada quadrado pede um jogador daquela seleção que já passou pelo clube da coluna (qualquer época, não só o último clube). Você tem 9 chutes no total, e cada jogador só pode ser usado uma vez.",
+GAMES.grade={hard:"Quadrados com poucas respostas e sem contador.",name:"GRADE",desc:"3×3: seleção na linha, clube na coluna. Vale qualquer clube por onde o jogador passou.",
+rules:"Preencha os 9 quadrados com jogadores da seleção da linha que já passaram pelo clube da coluna. São 9 chutes, sem repetir jogador.",
 start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"MONTANDO A GRADE…");loadPass().then(()=>{if(!alive)return;buckets();
   const HG=isHard(),famClubs=new Set(ST.FAM.map(p=>p.club));
   const cPool=Object.keys(CLUBCOUNT).map(Number).filter(c=>HG?CLUBCOUNT[c]>=15:ST.CLUBS[c][1]&&CLUBCOUNT[c]>=30&&famClubs.has(c));

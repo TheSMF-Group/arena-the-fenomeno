@@ -19,10 +19,10 @@ export const fcOk=name=>{const bs=[...name].map(fcBase);const n=bs.filter(b=>b&&
 export function forcaGallows(){return`<svg class="fc-svg" viewBox="0 0 380 560" role="img" aria-label="Forca com o bode">
   <path class="fc-wood" d="M8 548H200M40 548V12M30 12H200M40 64 92 12"/><path class="fc-rope" d="M150 12V60"/>
   <g transform="translate(27 58)">${FC_PARTS.map(([n,x,y,w,h,u],i)=>`<image class="fc-part" data-i="${i}" href="${u}" x="${x}" y="${y}" width="${w}" height="${h}"/>`).join("")}</g></svg>`}
-GAMES.forca={name:"FORCA",hard:"jogadores de nicho e qualquer um dos escudos da base, e a única dica só aparece no 3º erro.",
+GAMES.forca={name:"FORCA",hard:"Jogadores de nicho e qualquer escudo, com dica só no 3º erro.",
 desc:"Jogador ou time, letra por letra, antes do bode ficar inteiro na forca.",
-levels:{normal:["Craques e clubes conhecidos. A seleção do jogador (ou o país do time) aparece desde o começo e, a partir do 3º erro, o último clube (ou a liga).","dica desde o começo"],hard:["Jogadores de nicho e qualquer um dos escudos da base, de qualquer liga. Nenhuma dica até o 3º erro.","sem dica no começo"]},
-rules:"Escolha se quer adivinhar um jogador ou um time e descubra o nome letra por letra (acentos não contam: o E vale para É e Ê). Cada letra errada pendura uma parte do bode na forca: cabeça, corpo, braço direito, braço esquerdo, perna esquerda e perna direita. Bode inteiro na forca, perdeu.",
+levels:{normal:["Craques e clubes conhecidos. A seleção (ou o país do time) aparece desde o início; o último clube (ou a liga), no 3º erro.","dica desde o começo"],hard:["Jogadores de nicho e qualquer escudo. Sem dica até o 3º erro.","sem dica no começo"]},
+rules:"Escolha jogador ou time e descubra o nome letra por letra (acento não conta). Cada erro pendura uma parte do bode; com ele inteiro, você perde.",
 start(st,r){
   const HG=isHard(),dk="forcatipo:"+todayKey();
   let tipo=(!MODE.free&&store.get(dk))||store.get("forca:tipo")||"j";

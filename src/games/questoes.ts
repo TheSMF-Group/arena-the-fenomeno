@@ -12,10 +12,10 @@ export const QS_CONT={"Europa":"DE IT FR ES GB-ENG GB-WLS GB-SCT GB-NIR NL PT TR
 export const qsCont=iso=>Object.keys(QS_CONT).find(k=>QS_CONT[k].includes(iso))||null;
 export const QS_POS=[["gol","GOL","goleiro",[1]],["zag","ZAG","zagueiro",[2,3]],["ld","LD","lateral-direito",[5]],["le","LE","lateral-esquerdo",[4]],["mc","MC","meio-campo",[7,8,9]],["vol","VOL","volante",[6]],["mei","MEI","meia-atacante",[10]],["pd","PD","ponta-direita",[12]],["pe","PE","ponta-esquerda",[11]],["ata","ATA","atacante",[13,14]]];
 export const QS_YEARS=[1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2005];
-GAMES.questoes={name:"QUESTIONAMENTOS",hard:"jogadores de nicho, só 8 perguntas e 3 chutes.",
+GAMES.questoes={name:"QUESTIONAMENTOS",hard:"Jogador de nicho e só 8 perguntas.",
 desc:"Faça perguntas de sim ou não e crave o craque secreto em 3 chutes.",
-levels:{normal:["Um craque conhecido. Você tem 10 perguntas de sim ou não e 3 chutes.","10 perguntas · 3 chutes"],hard:["Um jogador de nicho, de qualquer época. Só 8 perguntas e 3 chutes.","8 perguntas · 3 chutes"]},
-rules:"Tem um craque secreto e quem investiga é você. Escolha as perguntas do cardápio (seleção, continente, ano de nascimento, clubes por onde passou, time atual, posições e carreira) e cada uma volta com SIM ou NÃO. Resposta que já dá para deduzir das anteriores entra de graça no caderninho. Perguntar não gasta chute e chutar não gasta pergunta. Acertou o nome ou gastou os 3 chutes, acabou.",
+levels:{normal:["Um craque conhecido: 10 perguntas de sim ou não e 3 chutes.","10 perguntas · 3 chutes"],hard:["Um jogador de nicho, de qualquer época: 8 perguntas e 3 chutes.","8 perguntas · 3 chutes"]},
+rules:"Descubra o craque secreto com perguntas de sim ou não do cardápio (seleção, clubes, posição, idade…). Perguntar não gasta chute. Você tem 3 chutes.",
 start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"ESCONDENDO O CRAQUE…");
   Promise.all([loadEnt(),loadPos()]).then(([D])=>{if(!alive)return;
     const HG=isHard(),MAXQ=HG?8:10,MAXG=3;

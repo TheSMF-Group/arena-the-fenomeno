@@ -7,10 +7,10 @@ import {entYear, failBox, loadEnt, loadingBox} from "./entrosa";
 
 /* 16. CARREIRA: quatro clubes da carreira, fora de ordem. Adivinhe o jogador */
 export const CR_YOUTH=/(\bS\d\d\b|\bU-?\d\d\b|Sub-?\d\d|\bCJ$|Madrileño|Juv\.|Jgd|\sB$|\sII$)/i;
-GAMES.carreira={name:"CARREIRA",hard:"jogadores de nicho e nenhuma dica além dos clubes.",
+GAMES.carreira={name:"CARREIRA",hard:"Jogadores de nicho e nenhuma dica além dos clubes.",
 desc:"Os clubes aparecem um por um. Descubra o jogador com o mínimo de clubes.",
-levels:{normal:["Craques conhecidos. Os clubes aparecem um por vez e, a partir do 3º, a seleção dele vira dica.","4 clubes · seleção no 3º"],hard:["Jogadores de nicho, de qualquer época. Só os clubes, sem nenhuma outra dica.","4 clubes · sem dicas"]},
-rules:"Aparece o primeiro clube por onde o jogador passou: arrisque um nome. Errou (ou pulou), aparece o próximo clube, até o 4º. Os clubes vêm fora da ordem da carreira. Com os 4 na mesa, você tem um último chute. Vale qualquer jogador que tenha passado pelos 4 clubes.",
+levels:{normal:["Craques conhecidos. Os clubes aparecem um a um; a seleção vira dica a partir do 3º.","4 clubes · seleção no 3º"],hard:["Jogadores de nicho, de qualquer época, só com os clubes.","4 clubes · sem dicas"]},
+rules:"Aparece um clube por onde o jogador passou. Chute ou passe para o próximo, até 4 clubes (fora de ordem). Vale qualquer jogador que passou pelos 4. Depois dos 4, há um último chute.",
 start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"PUXANDO A FICHA…");
   loadEnt().then(D=>{if(!alive)return;
     const HG=isHard();

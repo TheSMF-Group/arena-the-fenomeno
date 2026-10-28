@@ -21,7 +21,7 @@ export const maFresh=base=>{const s={...base,kind:"maleta",tx:Array(11).fill(0),
   return base.O?maRound(s):s};
 export const maStart=s=>maRound(s);
 GAMES.maleta={name:"MALETA",multi:true,desc:"Cinco maletas por posição, cada uma com um craque escondido. Escolha, arrisque e troque.",
-rules:"São 11 rodadas, uma para cada posição do 4-3-3 (goleiro, laterais, zagueiros…). Em cada rodada há 5 maletas numeradas, cada uma escondendo um jogador da posição. Quem abre primeiro escolhe uma maleta e mostra o craque; o outro escolhe às cegas entre as 4 que sobraram. Aí cada um, começando por quem abriu primeiro, decide: ficar com o seu craque ou trocar. Trocar descarta o seu jogador (ele não volta para maleta nenhuma) e você abre, às cegas, uma das maletas que sobraram, e leva o que estiver lá dentro. Depois todas as maletas viram e todo mundo vê o que deixou passar. Quem abre primeiro (e também troca primeiro) alterna a cada rodada. Só entram jogadores em atividade. Com os dois times prontos, a partida é simulada e, se empatar, vai para os pênaltis.",
+rules:"São 11 rodadas, uma por posição, com 5 maletas escondendo jogadores. Quem abre primeiro escolhe uma e mostra o craque; o outro escolhe às cegas entre as 4 que sobraram. Cada um pode ficar com o seu ou trocar por uma das maletas que sobraram (o descartado não volta). Quem abre e troca primeiro alterna a cada rodada. No fim, partida simulada.",
 open(){ST.VIEW="maleta";ST.PHASE="choose";cleanup();if(location.hash!=="#maleta")history.replaceState(null,"","#maleta");
   const app=$("#app");let cfg={diff:"normal"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>MALETA</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
@@ -36,7 +36,7 @@ open(){ST.VIEW="maleta";ST.PHASE="choose";cleanup();if(location.hash!=="#maleta"
         <label class="vl-opt"><small>Código da partida</small><input class="vl-code" maxlength="5" autocomplete="off" spellcheck="false" placeholder="EX: BODE7" aria-label="Código da partida"></label>
         <button class="btn g vl-go" type="button" data-a="join">Entrar</button>
         <p class="muted vl-help">Peça o código para quem criou a partida. Os dois precisam estar com esta página aberta${window.claude?" e logados no claude.ai":""}.</p></section></div>`;
-  const help={diff:{normal:"Craques conhecidos misturados com médios e ruins em cada maleta. 20 segundos por escolha.",hard:"Qualquer jogador em atividade da base, a maioria desconhecidos. 15 segundos por escolha."}};
+  const help={diff:{normal:"Craques conhecidos misturados com médios e ruins em cada maleta. 20 segundos por escolha.",hard:"Jogadores desconhecidos e 15 segundos por escolha."}};
   const paint=()=>{app.querySelectorAll(".vl-seg").forEach(sg=>sg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===cfg[sg.dataset.k]))));app.querySelector('[data-h=diff]').textContent=help.diff[cfg.diff]};
   app.querySelectorAll(".vl-seg").forEach(sg=>sg.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;cfg[sg.dataset.k]=b.dataset.v;paint()}));
   app.querySelector(".back").addEventListener("click",home);

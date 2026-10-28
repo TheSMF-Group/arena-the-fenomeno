@@ -25,10 +25,10 @@ export function pyrGen(D,r,HG){const seenP=seenPeople("piramide"),past=new Set(m
     memAdd("piramide",key);markPeople("piramide",rows.map(x=>x.p));
     return{gen:true,t:title,s:sub,kick:k==="chegou"?"Chegada":"Carreira",it:rows.map(x=>({name:x.p.name,v:x.v,show:x.show,h:ST.NATS[x.p.nat][1],p:x.p}))}}
   return null}
-GAMES.piramide={name:"PIRÂMIDE",hard:"vale ponto só quem estiver na posição exata (1º ao 10º, da esquerda para a direita em cada linha), listas de nicho ou jogadores nascidos com até 3 anos de diferença, e sem o botão de ajuda.",
+GAMES.piramide={name:"PIRÂMIDE",hard:"Só a posição exata pontua, listas de nicho e sem ajuda.",
 desc:"Monte o ranking: do 1º no topo ao 10º na base.",
-levels:{normal:["Rankings que todo boleiro conhece: artilheiros das Copas, da Premier League, da Seleção, Bolas de Ouro, além de \"quem nasceu primeiro\". Cada jogador tem que ficar na posição exata, do maior para o menor, da esquerda para a direita. Um botão de ajuda por jogo.","crave a posição · 1 ajuda"],hard:["Artilheiros históricos de La Liga, Serie A e Bundesliga, com Zarra, Piola e Burgsmüller, ou dez jogadores nascidos quase no mesmo ano. Tem que cravar a posição exata de cada um, sem ajuda.","crave a posição · sem ajuda"]},
-rules:"Os 10 jogadores aparecem um por vez: clique numa casa vazia para colocar cada um. As casas vão do 1º (topo) ao 10º, da esquerda para a direita em cada linha: 1º no topo, 2º e 3º na segunda linha, 4º a 6º na terceira e 7º a 10º na base. Clique em dois jogadores já colocados para trocar de lugar. Cada jogador na posição exata vale um ponto (do maior para o menor, da esquerda para a direita); jogadores empatados valem em qualquer ordem.",
+levels:{normal:["Rankings conhecidos (artilheiros de Copas, Premier League e Seleção, Bolas de Ouro, “quem nasceu primeiro”). Acerte a posição exata de cada um. Uma ajuda por jogo.","crave a posição · 1 ajuda"],hard:["Artilheiros históricos de La Liga, Serie A e Bundesliga, ou dez jogadores nascidos quase no mesmo ano. Posição exata, sem ajuda.","crave a posição · sem ajuda"]},
+rules:"Coloque os 10 jogadores, um por vez, do 1º (topo) ao 10º (base), da esquerda para a direita em cada linha. Cada um na posição exata vale 1 ponto. Clique em dois já colocados para trocá-los.",
 start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"EMPILHANDO OS CRAQUES…");
   Promise.all([loadNovos(),MODE.free?loadEnt().catch(()=>null):null]).then(([N,D])=>{if(!alive)return;
     const HG=isHard(),cur=N.L.filter(l=>l.pyr&&(HG?l.dif===3:l.dif===1));

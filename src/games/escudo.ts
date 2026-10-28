@@ -5,8 +5,8 @@ import {makeSearch} from "../search";
 import {GAMES, dailyPick, finish, hit, isHard, miss, shareHead} from "../engine";
 
 /* 6. ESCUDO */
-GAMES.escudo={hard:"qualquer um dos 811 escudos, zoom maior, sem cor, só 5 chutes e duas dicas no fim.",name:"ESCUDO",desc:"Um pedaço do escudo. Qual é o clube?",
-rules:"O escudo aparece ampliado e borrado. A cada erro ele se abre um pouco e ganha uma dica: confederação, país, liga e inicial. São 6 chutes.",
+GAMES.escudo={hard:"Qualquer um dos 811 escudos, sem cor, 5 chutes e dicas só no fim.",name:"ESCUDO",desc:"Um pedaço do escudo. Qual é o clube?",
+rules:"O escudo aparece ampliado e borrado. A cada erro ele abre um pouco e ganha uma dica: confederação, país, liga e inicial. São 6 chutes.",
 start(st,r){
   const linked=new Set(ST.CLUBS.map(c=>c[1]).filter(Boolean));
   const HE=isHard(),MAXE=HE?5:6;

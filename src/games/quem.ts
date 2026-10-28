@@ -4,8 +4,8 @@ import {makeSearch} from "../search";
 import {GAMES, dailyPick, finish, hit, isHard, miss, pool, shareHead} from "../engine";
 
 /* 1. QUEM É? */
-GAMES.quem={hard:"foto escura e sem cor até o fim, dicas só a partir do 3º erro, sem iniciais e sem \"perto\" na tabela.",name:"QUEM É?",desc:"A foto vai clareando. Descubra o jogador em 6 chutes.",
-rules:"A foto começa borrada. A cada chute errado ela fica mais nítida e uma dica nova aparece. A tabela compara seu chute com o jogador secreto: verde é igual, amarelo é perto (até 2 anos), as setas dizem se o ano certo é maior ou menor.",
+GAMES.quem={hard:"Foto escura e sem cor, dicas só a partir do 3º erro, sem iniciais e sem “perto”.",name:"QUEM É?",desc:"A foto vai clareando. Descubra o jogador em 6 chutes.",
+rules:"A foto começa borrada e clareia a cada erro, com uma dica nova. Você tem 6 chutes. Na tabela, verde é igual, amarelo é perto (até 2 anos) e a seta indica se o certo é maior ou menor.",
 start(st,r){
   const ans=dailyPick("quem",pool(),r),MAX=6,g=[];let done=false;
   st.innerHTML=`<div class="quem"><div class="ph">${face(ans,"","Jogador misterioso")}</div><div><ul class="clues"></ul><div class="srch"></div><div class="gt-wrap"><table class="gtable"><thead><tr><th>Jogador</th><th>Seleção</th><th>Último clube</th><th>Nasc.</th><th>Últ. temp.</th></tr></thead><tbody></tbody></table></div></div></div>`;

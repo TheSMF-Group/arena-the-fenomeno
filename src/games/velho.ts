@@ -3,8 +3,8 @@ import {esc, face, fmtDate, natFlag, natName, pick, year} from "../core";
 import {GAMES, finish, hit, isHard, markPeople, miss, pool, prefer, seenPeople, shareHead} from "../engine";
 
 /* 8. MAIS VELHO */
-GAMES.velho={hard:"os dois nasceram com no máximo 2 anos de diferença.",name:"MAIS VELHO?",desc:"Quem nasceu primeiro? Faça a maior sequência.",
-rules:"Dois jogadores lado a lado: clique no mais velho. Quem fica vai encarar o próximo. Um erro encerra a sequência.",
+GAMES.velho={hard:"Os dois nasceram com no máximo 2 anos de diferença.",name:"MAIS VELHO?",desc:"Quem nasceu primeiro? Faça a maior sequência.",
+rules:"Clique no mais velho dos dois. Acertou, ele fica e enfrenta o próximo. Um erro encerra a sequência.",
 start(st,r){
   const PL0=pool(),HV=isHard(),PL=prefer(PL0,seenPeople("velho"),200),shown=new Set();
   const nextP=ex=>{let p,t=0;do{p=pick(r,t<300?PL:PL0);t++}while(t<2000&&(shown.has(p.id)&&t<200||ex.some(x=>x.id===p.id||x.birth===p.birth||(HV&&t<400&&Math.abs(year(x)-year(p))>2))));shown.add(p.id);markPeople("velho",[p]);return p};

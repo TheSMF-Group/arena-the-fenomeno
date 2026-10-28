@@ -55,7 +55,7 @@ export function vlCode(){const A="ABCDEFGHJKMNPQRSTUVWXYZ23456789";let s="";for(
 export function vlLine(b){for(const l of VL_LINES){const m=b[l[0]]&&b[l[0]][0];if(m&&l.every(i=>b[i]&&b[i][0]===m))return{m,l}}return null}
 
 GAMES.velha={name:"JOGO DA VELHA",multi:true,desc:"Multiplayer: crie a partida, mande o código e jogue contra um amigo.",
-rules:"Cada casa pede um jogador que passou pelo clube da coluna, em qualquer época, e que bata com a linha: seleção ou década de nascimento. Na sua vez, clique numa casa e diga o jogador; acertou, a casa é sua. Errou ou o tempo acabou, a vez passa. Três em linha vence a rodada.",
+rules:"Cada casa pede um jogador que passou pelo clube da coluna e bate com a linha (seleção ou década de nascimento). Acertou, a casa é sua. Errou ou acabou o tempo, passa a vez. Três em linha vence.",
 open(){ST.VIEW="velha";ST.PHASE="choose";cleanup();if(location.hash!=="#velha")history.replaceState(null,"","#velha");
   const app=$("#app");let cfg={diff:"normal",lg:"ucl",md:3};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2>JOGO DA <b>VELHA</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
@@ -73,7 +73,7 @@ open(){ST.VIEW="velha";ST.PHASE="choose";cleanup();if(location.hash!=="#velha")h
         <label class="vl-opt"><small>Código da partida</small><input class="vl-code" maxlength="5" autocomplete="off" spellcheck="false" placeholder="EX: BODE7" aria-label="Código da partida"></label>
         <button class="btn g vl-go" type="button" data-a="join">Entrar</button>
         <p class="muted vl-help">Peça o código para quem criou a partida. Os dois precisam estar com esta página aberta${window.claude?" e logados no claude.ai":""}.</p></section></div>`;
-  const help={diff:{normal:"Clubes grandes e seleções famosas, 45 segundos por jogada.",hard:"Clubes menores e seleções exóticas (Croácia, Senegal, Japão, Gales…), 30 segundos por jogada."},
+  const help={diff:{normal:"Clubes grandes e seleções famosas, 45 segundos por jogada.",hard:"Clubes menores, seleções exóticas e 30 segundos por jogada."},
     md:{3:"Melhor de 3: quem vencer 2 rodadas leva.",5:"Melhor de 5: quem vencer 3 rodadas leva.",10:"Maratona: quem vencer 6 rodadas leva."}};
   const paint=()=>{app.querySelectorAll(".vl-seg").forEach(s=>s.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===String(cfg[s.dataset.k])))));
     app.querySelector('[data-h=diff]').textContent=help.diff[cfg.diff];app.querySelector('[data-h=md]').textContent=help.md[cfg.md]};

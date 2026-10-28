@@ -4,8 +4,8 @@ import {GAMES, finish, hit, isHard, markPeople, memAdd, memList, miss, pool, pre
 import {groupsBy} from "./conexoes";
 
 /* 5. IMPOSTOR */
-GAMES.impostor={hard:"jogadores de nicho, e o impostor costuma ser da mesma época dos outros.",name:"IMPOSTOR",desc:"Quatro têm algo em comum. Ache o intruso.",
-rules:"Em cada rodada aparecem 5 jogadores. Quatro dividem a mesma seleção, o mesmo último clube ou a mesma década de nascimento. Clique no impostor. São 10 rodadas.",
+GAMES.impostor={hard:"Jogadores de nicho, e o intruso é da mesma época dos outros.",name:"IMPOSTOR",desc:"Quatro têm algo em comum. Ache o intruso.",
+rules:"Em cada rodada, 4 dos 5 jogadores têm algo em comum (seleção, último clube ou década de nascimento). Clique no intruso. São 10 rodadas.",
 start(st,r){
   const T={nat:p=>p.nat,club:p=>p.club,dec:p=>Math.floor(year(p)/10)*10};
   const PL=pool();

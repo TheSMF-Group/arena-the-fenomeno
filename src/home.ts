@@ -49,8 +49,8 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
 export function openGame(id){if(GAMES[id]&&GAMES[id].open)return GAMES[id].open();MODE.multi=false;ST.VIEW=id;ST.PHASE="choose";ST.PLAYDAY=todayKey();cleanup();
   const g=GAMES[id];if(!g)return home();
   if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
-  const info={normal:["Os craques que todo mundo conhece, de Zico e Maradona a Vini Jr. e Lamine Yamal. Dicas completas.","618 craques"],
-    hard:["Para quem conhece futebol de verdade: 740 jogadores de clubes grandes, de 1970 até hoje, ídolos cult e elencos atuais. Menos dicas, foto mais escondida, menos erros.","740 jogadores · menos dicas"]};
+  const info={normal:["Craques que todo mundo conhece, com todas as dicas.","618 craques"],
+    hard:["Jogadores de nicho, de 1970 até hoje, com menos dicas e menos erros.","740 jogadores · menos dicas"]};
   const lv=g.levels||info;
   $("#app").innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2>${g.name.replace(/\?$/,"<b>?</b>")}</h2><span class="spacer"></span>${modeToggle(false)}</div>
     <p class="rules">Escolha o nível. ${MODE.free?"No modo infinito as rodadas não acabam: cada acerto aumenta a sequência e um erro apaga o fogo. Jogue qualquer nível, quantas vezes quiser.":"No desafio do dia você joga um nível só: escolheu, valeu. O outro fica travado até amanhã."}</p>

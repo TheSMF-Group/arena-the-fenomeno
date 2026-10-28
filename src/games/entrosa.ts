@@ -47,10 +47,10 @@ export function genEntrosa(D,r,HG){const base=(HG?ST.HARD:ST.FAM).filter(p=>D.S.
       m:five.map(m=>({name:m.p.name,w:`${D.C[m.c]} · ${entYear(m.a)===entYear(m.b)?entYear(m.a):entYear(m.a)+"–"+entYear(m.b)}`,p:m.p}))}}
   return null}
 
-GAMES.entrosa={name:"ENTROSAMENTO",hard:"craques menos óbvios, companheiros de nicho, sem dizer onde jogaram juntos e sem a bandeira do misterioso.",
+GAMES.entrosa={name:"ENTROSAMENTO",hard:"Craques menos óbvios, sem dizer onde jogaram juntos e sem a bandeira.",
 desc:"Ele jogou com esses cinco. Quem é?",
-levels:{normal:["Craques conhecidos e companheiros famosos. Cada carta diz onde os dois jogaram juntos, e a partir do 3º companheiro aparece a seleção do misterioso. No infinito, os companheiros são sorteados de todas as passagens do Transfermarkt e o caminho nunca se repete.","com dicas · infinito sem repetir"],hard:["Ídolos cult e companheiros de nicho: Mutu, Petković, Kovačević, Fran do Deportivo. Ninguém diz onde jogaram juntos.","sem dicas · infinito sem repetir"]},
-rules:"Um jogador misterioso jogou junto (no clube ou na seleção) com os cinco companheiros que vão aparecendo. Começa com um. Chute ou peça o próximo: cada erro também revela mais um companheiro. Com os cinco na mesa, você tem um último chute.",
+levels:{normal:["Craques conhecidos e companheiros famosos. Cada carta diz onde jogaram juntos; a partir do 3º aparece a seleção do misterioso.","com dicas · infinito sem repetir"],hard:["Ídolos cult e companheiros de nicho, sem dizer onde jogaram juntos.","sem dicas · infinito sem repetir"]},
+rules:"Um jogador misterioso jogou com 5 companheiros, que aparecem um a um. Chute ou peça o próximo (cada erro também revela um). Com os 5 na mesa, há um último chute.",
 start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"ESCALANDO OS COMPANHEIROS…");
   Promise.all([loadNovos(),MODE.free?loadEnt().catch(()=>null):null]).then(([N,D])=>{if(!alive)return;
     const HG=isHard(),cur=N.E.filter(e=>HG?e.dif===3:e.dif===1);

@@ -12,10 +12,10 @@ export const camNum=p=>CAMD&&CAMD[p.id]&&CAMD[p.id][0]>0?CAMD[p.id][0]:null;
 export const camCrest=p=>p.club!=null&&ST.CLUBS[p.club]?ST.CLUBS[p.club][1]:null;
 export const camShirt=p=>KITS[camCrest(p)]?`<div class="cam-shirt kit"><img class="cam-kit" src="${KITS[camCrest(p)]}" alt="Camisa do ${esc(clubName(p.club))}"><b class="cam-n">${camNum(p)}</b></div>`:`<div class="cam-shirt"><svg viewBox="0 0 200 190" aria-hidden="true"><path d="M62 8 12 38l18 40 22-12v116h96V66l22 12 18-40L138 8c-8 18-22 26-38 26S70 26 62 8Z" fill="#232b24" stroke="#ffd21f" stroke-width="4" stroke-linejoin="round"/></svg><img class="cam-cr" src="${ST.ESC[camCrest(p)]||""}" alt=""><b class="cam-n">${camNum(p)}</b></div>`;
 export function camPool(HG){return ST.P.filter(p=>ATU&&ATU[p.id]>0&&camNum(p)&&camCrest(p)&&ST.ESC[camCrest(p)]&&p.nat!=null&&ST.NATS[p.nat]&&(HG?ATU[p.id]>=8e6:(p.fam===1||p.fam===2||ATU[p.id]>=15e6)))}
-GAMES.camisa={name:"CAMISA E CONTA",hard:"operações com a camisa de craques, cinco contas e só uma tentativa por conta.",
+GAMES.camisa={name:"CAMISA E CONTA",hard:"5 contas, 1 tentativa cada, e é preciso acertar 4.",
 desc:"Descubra o dono da camisa ou resolva a conta com os números dos craques.",
-levels:{normal:["De quem é a camisa? Aparece o clube e o número, e você tem 3 chutes. A cada erro, uma dica: seleção, posição, idade.","clube + número · 3 chutes"],hard:["Operações futebolísticas: cinco contas com a camisa de craques de hoje (soma, subtração e multiplicação). Uma tentativa por conta, e é preciso acertar 4.","5 contas · 1 tentativa cada"]},
-rules:"Só jogadores que atuaram na temporada 2025/26, com o número de camisa que usam hoje no clube. No normal, descubra o dono da camisa: vale qualquer jogador que use aquele número naquele clube. No difícil, resolva as contas: cada craque vale o número da sua camisa.",
+levels:{normal:["Aparecem o clube e o número. Descubra o jogador em 3 chutes; cada erro dá uma dica (seleção, posição, idade).","clube + número · 3 chutes"],hard:["5 contas de soma, subtração e multiplicação com camisas de craques. Uma tentativa por conta; acerte 4.","5 contas · 1 tentativa cada"]},
+rules:"Só jogadores da temporada 2025/26. Normal: descubra quem usa o número daquela camisa naquele clube. Difícil: resolva contas em que cada craque vale o número da sua camisa.",
 start(st,r){let alive=true;ST.CLEAN=()=>{alive=false};loadingBox(st,"PROVANDO AS CAMISAS…");
   loadCam().then(()=>{if(!alive)return;const HG=isHard();
     if(!HG){const base=camPool(false),ans=dailyPick("camisa",base,r),num=camNum(ans),cr=camCrest(ans);

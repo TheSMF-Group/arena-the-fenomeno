@@ -52,10 +52,10 @@ export function t10Build(D){if(T10G)return T10G;
   run(GV,"v:",fmtEur,w=>w?`${w} mais valiosos`:"Mais valiosos","maior valor de mercado que o jogador já teve no Transfermarkt");
   run(GL,"l:",anosMeses,w=>w?`${w} com a carreira mais longa`:"Carreira mais longa","do primeiro contrato profissional ao último jogo, pelo Transfermarkt");
   return T10G=out}
-GAMES.top10={name:"TOP 10",hard:"rankings cabeludos (artilheiros da Bundesliga e da Serie A, valor de mercado e carreiras longas com nomes menos óbvios), sem dica nenhuma, só 3 erros e 2 minutos.",
+GAMES.top10={name:"TOP 10",hard:"Rankings menos óbvios, sem dicas, 3 erros e 2 minutos.",
 desc:"Rankings de verdade: artilheiros, valor de mercado, carreiras. Complete o Top 10.",
-levels:{normal:["Rankings de verdade, do 1º ao 10º: artilheiros, maiores valores de mercado e carreiras mais longas por posição, seleção e clube. Cada casa mostra a seleção do jogador. Sem tempo e 5 erros.","centenas de rankings · 5 erros"],hard:["Artilheiros de La Liga, Serie A e Bundesliga e rankings de valor de mercado e de carreira com nomes menos óbvios. Sem dicas, 3 erros e 2 minutos.","centenas de rankings · 2 minutos"]},
-rules:"Digite os jogadores da lista do dia. Cada acerto entra na posição certa; cada nome fora da lista custa uma vida. Acabou a vida, o tempo, ou você desistiu: a lista completa aparece e você ganha um ponto por nome encontrado.",
+levels:{normal:["Rankings de verdade: artilheiros, valores de mercado e carreiras mais longas. Sem tempo e com 5 erros.","centenas de rankings · 5 erros"],hard:["Rankings com nomes menos óbvios. Sem dicas, 3 erros e 2 minutos.","centenas de rankings · 2 minutos"]},
+rules:"Digite os jogadores do ranking do dia. Cada acerto entra na posição certa e cada nome fora da lista custa uma vida. No fim, 1 ponto por nome encontrado.",
 start(st,r){let alive=true,timer=null;ST.CLEAN=()=>{alive=false;clearInterval(timer)};loadingBox(st,"MONTANDO A LISTA…");
   Promise.all([loadNovos(),loadPass(),loadEnt(),loadPos()]).then(([N,,D])=>{if(!alive)return;
     const HG=isHard(),cur=N.L.filter(l=>l.k==="stat"&&(HG?l.dif===3:l.dif===1)),gen=t10Build(D).filter(l=>l.dif===(HG?3:1));

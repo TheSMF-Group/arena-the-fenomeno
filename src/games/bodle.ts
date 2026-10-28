@@ -5,8 +5,8 @@ import {GAMES, dailyPick, finish, hit, isHard, miss, pool, shareHead} from "../e
 
 /* 2. BODLE */
 export function wordOf(p){let t=p.name.split(/\s+/);if(t.length>1&&/^j[uú]nior$/i.test(t[t.length-1]))t=[t[0]];return norm(t[t.length-1]).replace(/[^a-z]/g,"").toUpperCase()}
-GAMES.bodle={hard:"jogadores fora da lista de craques e nenhuma dica.",name:"BODLE",desc:"O Wordle do bode: o sobrenome de um craque.",
-rules:"Adivinhe o sobrenome (ou apelido) de um jogador famoso em 6 tentativas. Verde: letra no lugar certo. Amarelo: a letra existe em outra posição. Cinza: não existe. A partir do 3º erro aparece a seleção; no 5º, o último clube.",
+GAMES.bodle={hard:"Jogadores de nicho e nenhuma dica.",name:"BODLE",desc:"O Wordle do bode: o sobrenome de um craque.",
+rules:"Adivinhe o sobrenome ou apelido do jogador em 6 tentativas. Verde: letra no lugar certo. Amarelo: a letra existe, mas em outro lugar. Cinza: não existe. A seleção aparece no 3º erro e o último clube no 5º.",
 start(st,r){
   const bpool=pool().filter(p=>{const w=wordOf(p);return w.length>=4&&w.length<=8});
   const ans=dailyPick("bodle",bpool,r),W=wordOf(ans),N=W.length,rows=[];let cur="",done=false;const keys={};

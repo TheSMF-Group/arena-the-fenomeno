@@ -30,9 +30,9 @@ export function geoPoints(km,hard){if(km==null)return 0;if(km<=1)return 5000;ret
 export const geoTier=p=>p>=4500?"🟩":p>=3000?"🟨":p>=1500?"🟧":"⬛";
 export const fmtN=n=>Math.round(n).toLocaleString("pt-BR");
 export const fmtKm=k=>k<1?`${Math.round(k*1000)} m`:(k<10?k.toFixed(1).replace(".",",")+" km":fmtN(k)+" km");
-GAMES.futgeo={name:"FUTGEO",hard:"perguntas mais cabeludas, mapa sem nenhuma cidade, 60 segundos por pergunta e a pontuação cai mais rápido com a distância.",
+GAMES.futgeo={name:"FUTGEO",hard:"Mapa sem cidades, 60 segundos por pergunta e a pontuação cai mais rápido.",
 desc:"Onde foi? Clique no mapa.",
-rules:"Jogo criado por Felipe Costa (futgeo.vercel.app). Cinco perguntas: estádios, finais, gols históricos, onde o craque nasceu e a casa de cada clube. Arraste e dê zoom no mapa, clique onde acha que é e confirme. Quanto mais perto, mais pontos: até 5.000 por pergunta, 25.000 no total.",
+rules:"Jogo criado por Felipe Costa (futgeo.vercel.app). Cinco perguntas de “onde foi?”: estádios, finais, gols, berço do craque e casa dos clubes. Clique no mapa: quanto mais perto, mais pontos (até 5.000 por pergunta).",
 start(st,r){
   const HG=isHard(),TIME=HG?60:120,ROUNDS=5;
   st.innerHTML=`<div class="fg"><div class="fg-load"><img src="${BODEHEAD}" alt=""><b>CARREGANDO O MAPA…</b></div></div>`;

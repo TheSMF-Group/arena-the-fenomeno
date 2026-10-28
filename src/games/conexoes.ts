@@ -11,8 +11,8 @@ export function crit(type,v){
   if(type==="dec")return{type,v,test:p=>Math.floor(year(p)/10)*10===v,label:()=>`Nascidos nos anos ${String(v).slice(2)}`,text:"Anos "+String(v).slice(2)};
 }
 export function groupsBy(arr,fn,min){const m=new Map();for(const p of arr){const k=fn(p);if(!m.has(k))m.set(k,[]);m.get(k).push(p)}return[...m.entries()].filter(([k,v])=>v.length>=min)}
-GAMES.conexoes={hard:"jogadores de nicho e só 3 erros.",name:"CONEXÕES",desc:"16 craques, 4 grupos escondidos.",
-rules:"Encontre 4 grupos de 4 jogadores que têm algo em comum: o mesmo último clube, a mesma seleção ou o mesmo ano de nascimento. Selecione 4 e confirme. São 4 erros permitidos.",
+GAMES.conexoes={hard:"Jogadores de nicho e só 3 erros.",name:"CONEXÕES",desc:"16 craques, 4 grupos escondidos.",
+rules:"Separe os 16 jogadores em 4 grupos de 4 com algo em comum: mesmo último clube, mesma seleção ou mesmo ano de nascimento. Você pode errar até 4 vezes.",
 start(st,r){
   const PL=pool(),MAXL=isHard()?3:4,seenP=seenPeople("conexoes"),pastC=new Set(memList("conexoes").slice(-24));
   const by={club:groupsBy(PL,p=>p.club,4),nat:groupsBy(PL,p=>p.nat,4),year:groupsBy(PL,p=>year(p),4)};

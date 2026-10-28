@@ -5,8 +5,8 @@ import {GAMES, finish, hit, isHard, markPeople, miss, pool, prefer, seenPeople, 
 import {crit, groupsBy} from "./conexoes";
 
 /* 7. BINGO */
-GAMES.bingo={hard:"jogadores de nicho e baralho de 20 cartas.",name:"BINGO",desc:"Encaixe cada craque na casa certa da cartela.",
-rules:"Os jogadores aparecem um por vez. Clique numa casa que combine com ele (seleção, último clube ou década de nascimento) ou pule. Encaixe errado queima o jogador. Complete as 16 casas com os 24 jogadores do baralho.",
+GAMES.bingo={hard:"Jogadores de nicho e só 20 cartas.",name:"BINGO",desc:"Encaixe cada craque na casa certa da cartela.",
+rules:"Os jogadores aparecem um por vez. Coloque cada um numa casa que combine (seleção, último clube ou década) ou pule. Errar queima o jogador. Complete as 16 casas com as 24 cartas.",
 start(st,r){
   let cats,deck;const PL=pool(),EXTRA=isHard()?4:8,seenP=seenPeople("bingo");
   for(let t=0;t<3000;t++){

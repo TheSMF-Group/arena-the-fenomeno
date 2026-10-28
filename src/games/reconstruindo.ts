@@ -38,7 +38,7 @@ export function rcStart(s){const C=rcClubs()[s.cfg.diff==="hard"?"hard":"normal"
   s.cash={X:b,O:b};s.cash0=b;s.ord=shuffle(Math.random,[...Array(11).keys()]);s.round=0;s.used=[];s.hist=[];return rcRound(s)}
 export const rcFresh=base=>{const s={...base,kind:"reconstruindo",tx:Array(11).fill(0),to:Array(11).fill(0),used:[],sx:0,so:0,over:null,last:null,game:(base.game||0)+1,dl:0,ph:"pick",turn:"X"};return base.O?rcStart(s):s};
 GAMES.reconstruindo={name:"RECONSTRUINDO",multi:true,desc:"Cada um gerencia um clube de 11 titulares. Posição a posição, mantenha ou venda e compre um craque melhor. Se os dois quiserem o mesmo, é leilão.",
-rules:"Sorteiam-se dois clubes e cada jogador gerencia um deles, com os 11 titulares no 4-3-3. As posições saem uma a uma, em ordem aleatória (pode ser goleiro, depois meio-campo, depois lateral…). Em cada posição aparece o seu titular: você decide MANTER ou VENDER. Se vender, o valor dele entra no caixa e você escolhe 1 de 5 opções da mesma posição do futebol mundial, sempre melhores que o que vendeu (ou fica com o reserva do seu clube). Se os dois escolherem o mesmo jogador, vai a leilão por ele, e quem perder fica com o reserva do próprio titular. Quando as 11 posições fecham, os dois times se enfrentam na partida simulada, com pênaltis se empatar. Quem é o melhor gestor?",
+rules:"Cada um gerencia um clube com 11 titulares. Em cada posição (ordem aleatória), MANTENHA o titular ou VENDA: o valor entra no caixa e você compra 1 de 5 opções melhores (ou sobe o reserva). Se os dois quiserem o mesmo jogador, vai a leilão, e quem perde fica com o reserva. No fim, partida simulada.",
 open(){ST.VIEW="reconstruindo";ST.PHASE="choose";cleanup();if(location.hash!=="#reconstruindo")history.replaceState(null,"","#reconstruindo");
   const app=$("#app");let cfg={diff:"normal"};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2><b>RECONSTRUINDO</b></h2><span class="lvbadge normal">MULTIPLAYER</span></div>
@@ -53,7 +53,7 @@ open(){ST.VIEW="reconstruindo";ST.PHASE="choose";cleanup();if(location.hash!=="#
         <label class="vl-opt"><small>Código da partida</small><input class="vl-code" maxlength="5" autocomplete="off" spellcheck="false" placeholder="EX: BODE7" aria-label="Código da partida"></label>
         <button class="btn g vl-go" type="button" data-a="join">Entrar</button>
         <p class="muted vl-help">Peça o código para quem criou a partida. Os dois precisam estar com esta página aberta${window.claude?" e logados no claude.ai":""}.</p></section></div>`;
-  const help={diff:{normal:"Dois dos 24 clubes mais caros do mundo, com elenco de verdade. 40 segundos por decisão.",hard:"Dois clubes médios ou menores. Menos tempo por decisão."}};
+  const help={diff:{normal:"Dois dos 24 clubes mais caros do mundo, com elenco de verdade. 40 segundos por decisão.",hard:"Clubes médios ou menores e menos tempo."}};
   const paint=()=>{app.querySelectorAll(".vl-seg").forEach(sg=>sg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===cfg[sg.dataset.k]))));app.querySelector('[data-h=diff]').textContent=help.diff[cfg.diff]};
   app.querySelectorAll(".vl-seg").forEach(sg=>sg.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;cfg[sg.dataset.k]=b.dataset.v;paint()}));
   app.querySelector(".back").addEventListener("click",home);

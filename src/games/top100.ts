@@ -21,7 +21,7 @@ const fmtT=(th,i)=>!th.u||th.u==="€"?fmtV(th.v[i]):`${String(th.v[i]).replace(
 const subT=th=>th.ids.length<100?`${th.s} Ranking com ${th.ids.length} jogadores: o último vale 100 pontos.`:th.s;
 const fmtV=v=>v>=1?`€${String(v).replace(".",",")} mi`:`€${Math.round(v*1000)} mil`;
 const dailyTheme=ths=>{const order=shuffle(rngOf(hash("top100")),ths.map((_,i)=>i));return ths[order[(dayNum()-1)%order.length]]};
-const RULES="Cada tema é um ranking de 100 jogadores, por exemplo os maiores valores de mercado do mundo. Você chuta um nome e a posição dele na lista vale os pontos: o 100º colocado vale 100 pontos, o 1º vale só 1 e quem não está na lista vale 0. Ou seja, quanto mais fundo na lista você achar, mais pontos faz. No desafio do dia são 5 chutes no mesmo tema (máximo de 500 pontos), uma vez por dia. No multiplayer são 3 temas, 3 chutes de cada um por tema, sem repetir jogador, e quem somar mais pontos vence.";
+const RULES="Cada tema é um ranking de 100 jogadores. Chute um nome: o 1º da lista vale 1 ponto e o 100º vale 100. Fora da lista, 0. Desafio do dia: 5 chutes (máximo de 500 pontos). Multiplayer: 3 temas, 3 chutes cada, vence quem somar mais.";
 const confetti=()=>Array.from({length:36},(_,i)=>`<i class="confetti-piece" style="left:${(Math.random()*100).toFixed(1)}%;width:${6+Math.floor(Math.random()*6)}px;height:${10+Math.floor(Math.random()*8)}px;background:${["#ffd400","#22c55e","#fff","#f97316"][i%4]};animation-duration:${(1.8+Math.random()*1.6).toFixed(2)}s;animation-delay:${(Math.random()*.8).toFixed(2)}s"></i>`).join("");
 /* acertou exatamente o 100º da lista */
 function boom(){const el=document.createElement("div");el.className="t1-boom";
@@ -127,7 +127,7 @@ export async function t100Play({mode,code,pfs}){ST.VIEW="top100";ST.PHASE="play"
     if(a==="again")push(mk({...S,seq:S.seq+1}));
     if(a==="share")share(`🐐 THE FENÔMENO · TOP 100\n✕ ${S.sx} x ${S.so} ◯\n${S.th.map(id=>byId(id).t).join("\n")}`)})}
 
-GAMES.top100={name:"TOP 100",multi:true,dayToo:true,hard:"sem nível difícil",desc:"Rankings de 100 jogadores. Chute um nome: quanto mais fundo na lista, mais pontos. Desafio do dia ou duelo multiplayer.",rules:RULES,
+GAMES.top100={name:"TOP 100",multi:true,dayToo:true,hard:"Não tem nível difícil.",desc:"Rankings de 100 jogadores. Chute um nome: quanto mais fundo na lista, mais pontos. Desafio do dia ou duelo multiplayer.",rules:RULES,
 cardFoot(){const rec=store.get("top100:"+dayNum());if(!rec||!rec.p.length)return null;const tot=rec.p.reduce((a,x)=>a+x.pts,0);return rec.p.length>=5?`<span class="res score">${tot} PTS</span><span class="chip">feito</span>`:`<span class="go">CONTINUAR</span><span class="chip">${tot} pts</span>`},
 open(){if(!MODE.multi)return daily();ST.VIEW="top100";ST.PHASE="choose";cleanup();if(location.hash!=="#top100")history.replaceState(null,"","#top100");
   const app=$("#app");
