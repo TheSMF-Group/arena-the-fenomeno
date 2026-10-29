@@ -8,7 +8,7 @@
 /* ECA Digital (Lei 15.211/2025, art. 22 e 26; Decreto 12.880/2026, art. 33): sem perfilamento para direcionar anúncio a menores.
    Enquanto o hub não afere idade, todo anúncio é não personalizado. Pra voltar à personalização é só trocar para false. */
 const NON_PERSONALIZED=true;
-const NET="/23362641595/",BANNER=NET+"fenomeno_top_banner",RAIL=NET+"fenomeno_sidebar_desktop",MIN_GAP=60000,PREVIEW=new URLSearchParams(location.search).has("adpreview");
+const NET="/23362641595/",BANNER=NET+"fenomeno_top_banner",RAIL=NET+"fenomeno_sidebar_desktop",MIN_GAP=60000,PREVIEW=new URLSearchParams(location.search).has("adpreview")||/^teste\./.test(location.hostname);
 let last=Date.now(),lastInline=0,ready=false,seq=0;const slots={};
 window.googletag=window.googletag||{cmd:[]};
 const el=(h)=>{const d=document.createElement("div");d.innerHTML=h.trim();return d.firstChild};

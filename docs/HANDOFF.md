@@ -46,6 +46,14 @@ Limites conhecidos (decidir antes de usar em live com prêmio):
 - **The Jogaço**: site estava em manutenção, não linkado. **Kings League**: bloqueado, removido dos links (reativar só quando o Santiago liberar).
 - Regra do Santiago: **sem pausa/limite de sessão** no hub. Retenção por design (progresso real, sem FOMO, sem autoplay).
 
+## Ambiente de teste: https://teste.thefenomeno.com (29/10/2026)
+
+- Projeto Vercel separado `jogue-teste` (time `thesmf-group`, antigo `santiagobstns-projects`; mesmo id `team_gvt7gLqYy6DUWq3zLXB4Gc1O`), **sem vínculo Git**. Não é a produção: `jogue.thefenomeno.com` é o projeto `central-mini-games-tf`.
+- DNS no Cloudflare: CNAME `teste` -> `cname.vercel-dns.com` (DNS only) e TXT `_vercel` de verificação.
+- Deploy do teste: `npm run build`, copiar `dist/` para uma pasta à parte com um `vercel.json` (`cleanUrls` + header `X-Robots-Tag: noindex, nofollow`), `vercel link --project jogue-teste --scope thesmf-group` **nessa pasta** e `vercel deploy --prod`. Assim o vínculo da pasta do projeto com a produção não é tocado.
+- No host `teste.*` o código **não manda GA4** e **não pede anúncio real** (mostra só os espaços de preview): `IS_TEST` em `src/track.ts` e `PREVIEW` em `src/ads.ts`.
+- O escopo da CLI agora é `thesmf-group` (o antigo `santiagobstns-projects` não existe mais).
+
 ## Como rodar na outra máquina
 
 ```bash
@@ -58,7 +66,7 @@ npm run build      # gera dist/ (24 páginas)
 ```
 
 - Sala ao vivo local: abra `http://localhost:4321/ao-vivo`, copie o código e abra `http://localhost:4321/?sala=CODIGO` em outras abas.
-- Deploy (só com aval): `vercel link --project central-mini-games-tf --scope santiagobstns-projects` e depois `vercel deploy --prod`. O `vercel link` altera o `.gitignore` e cria `.vercel/` e `.env.local` (não commitar).
+- Deploy (só com aval): `vercel link --project central-mini-games-tf --scope thesmf-group` e depois `vercel deploy --prod`. O `vercel link` altera o `.gitignore` e cria `.vercel/` e `.env.local` (não commitar).
 - O preview do app (Claude Code) usa uma entrada `hub` em `Ramais/.claude/launch.json` **fora do repo**; recrie se precisar.
 
 ## Armadilhas que já custaram tempo
