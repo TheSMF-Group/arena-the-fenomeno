@@ -7,6 +7,28 @@ import {$, BODE, BODEHEAD, dayNum, esc, store, toast, todayKey} from "./core";
 import {GAMES, KIND, MODE, clockStop, dayLevel, dayLockKey, dayResult, drawFire, fireHTML, fmtDur, gameRng, isHard, loadStreak, resultKey, share, verdict} from "./engine";
 import {ST} from "./state";
 import {art} from "./art";
+import b0 from "./assets/kitback-flamengo.webp?url";
+import b1 from "./assets/kitback-real-madrid.webp?url";
+import b2 from "./assets/kitback-palmeiras.webp?url";
+import b3 from "./assets/kitback-barcelona.webp?url";
+import b4 from "./assets/kitback-corinthians.webp?url";
+import b5 from "./assets/kitback-man-utd.webp?url";
+import b6 from "./assets/kitback-sao-paulo.webp?url";
+import b7 from "./assets/kitback-liverpool.webp?url";
+import b8 from "./assets/kitback-santos.webp?url";
+import b9 from "./assets/kitback-bayern.webp?url";
+import b10 from "./assets/kitback-gremio.webp?url";
+import b11 from "./assets/kitback-juventus.webp?url";
+import b12 from "./assets/kitback-internacional.webp?url";
+import b13 from "./assets/kitback-ac-milan.webp?url";
+import b14 from "./assets/kitback-fluminense.webp?url";
+import b15 from "./assets/kitback-psg.webp?url";
+import b16 from "./assets/kitback-vasco.webp?url";
+import b17 from "./assets/kitback-chelsea.webp?url";
+import b18 from "./assets/kitback-botafogo.webp?url";
+import b19 from "./assets/kitback-arsenal.webp?url";
+import b20 from "./assets/kitback-cruzeiro.webp?url";
+import b21 from "./assets/kitback-dortmund.webp?url";
 import k0 from "./assets/kit-flamengo.webp?url";
 import k1 from "./assets/kit-real-madrid.webp?url";
 import k2 from "./assets/kit-palmeiras.webp?url";
@@ -58,8 +80,7 @@ export function stampFor(id,d,res){const v=verdict(id,res);
   return`<div class="stamp ${v.cls}"><span class="sv">${esc(v.cls==="score"?v.word:v.word==="GANHOU"?"VENCEU":v.word)}</span><span class="sl">${d==="hard"?"DIFÍCIL":"NORMAL"}</span></div>`}
 export function cleanup(){clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
 /* camisas da tela inicial: cada jogo é uma camisa; ao clicar abre o card com as regras */
-const KITS=[k0,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20,k21],KITN=["flamengo", "real-madrid", "palmeiras", "barcelona", "corinthians", "man-utd", "sao-paulo", "liverpool", "santos", "bayern", "gremio", "juventus", "internacional", "ac-milan", "fluminense", "psg", "vasco", "chelsea", "botafogo", "arsenal", "cruzeiro", "dortmund"];
-const KITCOL=[["#c8102e", "#111"], ["#f4f4f4", "#1a2a6c"], ["#0b5d3b", "#fff"], ["#1b2f7a", "#f5c518"], ["#f2f2f2", "#111"], ["#c8102e", "#fff"], ["#f4f4f4", "#c8102e"], ["#a5192f", "#fff"], ["#f2f2f2", "#111"], ["#d3122a", "#fff"], ["#4aa8e0", "#111"], ["#151515", "#fff"], ["#d6232a", "#fff"], ["#c8102e", "#111"], ["#7b1e3a", "#fff"], ["#0b1f4d", "#e30613"], ["#151515", "#fff"], ["#1c3fb0", "#fff"], ["#151515", "#fff"], ["#e0202e", "#fff"], ["#1f5fb4", "#fff"], ["#fde100", "#111"]];
+const KITB=[b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21],KITS=[k0,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20,k21],KITN=["flamengo", "real-madrid", "palmeiras", "barcelona", "corinthians", "man-utd", "sao-paulo", "liverpool", "santos", "bayern", "gremio", "juventus", "internacional", "ac-milan", "fluminense", "psg", "vasco", "chelsea", "botafogo", "arsenal", "cruzeiro", "dortmund"];
 function gameModal(id){const g=GAMES[id];if(!g)return;document.querySelectorAll(".jmodal").forEach(m=>m.remove());
   const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,v=dr?verdict(id,dr.res):null;
   const st=cf?cf:v?`<span class="res ${v.cls}">${v.cls==="score"?esc(v.word)+(KIND[id]?" PTS":" SEGUIDOS"):v.word==="GANHOU"?"VENCEU":v.word}</span>`:MODE.free?`<span class="chip rec">${fireHTML(Math.max(bestOf(id,"normal"),bestOf(id,"hard")))} recorde</span>`:"";
@@ -84,8 +105,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
       const ki=ORDER.indexOf(id)%KITS.length,st=first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):"";
-      const nm=g.name.replace(/\?$/,""),sz=nm.length>13?"xs":nm.length>9?"sm":"";
-      return`<button type="button" class="jersey ${st}" data-g="${id}" style="--c:${KITCOL[ki][0]};--t:${KITCOL[ki][1]}" aria-label="${g.name}"><span class="hang"></span>${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<span class="jsway"><span class="jstage"><span class="jface fback"><span class="shape" style="-webkit-mask-image:url(${KITS[ki]});mask-image:url(${KITS[ki]})"></span><span class="bk"><b class="bn d ${sz}">${nm}</b><b class="bnum d">${String(i+1).padStart(2,"0")}</b></span></span><img class="jface front" src="${KITS[ki]}" alt="Camisa do ${KITN[ki]}" loading="lazy"></span></span>${stamp}</button>`}).join("")}</section>
+      return`<button type="button" class="jersey ${st}" data-g="${id}" aria-label="${g.name}"><span class="hang"></span>${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<span class="jsway"><span class="jstage"><img class="jface fback" src="${KITB[ki]}" alt="Camisa do ${KITN[ki]}, costas" loading="lazy"><img class="jface front" src="${KITS[ki]}" alt="Camisa do ${KITN[ki]}" loading="lazy"></span></span>${stamp}</button>`}).join("")}</section>
     <section class="more"><h2 class="d">CONHEÇA NOSSOS OUTROS JOGOS</h2><div class="more-grid">${OUTROS.map(o=>`<a class="more-card" href="${o.u}" target="_blank" rel="noopener"><img class="more-img" src="${o.i}" alt="${o.n}" loading="lazy"><b class="d">${o.n}</b><p>${o.d}</p><small class="more-h">${o.h}</small><span class="more-go">ABRIR →</span></a>`).join("")}</div></section>`;
   $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".jersey");if(c)gameModal(c.dataset.g)});
   $("#app").querySelectorAll(".jersey").forEach(j=>{const o=j.querySelector(".jsway");
