@@ -5,6 +5,13 @@ import sys, os, cv2, numpy as np
 from PIL import Image, ImageDraw, ImageFont
 F="/System/Library/Fonts/Supplemental/";NAMEF,NUMF=F+"DIN Condensed Bold.ttf",F+"Impact.ttf"   # fonte de nome e de número de camisa
 C=lambda dy:("c",0,dy)
+FD=os.path.join(os.path.dirname(os.path.abspath(__file__)),"fonts")
+def font_of(club,kind,default):   # fonte do clube em tools/fonts/ (ver LEIAME.md); sem arquivo, a padrão
+    for nm in (f"{club}-{'nome' if kind=='t' else 'numero'}",club):
+        for ext in (".otf",".ttf"):
+            f=os.path.join(FD,nm+ext)
+            if os.path.exists(f):return f
+    return default
 # ordem das camisas = ordem dos jogos na tela inicial (desafio do dia primeiro, depois os só de multiplayer)
 NAMES=["CAMISA E CONTA","CARREIRA","QUESTIONAMENTOS","FORCA","ENTROSAMENTO","PIRÂMIDE","TOP 10","TOP 100","FUTGEO","QUEM É?","GRADE","CONEXÕES","BODLE","IMPOSTOR","ESCUDO","BINGO","MAIS VELHO?","DRAFT","LEILÃO","MALETA","RECONSTRUINDO","JOGO DA VELHA"]
 ORDER=["flamengo","real-madrid","palmeiras","barcelona","corinthians","man-utd","sao-paulo","liverpool","fluminense","bayern","botafogo","juventus","cruzeiro","arsenal","athletico-pr","chelsea","psg","inter","napoli","atletico-madrid","roma","tottenham"]
@@ -51,7 +58,7 @@ def finish(a,items,col,stroke,calm=False):
     return Image.fromarray(render(a,items,col,stroke,calm))
 for i,club in enumerate(ORDER):
     nm=NAMES[i];one=nm.replace("?","");box,mode,tb,col,stroke,berase=D[club]
-    fnt=NAMEF
+    fnt=font_of(club,"t",NAMEF);fnum=font_of(club,"n",NUMF)
     # frente
     TR={"botafogo":[(170,0,262,28)]}
     a=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_f.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
@@ -65,5 +72,5 @@ for i,club in enumerate(ORDER):
     for b,m in berase:a=erase(a,b,m)
     ys,xs=np.where(a[...,3]>128);y0,y1,x0,x1=ys.min(),ys.max(),xs.min(),xs.max();h,w=y1-y0,x1-x0
     rows=range(int(y0+h*.38),int(y0+h*.58),3);ex=[(np.where(a[r,:,3]>128)[0].min(),np.where(a[r,:,3]>128)[0].max()) for r in rows];cx=float(np.median([(l+r)/2 for l,r in ex]));mw=w*0.46
-    finish(a,[(one,cx,y0+h*0.22,mw,h*0.07,fnt,"t"),(str(i+1),cx,y0+h*0.45,mw*0.9,h*0.27,NUMF,"n")],col,stroke,club in CALM).save(f"src/assets/kitback-{club}.webp","WEBP",quality=88,method=4)
+    finish(a,[(one,cx,y0+h*0.22,mw,h*0.07,fnt,"t"),(str(i+1),cx,y0+h*0.45,mw*0.9,h*0.27,fnum,"n")],col,stroke,club in CALM).save(f"src/assets/kitback-{club}.webp","WEBP",quality=88,method=4)
     print(club,nm)
