@@ -65,13 +65,13 @@ for i,club in enumerate(ORDER):
     box,mode,tb,col,stroke,berase=D[club];TR={"botafogo":[(170,0,262,28)]}
     fa=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_f.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
     ba=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_b.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
-    if box:fa=erase(fa,box,mode)
     for t0,t1,t2,t3 in TR.get(club,[]):fa[t1:t3,t0:t2,3]=0
     for b,m in berase:ba=erase(ba,b,m)
     ys,xs=np.where(ba[...,3]>128);y0,y1,x0,x1=ys.min(),ys.max(),xs.min(),xs.max();h,w=y1-y0,x1-x0
     gw=w*0.30;gh=gw*745/916                      # mesmo tamanho na frente e nas costas
-    for tag,a in (("f",fa),("b",ba)):
-        cx=center_x(a,y0,h);cy=y0+h*(0.58 if (club=="sao-paulo" and tag=="f") else 0.38)   # São Paulo: escudo no centro do peito
+    Image.fromarray(fa).save(f"src/assets/kit-{club}.webp","WEBP",quality=88,method=4)   # frente: a camisa real, sem alteração
+    for tag,a in (("b",ba),):
+        cx=center_x(a,y0,h);cy=y0+h*0.38
         dark=np.median(cv2.cvtColor(a[int(cy-gh/2):int(cy+gh/2),int(cx-gw/2):int(cx+gw/2),:3],cv2.COLOR_RGB2GRAY))<85
         out=finish(a,[(BODE,cx,cy,gw,gh,None,"g")],INK,None,club in CALM,dark)
         out.save(f"src/assets/{'kit' if tag=='f' else 'kitback'}-{club}.webp","WEBP",quality=88,method=4)
