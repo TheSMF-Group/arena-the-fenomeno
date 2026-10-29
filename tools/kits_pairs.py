@@ -3,7 +3,7 @@
 # Uso: python3 tools/kits_pairs.py <pasta dos recortes>   ->  src/assets/kit-<slug>.webp e kitback-<slug>.webp
 import sys, os, cv2, numpy as np
 from PIL import Image, ImageDraw, ImageFont
-F="/System/Library/Fonts/Supplemental/";BLACK,NARROW=F+"Arial Black.ttf",F+"Arial Narrow Bold.ttf"
+F="/System/Library/Fonts/Supplemental/";NAMEF,NUMF=F+"DIN Condensed Bold.ttf",F+"Impact.ttf"   # fonte de nome e de número de camisa
 C=lambda dy:("c",0,dy)
 # ordem das camisas = ordem dos jogos na tela inicial (desafio do dia primeiro, depois os só de multiplayer)
 NAMES=["CAMISA E CONTA","CARREIRA","QUESTIONAMENTOS","FORCA","ENTROSAMENTO","PIRÂMIDE","TOP 10","TOP 100","FUTGEO","QUEM É?","GRADE","CONEXÕES","BODLE","IMPOSTOR","ESCUDO","BINGO","MAIS VELHO?","DRAFT","LEILÃO","MALETA","RECONSTRUINDO","JOGO DA VELHA"]
@@ -18,7 +18,7 @@ D={
 "barcelona":((146,156,284,200),C(95),None,"#ffd21f","#0b1b4d",[((166,296,268,328),C(-60)),((196,48,222,62),"i")]),
 "sao-paulo":(None,None,(130,198,270,250),"#14213d",None,[]),
 "man-utd":((136,158,286,240),"i",None,"#fff",None,[]),
-"fluminense":((128,164,274,206),C(90),None,"#fff","#0b3b2a",[((196,34,226,48),"i")]),
+"fluminense":((128,164,274,206),C(46),None,"#fff","#0b3b2a",[((196,34,226,48),"i")]),
 "liverpool":((142,162,282,212),C(90),None,"#fff",None,[]),
 "botafogo":((138,214,276,282),C(60),None,"#111",None,[((180,64,240,84),"i"),((194,298,240,314),"i")]),
 "bayern":((154,130,240,234),C(100),None,"#fff",None,[((140,58,236,104),C(50))]),
@@ -41,26 +41,17 @@ def erase(a,box,mode):
         b[y0:y1,x0:x1]=np.repeat(a[y0:y1,x0-3:x0-2],x1-x0,axis=1);m=np.zeros(a.shape[:2],np.float32);m[y0:y1,x0:x1]=1;m=cv2.GaussianBlur(m,(0,0),1.6)[...,None];return (a*(1-m)+b*m).astype(np.uint8)
     _,dx,dy=mode;b[y0:y1,x0:x1]=a[y0+dy:y1+dy,x0+dx:x1+dx]
     m=np.zeros(a.shape[:2],np.float32);m[y0:y1,x0:x1]=1;m=cv2.GaussianBlur(m,(0,0),1.6)[...,None];return (a*(1-m)+b*m).astype(np.uint8)
-def fit(txt,maxw,maxh,font,S):
-    for sz in range(220,6,-1):
-        f=ImageFont.truetype(font,sz*S)
-        if f.getlength(txt)<=maxw*S and sz*0.74<=maxh:return f,sz
-    return f,sz
-def put(ov,txt,cx,cy,maxw,maxh,font,col,stroke,S,depth=0,ext=None):
-    f,sz=fit(txt,maxw,maxh,font,S);d=ImageDraw.Draw(ov);w=f.getlength(txt);x=cx*S-w/2;sw=int(sz*S*0.06) if stroke else 0
-    for k in range(depth*S,0,-1):d.text((x+k*0.8,cy*S+k*0.8),txt,font=f,fill=ext,stroke_width=sw,stroke_fill=ext,anchor="lm")   # extrusão (profundidade)
-    d.text((x,cy*S),txt,font=f,fill=col,stroke_width=sw,stroke_fill=stroke or col,anchor="lm")
 def tone(a,y0,y1,x0,x1):
     r=a[y0:y1,x0:x1];r=r[r[...,3]>200][:,:3].astype(float);return np.median(r,axis=0) if len(r) else np.array([120,120,120.])
 def darker(c,k):return "#%02x%02x%02x"%tuple(int(v*k) for v in c)
-def finish(a,items,col,stroke,ext=None,depth=0):
-    im=Image.fromarray(a);S=4;ov=Image.new("RGBA",(420*S,420*S),(0,0,0,0))
-    for t in items:put(ov,*t[:6],col,stroke,S,depth if t[6:7]==("n",) else 0,ext)
-    ov=ov.resize(im.size,Image.LANCZOS);sh=Image.new("RGBA",im.size,(0,0,0,0));sh.paste((0,0,0,55),(0,1),ov.split()[3])
-    return Image.alpha_composite(Image.alpha_composite(im,sh),ov)
+sys.path.insert(0,os.path.dirname(__file__))
+from print_fx import render
+CALM={"flamengo","fluminense","botafogo","juventus","inter","atletico-madrid","athletico-pr","barcelona","sao-paulo","liverpool","bayern","psg"}   # tecidos listrados/estampados
+def finish(a,items,col,stroke,calm=False):
+    return Image.fromarray(render(a,items,col,stroke,calm))
 for i,club in enumerate(ORDER):
     nm=NAMES[i];one=nm.replace("?","");box,mode,tb,col,stroke,berase=D[club]
-    fnt=NARROW if len(one)>8 else BLACK
+    fnt=NAMEF
     # frente
     TR={"botafogo":[(170,0,262,28)]}
     a=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_f.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
@@ -68,12 +59,11 @@ for i,club in enumerate(ORDER):
     for t0,t1,t2,t3 in TR.get(club,[]):a[t1:t3,t0:t2,3]=0
     bx=box or tb;x0,y0,x1,y1=bx;cx,cy=(x0+x1)/2,(y0+y1)/2
     # centraliza no corpo da camisa quando o patrocinador está deslocado
-    finish(a,[(one if nm!="QUEM É?" else nm,cx,cy,max(x1-x0,min(168,len(one)*12)),max(y1-y0,30),fnt)],col,stroke).save(f"src/assets/kit-{club}.webp","WEBP",quality=88,method=4)
+    finish(a,[(one if nm!="QUEM É?" else nm,cx,cy,max(x1-x0,min(168,len(one)*12)),max(y1-y0,30),fnt,"t")],col,stroke,club in CALM).save(f"src/assets/kit-{club}.webp","WEBP",quality=88,method=4)
     # costas
     a=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_b.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
     for b,m in berase:a=erase(a,b,m)
     ys,xs=np.where(a[...,3]>128);y0,y1,x0,x1=ys.min(),ys.max(),xs.min(),xs.max();h,w=y1-y0,x1-x0
     rows=range(int(y0+h*.38),int(y0+h*.58),3);ex=[(np.where(a[r,:,3]>128)[0].min(),np.where(a[r,:,3]>128)[0].max()) for r in rows];cx=float(np.median([(l+r)/2 for l,r in ex]));mw=w*0.46
-    tn=tone(a,int(y0+h*.4),int(y0+h*.56),int(cx-w*.12),int(cx+w*.12));ext=darker(tn,0.42)
-    finish(a,[(one,cx,y0+h*0.22,mw,h*0.07,fnt),(str(i+1),cx,y0+h*0.45,mw*0.9,h*0.27,BLACK,"n")],col,stroke,ext,6).save(f"src/assets/kitback-{club}.webp","WEBP",quality=88,method=4)
+    finish(a,[(one,cx,y0+h*0.22,mw,h*0.07,fnt,"t"),(str(i+1),cx,y0+h*0.45,mw*0.9,h*0.27,NUMF,"n")],col,stroke,club in CALM).save(f"src/assets/kitback-{club}.webp","WEBP",quality=88,method=4)
     print(club,nm)
