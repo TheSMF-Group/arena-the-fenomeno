@@ -35,6 +35,17 @@ export function modeToggle(prefix){const M=prefix&&MODE.multi;return`<div class=
 export function stampFor(id,d,res){const v=verdict(id,res);
   return`<div class="stamp ${v.cls}"><span class="sv">${esc(v.cls==="score"?v.word:v.word==="GANHOU"?"VENCEU":v.word)}</span><span class="sl">${d==="hard"?"DIFÍCIL":"NORMAL"}</span></div>`}
 export function cleanup(){clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
+/* camisas da tela inicial: cada jogo é uma camisa; ao clicar abre o card com as regras */
+const KITC=[["#d62828","#fff","#fff"],["#1d4ed8","#fff","#ffd21f"],["#16a34a","#ffd21f","#fff"],["#ffd21f","#111","#16a34a"],["#111827","#ffd21f","#fff"],["#f8fafc","#d62828","#1d4ed8"],["#7c1d4d","#7ec8ff","#fff"],["#0ea5e9","#fff","#111"]];
+const jerseySvg=k=>`<svg class="jsvg" viewBox="0 0 200 190" aria-hidden="true"><path d="M70 8 Q100 28 130 8 L184 30 L198 80 L160 92 L160 182 L40 182 L40 92 L2 80 L16 30 Z" fill="${k[0]}" stroke="rgba(0,0,0,.35)" stroke-width="3" stroke-linejoin="round"/><path d="M70 8 Q100 28 130 8 L124 4 Q100 20 76 4 Z" fill="${k[1]}"/><path d="M2 80 L16 30 L26 34 L14 82 Z M198 80 L184 30 L174 34 L186 82 Z" fill="${k[1]}"/><rect x="40" y="150" width="120" height="8" fill="${k[2]}" opacity=".55"/></svg>`;
+function gameModal(id){const g=GAMES[id];if(!g)return;document.querySelectorAll(".jmodal").forEach(m=>m.remove());
+  const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,v=dr?verdict(id,dr.res):null;
+  const st=cf?cf:v?`<span class="res ${v.cls}">${v.cls==="score"?esc(v.word)+(KIND[id]?" PTS":" SEGUIDOS"):v.word==="GANHOU"?"VENCEU":v.word}</span>`:MODE.free?`<span class="chip rec">${fireHTML(Math.max(bestOf(id,"normal"),bestOf(id,"hard")))} recorde</span>`:"";
+  const m=document.createElement("div");m.className="modal jmodal";
+  m.innerHTML=`<div class="box jbox"><button type="button" class="jx" aria-label="Fechar">×</button><div class="jart">${art(id)}</div><h3>${g.name.replace(/\?$/,"<b>?</b>")}</h3><p class="jdesc">${g.desc}</p><p class="jrules">${g.rules}</p>${g.hard?`<p class="jhard"><b>Difícil:</b> ${g.hard}</p>`:""}<div class="jfoot">${st}<button type="button" class="btn y jgo">JOGAR →</button></div></div>`;
+  document.body.appendChild(m);
+  const close=()=>m.remove();m.addEventListener("click",e=>{if(e.target===m||e.target.closest(".jx"))close();else if(e.target.closest(".jgo")){close();openGame(id)}});
+  const k=e=>{if(e.key==="Escape"){close();document.removeEventListener("keydown",k)}};document.addEventListener("keydown",k)}
 export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();cleanup();
   if(location.hash)history.replaceState(null,"",location.pathname+location.search);
   $("#app").innerHTML=`<section class="hero"><div><div class="kick">BEM-VINDO À ARENA</div><h1>VOCÊ SABE TUDO?<span>PROVE QUE É <b>FENÔMENO.</b></span></h1><p>Arena é onde os jogos do The Fenômeno se encontram: 22 mini games de futebol, um desafio novo todo dia e duelos contra os amigos.</p>
@@ -42,7 +53,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
     <img class="goat" src="${BODE}" alt="O bode do The Fenômeno com a camisa 10"></section>
     ${!MODE.free&&!MODE.multi&&allDone()?`<div class="sumbar"><div><b>DESAFIOS DE HOJE COMPLETOS</b><div class="muted">Veja vitórias, derrotas e quanto tempo você jogou.</div></div><button class="btn y" type="button" data-a="sum">Resumo do dia →</button></div>`:""}
     <p class="pick">Escolha o seu jogo:</p>
-    <section class="games">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:(!GAMES[id].multi||GAMES[id].dayToo)).map((id,i)=>{const g=GAMES[id];
+    <section class="games jerseys">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:(!GAMES[id].multi||GAMES[id].dayToo)).map((id,i)=>{const g=GAMES[id];
       const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,played=dr?[[dr.d,dr.res]]:[];
       const first=played[0]?verdict(id,played[0][1]):null;
       const stamp=dr?stampFor(id,dr.d,dr.res):"";
@@ -50,9 +61,10 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
       const foot=cf?cf:g.multi&&MODE.multi?`<span class="go">JOGAR</span><span class="chip">contra amigo</span>`:g.multi?`<span class="go">JOGAR</span><span class="chip">hoje</span>`:MODE.free?`<span class="go">JOGAR</span><span class="chip rec">${fireHTML(best)} recorde</span>`
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
-      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${art(id)}${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>
+      const kit=KITC[i%KITC.length],st=first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):"";
+      return`<button type="button" class="jersey ${st}" data-g="${id}" style="--k1:${kit[0]};--k2:${kit[1]};--k3:${kit[2]}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}${jerseySvg(kit)}<span class="jn d">${String(i+1).padStart(2,"0")}</span><span class="jt d">${g.name}</span>${stamp}</button>`}).join("")}</section>
     <section class="more"><h2 class="d">CONHEÇA NOSSOS OUTROS JOGOS</h2><div class="more-grid">${OUTROS.map(o=>`<a class="more-card" href="${o.u}" target="_blank" rel="noopener"><img class="more-img" src="${o.i}" alt="${o.n}" loading="lazy"><b class="d">${o.n}</b><p>${o.d}</p><small class="more-h">${o.h}</small><span class="more-go">ABRIR →</span></a>`).join("")}</div></section>`;
-  $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(c)openGame(c.dataset.g)});
+  $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".jersey");if(c)gameModal(c.dataset.g)});
   const sb=$("#app").querySelector(".sumbar [data-a=sum]");sb&&sb.addEventListener("click",daySummary);
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});
   updateToday();window.scrollTo(0,0)}
