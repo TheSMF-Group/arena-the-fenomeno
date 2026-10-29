@@ -38,13 +38,17 @@ def render(rgba,items,col,stroke,calm=False):
     tex=(g-cv2.GaussianBlur(g,(0,0),1.5))[...,None]*(0.25 if calm else 0.8)
     fill=hexrgb(col)[None,None,:]*shade+tex;edge=(hexrgb(stroke) if stroke else hexrgb(col))[None,None,:]*shade+tex
     ink=np.where((mo>mf+0.02)[...,None],edge,fill)
-    if num:   # termocolante: bisel (luz de cima à esquerda) + borda interna mais escura
-        h=cv2.GaussianBlur(mf,(0,0),1.1);bx=cv2.Sobel(h,cv2.CV_32F,1,0,ksize=3);by=cv2.Sobel(h,cv2.CV_32F,0,1,ksize=3)
-        lit=-(bx+by)*0.5;ink=ink+lit[...,None]*70
-        rim=np.clip(mf-cv2.GaussianBlur(mf,(0,0),1.8),0,1);ink=ink*(1-0.20*rim[...,None])
-    # sombra de contato sob a estampa
-    M=np.float32([[1,0,1.0],[0,1,1.6]]);sh=cv2.GaussianBlur(cv2.warpAffine(cover.astype(np.float32),M,(size,size)),(0,0),1.5)
-    out=base*(1-sh[...,None]*(0.34 if num else 0.10)*(al[...,None]>0.5))
-    a=np.clip(cover,0,1)[...,None]*(0.97 if num else 0.93)
+    if num:   # termocolante: bisel mais marcado (luz de cima à esquerda), brilho de borda, borda interna escura e leve brilho de vinil
+        h=cv2.GaussianBlur(mf,(0,0),1.3);bx=cv2.Sobel(h,cv2.CV_32F,1,0,ksize=3);by=cv2.Sobel(h,cv2.CV_32F,0,1,ksize=3)
+        lit=-(bx+by)*0.5;ink=ink+lit[...,None]*130
+        rim=np.clip(mf-cv2.GaussianBlur(mf,(0,0),2.2),0,1);ink=ink*(1-0.32*rim[...,None])
+        yy=np.linspace(1.07,0.92,size,dtype=np.float32)[:,None,None];ink=ink*yy      # sheen: mais claro em cima, mais escuro embaixo
+    # sombras de contato: uma larga e suave, outra curta e escura junto da borda
+    def sh_(dx,dy,sg):return cv2.GaussianBlur(cv2.warpAffine(cover.astype(np.float32),np.float32([[1,0,dx],[0,1,dy]]),(size,size)),(0,0),sg)
+    wide,tight=(sh_(1.6,2.6,2.4),sh_(0.7,1.1,0.8)) if num else (sh_(0.8,1.2,1.4),sh_(0.4,0.6,0.6))
+    inside=(al[...,None]>0.5)
+    out=base*(1-wide[...,None]*(0.52 if num else 0.14)*inside)
+    out=out*(1-tight[...,None]*(0.45 if num else 0.12)*inside)
+    a=np.clip(cover,0,1)[...,None]*(0.98 if num else 0.93)
     out=out*(1-a)+np.clip(ink,0,255)*a
     return np.dstack([np.clip(out,0,255),rgba[...,3]]).astype(np.uint8)
