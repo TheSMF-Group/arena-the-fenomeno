@@ -17,3 +17,11 @@ Fontes de liga valem para vários clubes: copie o arquivo com o nome de cada clu
 atletico-madrid; Ligue 1: psg).
 
 Depois rode `python3 tools/kits_pairs.py <pasta dos recortes>` e publique de novo.
+
+## Fontes padrão (livres)
+
+Em `fonts/livres/`: **Barlow Condensed ExtraBold** (nomes) e **Anton** (números), do Google Fonts, licença SIL OFL
+(uso comercial permitido; as licenças estão ao lado dos arquivos). São aproximações, não as fontes oficiais dos clubes.
+
+Avaliadas e descartadas: *Soccer Jersey* (DaFont, CC BY-ND, o "1" fica ilegível), as fontes de clube da Nero Design & Apparel
+(só uso pessoal/não comercial, e o site tem anúncio de parceiro) e as da Football Fonts/SoccerFonts (pagas).

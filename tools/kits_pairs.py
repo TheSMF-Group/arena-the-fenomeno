@@ -3,7 +3,8 @@
 # Uso: python3 tools/kits_pairs.py <pasta dos recortes>   ->  src/assets/kit-<slug>.webp e kitback-<slug>.webp
 import sys, os, cv2, numpy as np
 from PIL import Image, ImageDraw, ImageFont
-F="/System/Library/Fonts/Supplemental/";NAMEF,NUMF=F+"DIN Condensed Bold.ttf",F+"Impact.ttf"   # fonte de nome e de número de camisa
+F="/System/Library/Fonts/Supplemental/";LV=os.path.join(os.path.dirname(os.path.abspath(__file__)),"fonts","livres")
+NAMEF,NUMF=os.path.join(LV,"BarlowCondensed-ExtraBold.ttf"),os.path.join(LV,"Anton-Regular.ttf")   # fontes livres (OFL): nome e número de camisa
 C=lambda dy:("c",0,dy)
 FD=os.path.join(os.path.dirname(os.path.abspath(__file__)),"fonts")
 def font_of(club,kind,default):   # fonte do clube em tools/fonts/ (ver LEIAME.md); sem arquivo, a padrão
