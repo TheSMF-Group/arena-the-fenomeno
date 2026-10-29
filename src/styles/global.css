@@ -870,23 +870,35 @@ header.top #todayPill{grid-column:3;justify-self:end}
 .sh-r{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
 @media (max-width:760px){.stagehead[data-c]{grid-template-columns:auto 1fr}.stagehead[data-c]>.sh-c{grid-column:1/-1;grid-row:2}.stagehead[data-c]>.sh-r{grid-column:2;grid-row:1}.stagehead h2{font-size:34px}}
 
-/* camisas da home */
-.games.jerseys{grid-template-columns:repeat(5,minmax(0,1fr));gap:18px 12px}
-.jersey{position:relative;padding:6px 4px 8px;background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;perspective:700px}
-.jstage{display:block;width:100%;transform-style:preserve-3d;transition:transform .15s ease-out;filter:drop-shadow(0 14px 12px rgba(0,0,0,.55))}
-.jersey:not(:hover) .jstage{transition:transform .4s ease}
-.jimg{width:100%;aspect-ratio:1;object-fit:contain;display:block}
-.jersey .jt{font-size:clamp(16px,1.8vw,22px);line-height:1;color:var(--fg);text-align:center}
-.jersey .jn{font-family:var(--display);font-size:13px;color:var(--yellow);letter-spacing:.1em}
-.jersey:hover .jt{color:var(--yellow)}
-.jersey .tag{position:absolute;left:auto;top:4px;right:8px;z-index:2}
-.jersey .stamp{position:absolute;right:auto;left:50%;top:0;transform:translateX(-50%) scale(.75);z-index:2}
-.jersey.won .jimg{filter:drop-shadow(0 0 7px var(--green))}.jersey.lost .jimg{filter:drop-shadow(0 0 7px var(--red))}.jersey.scored .jimg{filter:drop-shadow(0 0 7px var(--yellow))}
+/* vestiário */
+.games.jerseys{position:relative;grid-template-columns:repeat(5,minmax(0,1fr));gap:34px 0;padding:34px 18px 70px;border-radius:18px;border:1px solid #2a1c10;overflow:hidden;perspective:1400px;
+  background:radial-gradient(ellipse 70% 40% at 50% 0,rgba(255,225,160,.22),transparent 70%),repeating-linear-gradient(90deg,#241709 0 46px,#2c1c0c 46px 48px),#241709}
+.games.jerseys::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(#5b3a1c,#3a2410);box-shadow:0 -6px 14px rgba(0,0,0,.5) inset,0 -2px 0 #7a5028;pointer-events:none}
+.jersey{position:relative;padding:20px 8px 4px;background:none;border:0;cursor:pointer;display:block;transform-style:preserve-3d}
+.jersey:nth-child(5n+1){transform:rotateY(8deg)}.jersey:nth-child(5n+2){transform:rotateY(4deg)}.jersey:nth-child(5n+4){transform:rotateY(-4deg)}.jersey:nth-child(5n){transform:rotateY(-8deg)}
+.jersey::before{content:"";position:absolute;left:0;right:0;top:0;height:9px;background:linear-gradient(#8b8f94,#4d5155);box-shadow:0 3px 6px rgba(0,0,0,.6);border-radius:2px}
+.hang{position:absolute;left:50%;top:6px;width:6px;height:22px;margin-left:-3px;background:linear-gradient(90deg,#999,#555);border-radius:3px;z-index:0}
+.jsway{filter:drop-shadow(0 16px 10px rgba(0,0,0,.6));display:block;transform-origin:50% 0;transition:transform .2s ease-out;margin-top:6px}
+.jersey:hover .jsway{animation:swing 1.4s ease-in-out infinite}
+@keyframes swing{0%,100%{rotate:-2.5deg}50%{rotate:2.5deg}}
+.jstage{display:block;position:relative;aspect-ratio:1;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,1.4,.5,1)}
+.jersey:hover .jstage,.jersey:focus-visible .jstage{transform:rotateY(180deg) scale(1.06)}
+.jface{position:absolute;inset:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.jface.front{transform:rotateY(180deg);object-fit:contain}
+.jface.fback{display:block}
+.shape{position:absolute;inset:0;background:linear-gradient(105deg,rgba(255,255,255,.18),rgba(0,0,0,.28)),var(--c);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
+.bk{position:absolute;left:24%;right:24%;top:30%;display:flex;flex-direction:column;align-items:center;color:var(--t);text-align:center}
+.bn{font-weight:400;font-size:clamp(14px,1.6vw,21px);line-height:1;letter-spacing:.04em;word-break:break-word}
+.bn.sm{font-size:clamp(12px,1.3vw,17px)}.bn.xs{font-size:clamp(10px,1.05vw,14px)}
+.bnum{font-weight:400;font-size:clamp(40px,5vw,66px);line-height:1;margin-top:4px}
+.jersey .tag{position:absolute;left:auto;top:30px;right:12px;z-index:3}
+.jersey .stamp{position:absolute;right:auto;left:50%;top:16px;transform:translateX(-50%) scale(.7);z-index:3}
+.jersey.won .shape{filter:drop-shadow(0 0 6px var(--green))}.jersey.lost .shape{filter:drop-shadow(0 0 6px var(--red))}.jersey.scored .shape{filter:drop-shadow(0 0 6px var(--yellow))}
 .jbox{position:relative;max-width:460px}
 .jx{position:absolute;top:8px;right:12px;font-size:28px;line-height:1;color:var(--muted);background:none;border:0;cursor:pointer;z-index:2}
 .jart{height:150px;background:var(--bg2);border-radius:12px;display:grid;place-items:center;overflow:hidden;margin-bottom:12px}
 .jdesc{margin:0 0 6px;color:var(--yellow);font-weight:700}.jrules{margin:0 0 8px;color:var(--fg);font-size:14px;line-height:1.45}.jhard{margin:0 0 10px;color:var(--muted);font-size:13px}
 .jfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
-@media (max-width:1000px){.games.jerseys{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media (max-width:700px){.games.jerseys{grid-template-columns:repeat(3,minmax(0,1fr))}.jersey .jt{font-size:14px}}
+@media (max-width:1000px){.games.jerseys{grid-template-columns:repeat(4,minmax(0,1fr))}.jersey:nth-child(n){transform:none}}
+@media (max-width:700px){.games.jerseys{grid-template-columns:repeat(3,minmax(0,1fr))}.bn{font-size:14px}.bnum{font-size:42px}}
 @media (max-width:440px){.games.jerseys{grid-template-columns:repeat(2,minmax(0,1fr))}}
