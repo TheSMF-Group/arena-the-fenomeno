@@ -15,11 +15,14 @@ def fit(txt,maxw,maxh,font,cap=0.72):
 def masks(items,col_stroke,size):
     mf=Image.new("L",(size*S,size*S),0);mo=Image.new("L",(size*S,size*S),0);df,do=ImageDraw.Draw(mf),ImageDraw.Draw(mo)
     for txt,cx,cy,maxw,maxh,font,kind in items:
+        if kind=="g":   # gráfico (bode): máscara vem do PNG de contorno
+            g=Image.open(txt).split()[3];gw=int(maxw*S);gh=int(maxh*S);g=g.resize((gw,gh),Image.LANCZOS);pos=(int(cx*S-gw/2),int(cy*S-gh/2))
+            mf.paste(g,pos,g);mo.paste(g,pos,g);continue
         f,sz=fit(txt,maxw,maxh,font);w=f.getlength(txt);x=cx*S-w/2;sw=int(sz*S*(0.05 if kind=="n" else 0.045)) if col_stroke else 0
         df.text((x,cy*S),txt,font=f,fill=255,anchor="lm");do.text((x,cy*S),txt,font=f,fill=255,anchor="lm",stroke_width=sw,stroke_fill=255)
     f=lambda m:cv2.resize(np.array(m),(size,size),interpolation=cv2.INTER_AREA).astype(np.float32)/255
     return f(mf),f(mo)
-def render(rgba,items,col,stroke,calm=False):
+def render(rgba,items,col,stroke,calm=False,halo=False):
     size=rgba.shape[0];base=rgba[...,:3].astype(np.float32);al=rgba[...,3].astype(np.float32)/255
     num=any(k=="n" for *_,k in items)
     mf,mo=masks(items,stroke,size)
@@ -51,4 +54,7 @@ def render(rgba,items,col,stroke,calm=False):
     out=out*(1-tight[...,None]*(0.45 if num else 0.12)*inside)
     a=np.clip(cover,0,1)[...,None]*(0.98 if num else 0.93)
     out=out*(1-a)+np.clip(ink,0,255)*a
+    if halo:   # camisa escura: leve halo claro para o contorno preto não sumir
+        hl=cv2.dilate(cover.astype(np.float32),np.ones((5,5),np.uint8))-cover;hl=cv2.GaussianBlur(np.clip(hl,0,1),(0,0),0.8)[...,None]*(al[...,None]>0.5)*0.55
+        out=out*(1-hl)+np.float32([235,235,235])*hl
     return np.dstack([np.clip(out,0,255),rgba[...,3]]).astype(np.uint8)

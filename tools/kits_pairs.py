@@ -55,23 +55,24 @@ def darker(c,k):return "#%02x%02x%02x"%tuple(int(v*k) for v in c)
 sys.path.insert(0,os.path.dirname(__file__))
 from print_fx import render
 CALM={"flamengo","fluminense","botafogo","juventus","inter","atletico-madrid","athletico-pr","barcelona","sao-paulo","liverpool","bayern","psg"}   # tecidos listrados/estampados
-def finish(a,items,col,stroke,calm=False):
-    return Image.fromarray(render(a,items,col,stroke,calm))
+def finish(a,items,col,stroke,calm=False,halo=False):
+    return Image.fromarray(render(a,items,col,stroke,calm,halo))
+BODE=os.path.join(os.path.dirname(os.path.abspath(__file__)),"bode-contorno.png")
+INK="#0a0a0a"
+def center_x(a,y0,h):
+    rows=range(int(y0+h*.30),int(y0+h*.52),3);ex=[(np.where(a[r,:,3]>128)[0].min(),np.where(a[r,:,3]>128)[0].max()) for r in rows];return float(np.median([(l+r)/2 for l,r in ex]))
 for i,club in enumerate(ORDER):
-    nm=NAMES[i];one=nm.replace("?","");box,mode,tb,col,stroke,berase=D[club]
-    fnt=font_of(club,"t",NAMEF);fnum=font_of(club,"n",NUMF)
-    # frente
-    TR={"botafogo":[(170,0,262,28)]}
-    a=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_f.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
-    if box:a=erase(a,box,mode)
-    for t0,t1,t2,t3 in TR.get(club,[]):a[t1:t3,t0:t2,3]=0
-    bx=box or tb;x0,y0,x1,y1=bx;cx,cy=(x0+x1)/2,(y0+y1)/2
-    # centraliza no corpo da camisa quando o patrocinador está deslocado
-    finish(a,[(one if nm!="QUEM É?" else nm,cx,cy,max(x1-x0,min(168,len(one)*12)),max(y1-y0,30),fnt,"t")],col,stroke,club in CALM).save(f"src/assets/kit-{club}.webp","WEBP",quality=88,method=4)
-    # costas
-    a=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_b.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
-    for b,m in berase:a=erase(a,b,m)
-    ys,xs=np.where(a[...,3]>128);y0,y1,x0,x1=ys.min(),ys.max(),xs.min(),xs.max();h,w=y1-y0,x1-x0
-    rows=range(int(y0+h*.38),int(y0+h*.58),3);ex=[(np.where(a[r,:,3]>128)[0].min(),np.where(a[r,:,3]>128)[0].max()) for r in rows];cx=float(np.median([(l+r)/2 for l,r in ex]));mw=w*0.46
-    finish(a,[(one,cx,y0+h*0.22,mw,h*0.07,fnt,"t"),(str(i+1),cx,y0+h*0.45,mw*0.9,h*0.27,fnum,"n")],col,stroke,club in CALM).save(f"src/assets/kitback-{club}.webp","WEBP",quality=88,method=4)
-    print(club,nm)
+    box,mode,tb,col,stroke,berase=D[club];TR={"botafogo":[(170,0,262,28)]}
+    fa=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_f.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
+    ba=cv2.cvtColor(cv2.imread(f"{sys.argv[1]}/{club}_b.png",cv2.IMREAD_UNCHANGED),cv2.COLOR_BGRA2RGBA)
+    if box:fa=erase(fa,box,mode)
+    for t0,t1,t2,t3 in TR.get(club,[]):fa[t1:t3,t0:t2,3]=0
+    for b,m in berase:ba=erase(ba,b,m)
+    ys,xs=np.where(ba[...,3]>128);y0,y1,x0,x1=ys.min(),ys.max(),xs.min(),xs.max();h,w=y1-y0,x1-x0
+    gw=w*0.30;gh=gw*745/916                      # mesmo tamanho na frente e nas costas
+    for tag,a in (("f",fa),("b",ba)):
+        cx=center_x(a,y0,h);cy=y0+h*(0.58 if (club=="sao-paulo" and tag=="f") else 0.38)   # São Paulo: escudo no centro do peito
+        dark=np.median(cv2.cvtColor(a[int(cy-gh/2):int(cy+gh/2),int(cx-gw/2):int(cx+gw/2),:3],cv2.COLOR_RGB2GRAY))<85
+        out=finish(a,[(BODE,cx,cy,gw,gh,None,"g")],INK,None,club in CALM,dark)
+        out.save(f"src/assets/{'kit' if tag=='f' else 'kitback'}-{club}.webp","WEBP",quality=88,method=4)
+    print(club)
