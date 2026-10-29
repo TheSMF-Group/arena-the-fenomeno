@@ -24,7 +24,8 @@ for club in sorted(os.listdir(SRC)):
     if any(x is None for x in ims):continue
     ims=[cv2.resize(x,(1024,1024)) if x.shape[:2]!=(1024,1024) else x for x in ims]
     ms=[mask(x) for x in ims]
-    if club in HANGER:ims[1],ms[1]=no_hanger(ims[1],ms[1])
+    if club in HANGER:
+        for j in (0,1):ims[j],ms[j]=no_hanger(ims[j],ms[j])
     allm=np.maximum(ms[0],ms[1]);ys,xs=np.where(allm>128)
     x0,x1,y0,y1=xs.min(),xs.max(),ys.min(),ys.max();s=404/max(y1-y0+1,x1-x0+1)
     for tag,im,m in zip("fb",ims,ms):

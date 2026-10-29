@@ -898,3 +898,13 @@ header.top #todayPill{grid-column:3;justify-self:end}
 @media (max-width:1000px){.games.jerseys{grid-template-columns:repeat(4,minmax(0,1fr))}.jersey:nth-child(n){transform:none}}
 @media (max-width:700px){.games.jerseys{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:440px){.games.jerseys{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* pop-up da camisa */
+.jpop{position:fixed;z-index:40;width:230px;background:var(--card);border:1px solid var(--yellow);border-radius:14px;padding:10px 12px 12px;box-shadow:0 14px 34px rgba(0,0,0,.65);pointer-events:none;opacity:0;transform:translateY(6px) scale(.96);transform-origin:left top;transition:opacity .18s,transform .18s}
+.jpop.l{transform-origin:right top}.jpop.on{opacity:1;transform:none}
+.jpop-art{height:96px;background:var(--bg2);border-radius:9px;display:grid;place-items:center;overflow:hidden;margin-bottom:8px}
+.jpop-art>*{zoom:.7}
+.jpop b{display:block;font-size:22px;line-height:1;color:var(--yellow)}
+.jpop p{margin:5px 0 6px;font-size:13px;line-height:1.35;color:var(--fg)}
+.jpop small{color:var(--muted);font-size:11px}
+@media (hover:none){.jpop{display:none}}
