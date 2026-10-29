@@ -908,3 +908,12 @@ header.top #todayPill{grid-column:3;justify-self:end}
 .jpop p{margin:5px 0 6px;font-size:13px;line-height:1.35;color:var(--fg)}
 .jpop small{color:var(--muted);font-size:11px}
 @media (hover:none){.jpop{display:none}}
+
+/* card da loja FMB ao lado da última camisa */
+.fmbcard{align-self:center;justify-self:center;width:min(100%,560px);display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 14px;text-align:center}
+.fmbcard>b{font-size:clamp(22px,2.6vw,32px);line-height:1;color:var(--yellow);text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.fmbcard>span{color:var(--fg);font-weight:700;font-size:15px;margin-top:-4px}
+.fmbcard .fmb-badge{display:block;width:100%;border-radius:12px;overflow:hidden;box-shadow:0 12px 26px rgba(0,0,0,.6);transition:transform .18s,box-shadow .18s}
+.fmbcard .fmb-badge:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 32px rgba(0,0,0,.7)}
+.fmbcard img{display:block;width:100%;height:auto}
+.fmbcard small{color:var(--muted);font-size:11px}

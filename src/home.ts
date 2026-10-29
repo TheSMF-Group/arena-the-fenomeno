@@ -7,6 +7,7 @@ import {$, BODE, BODEHEAD, dayNum, esc, store, toast, todayKey} from "./core";
 import {GAMES, KIND, MODE, clockStop, dayLevel, dayLockKey, dayResult, drawFire, fireHTML, fmtDur, gameRng, isHard, loadStreak, resultKey, share, verdict} from "./engine";
 import {ST} from "./state";
 import {art} from "./art";
+import fmbImg from "./assets/fmb-badge.webp?url";
 import k0 from "./assets/kit-flamengo.webp?url";
 import b0 from "./assets/kitback-flamengo.webp?url";
 import k1 from "./assets/kit-real-madrid.webp?url";
@@ -114,9 +115,11 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
       const ki=KORDER.indexOf(id),st=first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):"";
-      return`<button type="button" class="jersey ${st}" data-g="${id}" aria-label="${g.name}"><span class="hang"></span>${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<span class="jsway"><span class="jstage"><img class="jface fback" src="${KITB[ki]}" alt="Camisa do ${KITN[ki]}, costas" loading="lazy"><img class="jface front" src="${KITS[ki]}" alt="Camisa do ${KITN[ki]}" loading="lazy"></span></span>${stamp}</button>`}).join("")}</section>
+      return`<button type="button" class="jersey ${st}" data-g="${id}" aria-label="${g.name}"><span class="hang"></span>${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<span class="jsway"><span class="jstage"><img class="jface fback" src="${KITB[ki]}" alt="Camisa do ${KITN[ki]}, costas" loading="lazy"><img class="jface front" src="${KITS[ki]}" alt="Camisa do ${KITN[ki]}" loading="lazy"></span></span>${stamp}</button>`}).join("")}<aside class="fmbcard"><b class="d">GOSTOU DE ALGUMA CAMISA?</b><span>Use o cupom abaixo!</span><a class="fmb-badge" href="https://www.fmbbr.com.br/plan/form?plan_id=3&coupon=THEFENOMENO&utm_source=arena&utm_medium=partner_badge&utm_campaign=fmb&utm_content=vestiario" target="_blank" rel="noopener" aria-label="Assine uma Mystery Box e ganhe 1 mês grátis, com o cupom THEFENOMENO (abre em nova aba)"><img src="${fmbImg}" alt="Assine uma Mystery Box e ganhe 1 mês grátis. Use o cupom: THEFENOMENO" width="800" height="200" loading="lazy"></a><small>Publicidade · Football Mystery Box Brasil</small></aside></section>
     <section class="more"><h2 class="d">CONHEÇA NOSSOS OUTROS JOGOS</h2><div class="more-grid">${OUTROS.map(o=>`<a class="more-card" href="${o.u}" target="_blank" rel="noopener"><img class="more-img" src="${o.i}" alt="${o.n}" loading="lazy"><b class="d">${o.n}</b><p>${o.d}</p><small class="more-h">${o.h}</small><span class="more-go">ABRIR →</span></a>`).join("")}</div></section>`;
   $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".jersey");if(c)gameModal(c.dataset.g)});
+  const gr=$("#app").querySelector(".games"),fc=gr.querySelector(".fmbcard"),fit=()=>{const cols=getComputedStyle(gr).gridTemplateColumns.split(" ").length,n=gr.querySelectorAll(".jersey").length,rem=cols-(n%cols||cols)||cols;fc.style.gridColumn="span "+(rem>=2?rem:cols)};
+  if(fc){fit();if(window.ResizeObserver)new ResizeObserver(fit).observe(gr)}
   $("#app").querySelectorAll(".jersey").forEach(j=>{const o=j.querySelector(".jsway");
     j.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const r=j.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;o.style.transform=`rotateZ(${x*-8}deg) rotateX(${-y*10}deg)`});
     j.addEventListener("pointerenter",e=>{if(e.pointerType!=="touch"&&!document.querySelector(".jmodal"))popShow(j)});
