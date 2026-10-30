@@ -63,18 +63,22 @@ function editor(start,done,free=false){const own=free?null:ownedGet();let cur={k
     const o=e.target.closest("[data-key]");if(o){cur.a[o.dataset.key]=+o.dataset.v;paint()}});paint()}
 
 /* ---------- vestiário: a parede com as camisas (placa = nome do clube) ---------- */
+const colHTML=own=>{const n=CAT.length,h=own.length,br=CAT.filter(c=>c.l==="br"),eu=CAT.filter(c=>c.l==="eu"),hb=br.filter(c=>own.includes(c.k)).length,he=eu.filter(c=>own.includes(c.k)).length;
+  const bar=(a,b)=>`<div class="cl-bar"><i style="width:${b?a/b*100:0}%"></i></div>`;
+  return`<div class="cl-big"><small>COLEÇÃO</small><b class="d">${h}<span>/${n}</span></b></div><div class="cl-bars"><div class="cl-row"><span>Brasileirão</span><em>${hb}/${br.length}</em>${bar(hb,br.length)}</div><div class="cl-row"><span>Champions</span><em>${he}/${eu.length}</em>${bar(he,eu.length)}</div></div>`};
 function vestiario(){let lg="all";const body=$("#pfBody");
   const stats=()=>{const h=histGet();const w=h.filter(x=>x.w).length;return{w,l:h.length-w,n:h.length}};
   body.innerHTML=`<section class="vt-top"><div class="vt-me"><div id="vtAv"></div><div><input class="vt-name" maxlength="12" autocomplete="off" spellcheck="false" aria-label="Seu nome"><small id="vtShirt"></small><button type="button" class="btn vt-edit" data-edit>Editar avatar</button></div></div>
+    <a class="fmb-badge vt-fmb" href="https://www.fmbbr.com.br/plan/form?plan_id=3&coupon=THEFENOMENO&utm_source=arena&utm_medium=partner_badge&utm_campaign=fmb&utm_content=vestiario_topo" target="_blank" rel="noopener" aria-label="Assine uma Mystery Box e ganhe 1 mês grátis, com o cupom THEFENOMENO (abre em nova aba)"><img src="${fmbImg}" alt="Assine uma Mystery Box e ganhe 1 mês grátis. Use o cupom: THEFENOMENO" width="800" height="200"></a>
     <div class="vt-stats" id="vtSt"></div></section>
-    <p class="rules" id="vtRules"></p>
+    <section class="vt-coll" id="vtColl"></section>
     <div id="vtTabs"></div><section class="games jerseys vt-wall"></section>
     <section class="vt-hist"><h3 class="d">SEUS JOGOS</h3><div id="vtHist"></div></section>
     <div class="row" style="margin:6px 0 24px"><button type="button" class="btn" data-del>Apagar meu usuário</button></div>`;
   const wall=body.querySelector(".vt-wall"),nm=body.querySelector(".vt-name");
   const top=()=>{const u=pfGet();body.querySelector("#vtAv").innerHTML=avatarHTML(u,92);const s=shirtOf(u.k);body.querySelector("#vtShirt").textContent=s?`Camisa: ${s.n}`:"";
-    const t=stats();body.querySelector("#vtSt").innerHTML=`<div><b>${t.w}</b><small>vitórias</small></div><div><b>${t.l}</b><small>derrotas</small></div><div><b>${t.n}</b><small>partidas</small></div>`};
-  const draw=()=>{const u=pfGet(),own=ownedGet();body.querySelector("#vtRules").innerHTML=`Coleção: <b>${own.length}</b> de <b>${CAT.length}</b> camisas. Passe o mouse para virar (no celular, toque) e clique para vestir. Ganhe mais vencendo modos diários.`;body.querySelector("#vtTabs").innerHTML=tabsHTML(lg);
+    const t=stats();body.querySelector("#vtSt").innerHTML=`<div><b>${t.w}</b><small>vitórias</small></div><div><b>${t.l}</b><small>derrotas</small></div>`};
+  const draw=()=>{const u=pfGet(),own=ownedGet();body.querySelector("#vtColl").innerHTML=colHTML(own);body.querySelector("#vtTabs").innerHTML=tabsHTML(lg);
     wall.innerHTML=CAT.filter(c=>inLiga(c,lg)).map(c=>{const mine=c.k===u.k,has=own.includes(c.k);
       return`<button type="button" class="jersey${c.b?"":" nb"}${mine?" mine":""}${has?"":" lock nb"}" data-k="${c.k}" aria-label="${esc(c.n)}${mine?" (sua camisa)":""}${has?"":" (bloqueada)"}"><span class="plaque" aria-hidden="true">${esc(c.n)}</span><span class="hang"></span>${mine?'<span class="tag mine">SUA CAMISA</span>':has?"":'<span class="tag lk">🔒</span>'}<span class="jsway"><span class="jstage"><img class="jface front" src="${c.f}" alt="Camisa do ${esc(c.n)}">${c.b?`<img class="jface fback" src="${c.b}" alt="" loading="lazy">`:""}</span></span></button>`}).join("")+FMB;
     fit();wall.querySelectorAll(".jersey").forEach(j=>{const o=j.querySelector(".jsway");

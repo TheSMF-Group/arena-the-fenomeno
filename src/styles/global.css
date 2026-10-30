@@ -1062,3 +1062,14 @@ header.top #todayPill{grid-column:3;justify-self:end}
 .rw-res p{margin:0;display:flex;flex-direction:column}.rw-res p b{font-size:22px}.rw-res p span{color:#c4b5fd;font-weight:700}.rw-res small{color:#a78bfa}
 .rw-open{font-family:var(--display);font-size:24px;letter-spacing:.06em;padding:10px 26px;animation:objp 1.4s ease-in-out infinite}
 @media (max-width:520px){#objTab{right:8px;bottom:8px}.obj-tx b{font-size:11px}}
+
+/* vestiário: banner do cupom no topo e coleção visual */
+.vt-top{flex-wrap:wrap}
+.vt-fmb{flex:1 1 280px;max-width:420px;min-width:240px;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.5);transition:transform .18s}
+.vt-fmb:hover{transform:translateY(-2px) scale(1.015)}.vt-fmb img{display:block;width:100%;height:auto}
+.vt-coll{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 20px;margin-bottom:14px}
+.cl-big{display:flex;flex-direction:column;line-height:1}.cl-big small{color:var(--muted);font-weight:800;letter-spacing:.14em;font-size:11px}
+.cl-big b{font-size:56px;color:var(--yellow);letter-spacing:.02em}.cl-big b span{font-size:30px;color:var(--muted)}
+.cl-bars{flex:1 1 260px;display:grid;gap:10px}
+.cl-row{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center}.cl-row span{font-weight:700;font-size:13px}.cl-row em{font-style:normal;color:var(--muted);font-weight:800;font-size:13px;text-align:right}
+.cl-bar{grid-column:1/-1;height:10px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.cl-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#16a34a,var(--yellow));transition:width .5s}
