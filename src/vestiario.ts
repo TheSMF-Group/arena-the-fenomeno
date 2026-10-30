@@ -24,25 +24,33 @@ export async function perfilScreen(){ST.VIEW="perfil";ST.PHASE="perfil";cleanup(
   await loadAvKits();if(ST.VIEW!=="perfil")return;
   hasUser()?vestiario():criar()}
 
-/* ---------- criação: nome, camisa e cor do avatar ---------- */
-function criar(){let name="",k=null,bg=BGS[0],lg="all";const body=$("#pfBody");
-  body.innerHTML=`<p class="rules">Escolha um nome e a camisa do seu time. É o seu avatar nos jogos e nos duelos com os amigos.</p>
-  <section class="cr"><div class="cr-card"><div class="cr-prev"><div id="crAv"></div><b id="crN">SEU NOME</b></div>
-    <label class="cr-l">Seu nome<input id="crName" maxlength="12" autocomplete="off" spellcheck="false" placeholder="Ex.: Fenômeno10"></label>
-    <div class="cr-l">Cor do avatar<div class="cr-bgs">${BGS.map(c=>`<button type="button" class="sw" data-bg="${c}" style="--c:${c}" aria-label="Cor do avatar" aria-pressed="${c===bg}"></button>`).join("")}</div></div>
-    <button type="button" class="btn y cr-go" disabled>Criar meu usuário</button></div>
-    <div class="cr-pick"><div class="cr-tabs"></div><div class="cr-shirts"></div></div></section>`;
-  const av=body.querySelector("#crAv"),nn=body.querySelector("#crN"),go=body.querySelector(".cr-go"),inp=body.querySelector("#crName");
-  const paint=()=>{av.innerHTML=avatarHTML({k,bg},120);nn.textContent=name||"SEU NOME";go.disabled=!(name.length>=2&&k);
-    body.querySelector(".cr-tabs").innerHTML=tabsHTML(lg);
-    body.querySelector(".cr-shirts").innerHTML=CAT.filter(c=>inLiga(c,lg)).map(c=>`<button type="button" class="cs" data-k="${c.k}" aria-pressed="${c.k===k}" title="${esc(c.n)}"><img src="${c.f}" alt=""><span>${esc(c.n)}</span></button>`).join("");
-    body.querySelectorAll(".sw").forEach(s=>s.setAttribute("aria-pressed",s.dataset.bg===bg))};
-  inp.addEventListener("input",()=>{name=inp.value.trim().slice(0,12);av.innerHTML=avatarHTML({k,bg},120);nn.textContent=name||"SEU NOME";go.disabled=!(name.length>=2&&k)});
-  body.addEventListener("click",e=>{const t=e.target.closest("[data-l]");if(t){lg=t.dataset.l;paint();return}
-    const s=e.target.closest("[data-k]");if(s){k=s.dataset.k;paint();return}
-    const c=e.target.closest(".sw");if(c){bg=c.dataset.bg;paint();return}
-    if(e.target.closest(".cr-go")&&!go.disabled){userSet({n:name,k,bg,c:ST.ESC&&ST.ESC[k]?k:null});renderMe();toast(`Bem-vindo, ${name}!`);perfilScreen()}});
-  paint();setTimeout(()=>inp.focus({preventScroll:true}),150)}
+/* ---------- criação (no estilo do StopotS): avatar com lápis, apelido sorteado e só o botão de criar ---------- */
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function criar(){let name="Fenômeno"+(100+Math.floor(Math.random()*900)),k=rnd(CAT).k,bg=rnd(BGS);const body=$("#pfBody");
+  body.innerHTML=`<section class="cr2">
+    <button type="button" class="cr2-av" aria-label="Editar avatar"><span id="crAv"></span><span class="pencil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm17.7-10.2a1 1 0 0 0 0-1.4l-2.34-2.34a1 1 0 0 0-1.4 0l-1.83 1.83 3.75 3.75 1.82-1.84z"/></svg></span></button>
+    <input id="crName" class="cr2-name" maxlength="12" autocomplete="off" spellcheck="false" aria-label="Seu nome" value="${esc(name)}">
+    <button type="button" class="btn y cr2-go">CRIAR</button></section>`;
+  const av=body.querySelector("#crAv"),inp=body.querySelector("#crName");
+  const paint=()=>{av.innerHTML=avatarHTML({k,bg},170)};
+  inp.addEventListener("input",()=>{name=inp.value.trim().slice(0,12)});inp.addEventListener("focus",()=>inp.select());
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter")go()});
+  const go=()=>{name=inp.value.trim().slice(0,12);if(name.length<2){toast("O nome precisa de 2 letras ou mais");inp.focus();return}
+    userSet({n:name,k,bg,c:ST.ESC&&ST.ESC[k]?k:null});renderMe();toast(`Bem-vindo, ${name}!`);perfilScreen()};
+  body.querySelector(".cr2-go").addEventListener("click",go);
+  body.querySelector(".cr2-av").addEventListener("click",()=>editor(k,bg,(nk,nb)=>{k=nk;bg=nb;paint()}));
+  paint()}
+/* pop-up do avatar: camisa (Brasileirão/Champions) e cor */
+function editor(k0,bg0,done){let k=k0,bg=bg0,lg="all";const m=document.createElement("div");m.className="modal";
+  m.innerHTML=`<div class="box avt-ed"><h3>Monte seu avatar</h3><div class="ed-top"><div id="edAv"></div><div class="cr-bgs">${BGS.map(c=>`<button type="button" class="sw" data-bg="${c}" style="--c:${c}" aria-label="Cor do avatar"></button>`).join("")}</div></div><div id="edTabs"></div><div class="cr-shirts"></div><div class="row" style="margin-top:12px"><button type="button" class="btn y" data-ok>Pronto</button></div></div>`;
+  document.body.appendChild(m);
+  const paint=()=>{m.querySelector("#edAv").innerHTML=avatarHTML({k,bg},84);m.querySelector("#edTabs").innerHTML=tabsHTML(lg);
+    m.querySelector(".cr-shirts").innerHTML=CAT.filter(c=>inLiga(c,lg)).map(c=>`<button type="button" class="cs" data-k="${c.k}" aria-pressed="${c.k===k}" title="${esc(c.n)}"><img src="${c.f}" alt=""><span>${esc(c.n)}</span></button>`).join("");
+    m.querySelectorAll(".sw").forEach(x=>x.setAttribute("aria-pressed",x.dataset.bg===bg))};
+  m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-ok]")){done(k,bg);m.remove();return}
+    const t=e.target.closest("[data-l]");if(t){lg=t.dataset.l;paint();return}
+    const c=e.target.closest(".cs");if(c){k=c.dataset.k;paint();return}
+    const w=e.target.closest(".sw");if(w){bg=w.dataset.bg;paint()}});paint()}
 
 /* ---------- vestiário: a parede com as camisas (placa = nome do clube) ---------- */
 function vestiario(){let lg="all";const body=$("#pfBody");
