@@ -10,7 +10,7 @@ import {hasUser, histGet, ownedGet, pfGet, userSet} from "./profile";
 import {store} from "./core";
 
 export function renderMe(){const b=$("#meBtn");if(!b)return;
-  if(hasUser()){const u=pfGet();b.classList.add("has");b.innerHTML=`${avatarHTML(u,26)}<span>Vestiário</span>`}
+  if(hasUser()){const u=pfGet();b.classList.add("has");b.innerHTML=`${avatarHTML(u,26)}<span>Meu Perfil</span>`}
   else{b.classList.remove("has");b.innerHTML=`<span class="plus">+</span><span>Criar usuário</span>`}}
 const LIGAS=[["all","Todas"],["br","Brasileirão"],["eu","Champions"],["mine","Minhas"]];
 const tabsHTML=cur=>`<div class="vt-tabs" role="group" aria-label="Liga">${LIGAS.map(([k,n])=>`<button type="button" data-l="${k}" aria-pressed="${k===cur}">${n}</button>`).join("")}</div>`;
@@ -19,7 +19,7 @@ const FMB=`<aside class="fmbcard"><b class="d">GOSTOU DE ALGUMA CAMISA?</b><span
 
 export async function perfilScreen(){ST.VIEW="perfil";ST.PHASE="perfil";cleanup();
   if(location.hash!=="#perfil")history.replaceState(null,"","#perfil");
-  $("#app").innerHTML=`<div class="stagehead${hasUser()?" vt":""}"><button class="back" type="button">← Jogos</button><h2>${hasUser()?"VESTIÁRIO":"CRIE SEU <b>USUÁRIO</b>"}</h2><span class="spacer"></span></div><div id="pfBody"><p class="muted">Carregando as camisas…</p></div>`;
+  $("#app").innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2>${hasUser()?"VESTIÁRIO":"CRIE SEU <b>USUÁRIO</b>"}</h2><span class="spacer"></span></div><div id="pfBody"><p class="muted">Carregando as camisas…</p></div>`;
   $("#app").querySelector(".back").addEventListener("click",home);window.scrollTo(0,0);
   await loadAvKits();if(ST.VIEW!=="perfil")return;
   hasUser()?vestiario():criar()}
