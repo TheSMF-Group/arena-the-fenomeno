@@ -1083,3 +1083,7 @@ header.top #todayPill{grid-column:3;justify-self:end}
 
 #vtAv{cursor:pointer;border-radius:50%;transition:transform .15s}#vtAv:hover{transform:scale(1.05)}#vtAv:active{transform:scale(.96)}
 #vtAv:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+
+/* celular: camisa menor e sobe menos, para não cobrir o título da box */
+@media (max-width:520px){.rw-stage{margin-top:64px}.rw-shirt{width:172px;height:172px;margin-left:-86px}
+@keyframes rwshirt{0%{opacity:0;transform:translateY(40px) scale(.4) rotateY(0)}30%{opacity:1}100%{opacity:1;transform:translateY(-96px) scale(1.05) rotateY(360deg)}}}
