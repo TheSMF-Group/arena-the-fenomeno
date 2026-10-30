@@ -1076,3 +1076,7 @@ header.top #todayPill{grid-column:3;justify-self:end}
 
 .avt img{position:absolute;left:50%;top:50%;width:84%;height:84%;transform:translate(-50%,-50%);object-fit:contain}
 .vt-me{gap:16px}
+
+/* objetivos na linha do título do Vestiário; nome do perfil sem pontilhado */
+.stagehead.vt #objTab{align-self:center}
+.vt-name{border-bottom:2px solid transparent!important}.vt-name:focus{border-bottom-color:var(--yellow)!important}

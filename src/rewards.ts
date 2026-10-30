@@ -19,7 +19,11 @@ function mount(){if(tab)return;tab=document.createElement("div");tab.id="objTab"
   tab.addEventListener("click",e=>{const r=e.target.closest("[data-claim]");if(r){claim(OBJ.find(o=>o.id===r.dataset.claim));return}
     if(e.target.closest(".obj-pill")){open=!open;render()}});
   document.addEventListener("click",e=>{if(open&&tab&&!e.composedPath().includes(tab)){open=false;render()}})}
-export function renderObj(){mount();render()}
+/* na tela do Vestiário a aba fica na linha do título, no limite direito do card; nas outras telas, no cabeçalho */
+function dock(){if(!tab)return;const sh=document.querySelector("#app .stagehead.vt");
+  if(sh){const rt=sh.querySelector(".sh-r");if(rt&&tab.parentElement!==rt)rt.appendChild(tab)}
+  else{const hr=document.querySelector(".hrow");if(hr&&tab.parentElement!==hr)hr.appendChild(tab)}}
+export function renderObj(){mount();render();dock();const app=document.querySelector("#app");if(app&&!app._obs){app._obs=new MutationObserver(dock);app._obs.observe(app,{childList:true,subtree:true})}}
 function render(){const {st,w,ready,next}=state();
   const line=o=>{const got=!!st[o.id],can=w>=o.n&&!got,pct=Math.min(100,w/o.n*100);
     return`<div class="obj-row ${got?"done":""}"><div class="obj-t"><b>VENÇA MODOS DIÁRIOS ${Math.min(w,o.n)}/${o.n}</b><span>${o.t}</span></div><div class="obj-bar"><i style="width:${pct}%"></i></div>${got?`<em>Resgatada hoje</em>`:can?`<button type="button" class="btn y" data-claim="${o.id}">RESGATAR</button>`:`<small>Faltam ${o.n-w}</small>`}</div>`};

@@ -19,7 +19,7 @@ const FMB=`<aside class="fmbcard"><b class="d">GOSTOU DE ALGUMA CAMISA?</b><span
 
 export async function perfilScreen(){ST.VIEW="perfil";ST.PHASE="perfil";cleanup();
   if(location.hash!=="#perfil")history.replaceState(null,"","#perfil");
-  $("#app").innerHTML=`<div class="stagehead"><button class="back" type="button">← Jogos</button><h2>${hasUser()?"VESTIÁRIO":"CRIE SEU <b>USUÁRIO</b>"}</h2><span class="spacer"></span></div><div id="pfBody"><p class="muted">Carregando as camisas…</p></div>`;
+  $("#app").innerHTML=`<div class="stagehead${hasUser()?" vt":""}"><button class="back" type="button">← Jogos</button><h2>${hasUser()?"VESTIÁRIO":"CRIE SEU <b>USUÁRIO</b>"}</h2><span class="spacer"></span></div><div id="pfBody"><p class="muted">Carregando as camisas…</p></div>`;
   $("#app").querySelector(".back").addEventListener("click",home);window.scrollTo(0,0);
   await loadAvKits();if(ST.VIEW!=="perfil")return;
   hasUser()?vestiario():criar()}
