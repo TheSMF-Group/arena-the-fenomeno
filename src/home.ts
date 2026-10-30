@@ -7,51 +7,7 @@ import {$, BODE, BODEHEAD, dayNum, esc, store, toast, todayKey} from "./core";
 import {GAMES, KIND, MODE, clockStop, dayLevel, dayLockKey, dayResult, drawFire, fireHTML, fmtDur, gameRng, isHard, loadStreak, resultKey, share, verdict} from "./engine";
 import {ST} from "./state";
 import {art} from "./art";
-import fmbImg from "./assets/fmb-badge.webp?url";
-import k0 from "./assets/kit-flamengo.webp?url";
-import b0 from "./assets/kitback-flamengo.webp?url";
-import k1 from "./assets/kit-real-madrid.webp?url";
-import b1 from "./assets/kitback-real-madrid.webp?url";
-import k2 from "./assets/kit-palmeiras.webp?url";
-import b2 from "./assets/kitback-palmeiras.webp?url";
-import k3 from "./assets/kit-barcelona.webp?url";
-import b3 from "./assets/kitback-barcelona.webp?url";
-import k4 from "./assets/kit-corinthians.webp?url";
-import b4 from "./assets/kitback-corinthians.webp?url";
-import k5 from "./assets/kit-man-utd.webp?url";
-import b5 from "./assets/kitback-man-utd.webp?url";
-import k6 from "./assets/kit-sao-paulo.webp?url";
-import b6 from "./assets/kitback-sao-paulo.webp?url";
-import k7 from "./assets/kit-liverpool.webp?url";
-import b7 from "./assets/kitback-liverpool.webp?url";
-import k8 from "./assets/kit-fluminense.webp?url";
-import b8 from "./assets/kitback-fluminense.webp?url";
-import k9 from "./assets/kit-bayern.webp?url";
-import b9 from "./assets/kitback-bayern.webp?url";
-import k10 from "./assets/kit-botafogo.webp?url";
-import b10 from "./assets/kitback-botafogo.webp?url";
-import k11 from "./assets/kit-juventus.webp?url";
-import b11 from "./assets/kitback-juventus.webp?url";
-import k12 from "./assets/kit-cruzeiro.webp?url";
-import b12 from "./assets/kitback-cruzeiro.webp?url";
-import k13 from "./assets/kit-arsenal.webp?url";
-import b13 from "./assets/kitback-arsenal.webp?url";
-import k14 from "./assets/kit-athletico-pr.webp?url";
-import b14 from "./assets/kitback-athletico-pr.webp?url";
-import k15 from "./assets/kit-chelsea.webp?url";
-import b15 from "./assets/kitback-chelsea.webp?url";
-import k16 from "./assets/kit-psg.webp?url";
-import b16 from "./assets/kitback-psg.webp?url";
-import k17 from "./assets/kit-inter.webp?url";
-import b17 from "./assets/kitback-inter.webp?url";
-import k18 from "./assets/kit-napoli.webp?url";
-import b18 from "./assets/kitback-napoli.webp?url";
-import k19 from "./assets/kit-atletico-madrid.webp?url";
-import b19 from "./assets/kitback-atletico-madrid.webp?url";
-import k20 from "./assets/kit-roma.webp?url";
-import b20 from "./assets/kitback-roma.webp?url";
-import k21 from "./assets/kit-tottenham.webp?url";
-import b21 from "./assets/kitback-tottenham.webp?url";
+import {hasUser, userGate, whoLine, withWho} from "./profile";
 
 /* ---------- telas ---------- */
 export const NEW=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100"];
@@ -79,34 +35,15 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkDay()
 export function modeToggle(prefix){const M=prefix&&MODE.multi;return`<div class="mode" role="group" aria-label="Modo de jogo"><button type="button" data-m="d" aria-pressed="${!MODE.free&&!M}">${prefix?"Desafio do dia":"Dia"}</button><button type="button" data-m="f" aria-pressed="${MODE.free&&!M}">${prefix?"Modo infinito":"Infinito"}</button>${prefix?`<button type="button" data-m="m" aria-pressed="${M}">Multiplayer</button>`:""}</div>`}
 export function stampFor(id,d,res){const v=verdict(id,res);
   return`<div class="stamp ${v.cls}"><span class="sv">${esc(v.cls==="score"?v.word:v.word==="GANHOU"?"VENCEU":v.word)}</span><span class="sl">${d==="hard"?"DIFÍCIL":"NORMAL"}</span></div>`}
-export function cleanup(){popHide();clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
-/* camisas da tela inicial: cada jogo é uma camisa; ao clicar abre o card com as regras */
-const KORDER=["camisa","carreira","questoes","forca","entrosa","piramide","top10","top100","futgeo","quem","grade","conexoes","bodle","impostor","escudo","bingo","velho","draft","leilao","maleta","reconstruindo","velha"];
-const KITB=[b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21],KITS=[k0,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20,k21],KITN=["flamengo", "real-madrid", "palmeiras", "barcelona", "corinthians", "man-utd", "sao-paulo", "liverpool", "fluminense", "bayern", "botafogo", "juventus", "cruzeiro", "arsenal", "athletico-pr", "chelsea", "psg", "inter", "napoli", "atletico-madrid", "roma", "tottenham"];
-/* pop-up com a foto e a descrição do jogo ao passar o mouse na camisa */
-let POP=null,POPT=0;
-function popHide(){clearTimeout(POPT);if(POP){POP.remove();POP=null}}
-function popShow(j){popHide();const id=j.dataset.g,g=GAMES[id];if(!g)return;
-  POPT=setTimeout(()=>{const p=document.createElement("div");p.className="jpop";p.innerHTML=`<div class="jpop-art">${art(id)}</div><b class="d">${g.name}</b><p>${g.desc}</p><small>Clique para ver as regras e jogar</small>`;
-    document.body.appendChild(p);POP=p;const r=j.getBoundingClientRect(),w=p.offsetWidth,hh=p.offsetHeight;
-    let x=r.right-12,left=true;if(x+w>innerWidth-8){x=r.left-w+12;left=false}
-    p.classList.toggle("l",!left);p.style.left=Math.max(8,x)+"px";p.style.top=Math.min(innerHeight-hh-8,Math.max(70,r.top+r.height*.1))+"px";requestAnimationFrame(()=>p.classList.add("on"))},260)}
-function gameModal(id){const g=GAMES[id];if(!g)return;popHide();document.querySelectorAll(".jmodal").forEach(m=>m.remove());
-  const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,v=dr?verdict(id,dr.res):null;
-  const st=cf?cf:v?`<span class="res ${v.cls}">${v.cls==="score"?esc(v.word)+(KIND[id]?" PTS":" SEGUIDOS"):v.word==="GANHOU"?"VENCEU":v.word}</span>`:MODE.free?`<span class="chip rec">${fireHTML(Math.max(bestOf(id,"normal"),bestOf(id,"hard")))} recorde</span>`:"";
-  const m=document.createElement("div");m.className="modal jmodal";
-  m.innerHTML=`<div class="box jbox"><button type="button" class="jx" aria-label="Fechar">×</button><div class="jart">${art(id)}</div><h3>${g.name.replace(/\?$/,"<b>?</b>")}</h3><p class="jdesc">${g.desc}</p><p class="jrules">${g.rules}</p>${g.hard?`<p class="jhard"><b>Difícil:</b> ${g.hard}</p>`:""}<div class="jfoot">${st}<button type="button" class="btn y jgo">JOGAR →</button></div></div>`;
-  document.body.appendChild(m);
-  const close=()=>m.remove();m.addEventListener("click",e=>{if(e.target===m||e.target.closest(".jx"))close();else if(e.target.closest(".jgo")){close();openGame(id)}});
-  const k=e=>{if(e.key==="Escape"){close();document.removeEventListener("keydown",k)}};document.addEventListener("keydown",k)}
+export function cleanup(){clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
 export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();cleanup();
   if(location.hash)history.replaceState(null,"",location.pathname+location.search);
   $("#app").innerHTML=`<section class="hero"><div><div class="kick">BEM-VINDO À ARENA</div><h1>VOCÊ SABE TUDO?<span>PROVE QUE É <b>FENÔMENO.</b></span></h1><p>Arena é onde os jogos do The Fenômeno se encontram: 22 mini games de futebol, um desafio novo todo dia e duelos contra os amigos.</p>
-    <div class="daybar">${modeToggle(true)}<span class="pill">Novos desafios em <span id="cd">${countdown()}</span></span></div></div>
+    <div class="daybar">${modeToggle(true)}<span class="pill">Novos desafios em <span id="cd">${countdown()}</span></span>${hasUser()?"":`<button type="button" class="btn y newuser">Criar meu usuário</button>`}</div></div>
     <img class="goat" src="${BODE}" alt="O bode do The Fenômeno com a camisa 10"></section>
     ${!MODE.free&&!MODE.multi&&allDone()?`<div class="sumbar"><div><b>DESAFIOS DE HOJE COMPLETOS</b><div class="muted">Veja vitórias, derrotas e quanto tempo você jogou.</div></div><button class="btn y" type="button" data-a="sum">Resumo do dia →</button></div>`:""}
     <p class="pick">Escolha o seu jogo:</p>
-    <section class="games jerseys">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:(!GAMES[id].multi||GAMES[id].dayToo)).map((id,i)=>{const g=GAMES[id];
+    <section class="games">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:(!GAMES[id].multi||GAMES[id].dayToo)).map((id,i)=>{const g=GAMES[id];
       const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,played=dr?[[dr.d,dr.res]]:[];
       const first=played[0]?verdict(id,played[0][1]):null;
       const stamp=dr?stampFor(id,dr.d,dr.res):"";
@@ -114,22 +51,16 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
       const foot=cf?cf:g.multi&&MODE.multi?`<span class="go">JOGAR</span><span class="chip">contra amigo</span>`:g.multi?`<span class="go">JOGAR</span><span class="chip">hoje</span>`:MODE.free?`<span class="go">JOGAR</span><span class="chip rec">${fireHTML(best)} recorde</span>`
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
-      const ki=KORDER.indexOf(id),st=first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):"";
-      return`<button type="button" class="jersey ${st}" data-g="${id}" aria-label="${g.name}"><span class="plaque" aria-hidden="true">${g.name}</span><span class="hang"></span>${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<span class="jsway"><span class="jstage"><img class="jface fback" src="${KITB[ki]}" alt="Camisa do ${KITN[ki]}, costas" loading="lazy"><img class="jface front" src="${KITS[ki]}" alt="Camisa do ${KITN[ki]}" loading="lazy"></span></span>${stamp}</button>`}).join("")}<aside class="fmbcard"><b class="d">GOSTOU DE ALGUMA CAMISA?</b><span>Use o cupom abaixo!</span><a class="fmb-badge" href="https://www.fmbbr.com.br/plan/form?plan_id=3&coupon=THEFENOMENO&utm_source=arena&utm_medium=partner_badge&utm_campaign=fmb&utm_content=vestiario" target="_blank" rel="noopener" aria-label="Assine uma Mystery Box e ganhe 1 mês grátis, com o cupom THEFENOMENO (abre em nova aba)"><img src="${fmbImg}" alt="Assine uma Mystery Box e ganhe 1 mês grátis. Use o cupom: THEFENOMENO" width="800" height="200" loading="lazy"></a><small>Publicidade · Football Mystery Box Brasil</small></aside></section>
+      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${art(id)}${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>
     <section class="more"><h2 class="d">CONHEÇA NOSSOS OUTROS JOGOS</h2><div class="more-grid">${OUTROS.map(o=>`<a class="more-card" href="${o.u}" target="_blank" rel="noopener"><img class="more-img" src="${o.i}" alt="${o.n}" loading="lazy"><b class="d">${o.n}</b><p>${o.d}</p><small class="more-h">${o.h}</small><span class="more-go">ABRIR →</span></a>`).join("")}</div></section>`;
-  $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".jersey");if(c)gameModal(c.dataset.g)});
-  const gr=$("#app").querySelector(".games"),fc=gr.querySelector(".fmbcard"),fit=()=>{const cols=getComputedStyle(gr).gridTemplateColumns.split(" ").length,n=gr.querySelectorAll(".jersey").length,rem=cols-(n%cols||cols)||cols;fc.style.gridColumn="span "+(rem>=2?rem:cols)};
-  if(fc){fit();if(window.ResizeObserver)new ResizeObserver(fit).observe(gr)}
-  $("#app").querySelectorAll(".jersey").forEach(j=>{const o=j.querySelector(".jsway");
-    j.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const r=j.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;o.style.transform=`rotateZ(${x*-8}deg) rotateX(${-y*10}deg)`});
-    j.addEventListener("pointerenter",e=>{if(e.pointerType!=="touch"&&!document.querySelector(".jmodal"))popShow(j)});
-    j.addEventListener("pointerleave",()=>{o.style.transform="";popHide()});
-    j.addEventListener("click",popHide)});
+  $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(c)openGame(c.dataset.g)});
+  const nu=$("#app").querySelector(".newuser");nu&&nu.addEventListener("click",()=>document.dispatchEvent(new CustomEvent("fen:perfil")));
   const sb=$("#app").querySelector(".sumbar [data-a=sum]");sb&&sb.addEventListener("click",daySummary);
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});
   updateToday();window.scrollTo(0,0)}
 /* tela de escolha: normal ou difícil */
-export function openGame(id){if(GAMES[id]&&GAMES[id].open)return GAMES[id].open();MODE.multi=false;ST.VIEW=id;ST.PHASE="choose";ST.PLAYDAY=todayKey();cleanup();
+export function openGame(id){if(GAMES[id]&&(MODE.multi||(GAMES[id].multi&&!GAMES[id].dayToo))&&!hasUser())return userGate();
+  if(GAMES[id]&&GAMES[id].open)return GAMES[id].open();MODE.multi=false;ST.VIEW=id;ST.PHASE="choose";ST.PLAYDAY=todayKey();cleanup();
   const g=GAMES[id];if(!g)return home();
   if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
   const info={normal:["Craques que todo mundo conhece, com todas as dicas.","618 craques"],
@@ -153,8 +84,8 @@ export function startGame(id){ST.VIEW=id;ST.PHASE="play";ST.PLAYDAY=todayKey();c
   const mt=$("#app").querySelector(".stagehead .mode");mt&&mt.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.free=b.dataset.m==="f";startGame(id)});
   drawFire(false);
   const st=$("#app").querySelector(".stage");const prev=!MODE.free&&store.get(resultKey(id));
-  if(prev){st.innerHTML=`<div class="result"><img src="${BODEHEAD}" alt=""><div>${(v=>`<span class="verdict ${v.cls}">${v.cls==="score"?v.word+" "+v.detail.toUpperCase():v.word}</span>`)(verdict(id,prev))}<div class="d">DESAFIO DE HOJE FEITO</div><p>${esc(prev.label)} Volte amanhã para o próximo, ou jogue no modo infinito.</p><div class="row"><button class="btn y" data-a="share">Copiar resultado</button><button class="btn" data-a="free">Jogar no modo infinito</button></div></div></div>`;
-    st.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(prev.share);if(a==="free"){MODE.free=true;startGame(id)}});}
+  if(prev){st.innerHTML=`<div class="result"><img src="${BODEHEAD}" alt=""><div>${whoLine()}${(v=>`<span class="verdict ${v.cls}">${v.cls==="score"?v.word+" "+v.detail.toUpperCase():v.word}</span>`)(verdict(id,prev))}<div class="d">DESAFIO DE HOJE FEITO</div><p>${esc(prev.label)} Volte amanhã para o próximo, ou jogue no modo infinito.</p><div class="row"><button class="btn y" data-a="share">Copiar resultado</button><button class="btn" data-a="free">Jogar no modo infinito</button></div></div></div>`;
+    st.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(withWho(prev.share));if(a==="free"){MODE.free=true;startGame(id)}});}
   else{if(!MODE.free&&!g.multi){if(!store.get(dayLockKey(id)))store.set(dayLockKey(id),ST.DIFF);ST.CLOCK={id,day:ST.PLAYDAY,t0:document.hidden?0:Date.now()}}g.start(st,gameRng(id))}
   window.scrollTo(0,0)}
 export function daySummary(){ST.VIEW="resumo";ST.PHASE="home";cleanup();
@@ -173,5 +104,5 @@ export function daySummary(){ST.VIEW="resumo";ST.PHASE="home";cleanup();
   app.querySelector(".sumwrap").addEventListener("click",e=>{const b=e.target.closest("[data-a],[data-g]");if(!b)return;
     if(b.dataset.g){MODE.free=false;openGame(b.dataset.g);return}
     if(b.dataset.a==="home")home();
-    if(b.dataset.a==="share")share(`THE FENÔMENO · RESUMO DO DIA #${dayNum()}\n✅ ${win} vitórias · ❌ ${loss} derrotas · 🎯 ${part} por pontos\n⏱ ${fmtDur(tot)} jogando\n`+rows.filter(x=>x.r).map(x=>{const t=tag(x);return`${t.cls==="win"?"🟩":t.cls==="loss"?"🟥":"🟨"} ${x.g.name} (${DNAME[x.r.d].toLowerCase()}) ${t.cls==="score"?t.txt:""} ${fmtDur(x.r.res.ms)}`.replace(/\s+/g," ").trim()}).join("\n"))});
+    if(b.dataset.a==="share")share(withWho(`THE FENÔMENO · RESUMO DO DIA #${dayNum()}\n✅ ${win} vitórias · ❌ ${loss} derrotas · 🎯 ${part} por pontos\n⏱ ${fmtDur(tot)} jogando\n`+rows.filter(x=>x.r).map(x=>{const t=tag(x);return`${t.cls==="win"?"🟩":t.cls==="loss"?"🟥":"🟨"} ${x.g.name} (${DNAME[x.r.d].toLowerCase()}) ${t.cls==="score"?t.txt:""} ${fmtDur(x.r.res.ms)}`.replace(/\s+/g," ").trim()}).join("\n")))});
   window.scrollTo(0,0)}

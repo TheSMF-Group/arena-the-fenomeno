@@ -1,4 +1,4 @@
-# Camisas do vestiário: frente e costas do mesmo produto (recortadas por usoa_pairs.py, mesmo tamanho).
+# Camisas do vestiário (frente e costas reais, mesmo tamanho; costas sem texto de pescoço). O bode e os textos ficaram só como ferramenta (print_fx.py).
 # Frente: apaga o patrocinador do peito (ou escreve no peito liso) e põe o nome do jogo. Costas: nome do jogo + número.
 # Uso: python3 tools/kits_pairs.py <pasta dos recortes>   ->  src/assets/kit-<slug>.webp e kitback-<slug>.webp
 import sys, os, cv2, numpy as np
@@ -70,9 +70,5 @@ for i,club in enumerate(ORDER):
     ys,xs=np.where(ba[...,3]>128);y0,y1,x0,x1=ys.min(),ys.max(),xs.min(),xs.max();h,w=y1-y0,x1-x0
     gw=w*0.30;gh=gw*745/916                      # mesmo tamanho na frente e nas costas
     Image.fromarray(fa).save(f"src/assets/kit-{club}.webp","WEBP",quality=88,method=4)   # frente: a camisa real, sem alteração
-    for tag,a in (("b",ba),):
-        cx=center_x(a,y0,h);cy=y0+h*0.38
-        dark=np.median(cv2.cvtColor(a[int(cy-gh/2):int(cy+gh/2),int(cx-gw/2):int(cx+gw/2),:3],cv2.COLOR_RGB2GRAY))<85
-        out=finish(a,[(BODE,cx,cy,gw,gh,None,"g")],INK,None,club in CALM,dark)
-        out.save(f"src/assets/{'kit' if tag=='f' else 'kitback'}-{club}.webp","WEBP",quality=88,method=4)
+    Image.fromarray(ba).save(f"src/assets/kitback-{club}.webp","WEBP",quality=88,method=4)   # costas: a camisa real, só sem o texto do pescoço
     print(club)

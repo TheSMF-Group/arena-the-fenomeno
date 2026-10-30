@@ -1,6 +1,7 @@
 // @ts-nocheck
 import {BODEHEAD, dayNum, esc, hash, pick, rngOf, shuffle, store, toast, todayKey} from "./core";
 import {ST} from "./state";
+import {recordHist, whoLine, withWho} from "./profile";
 import {slugRank} from "./bigclubs";
 import {DIFFS, allDone, daySummary, startGame, updateToday} from "./home";
 
@@ -63,15 +64,15 @@ export function clockStop(){clockFlush();ST.CLOCK=null}
 document.addEventListener("visibilitychange",()=>{if(!ST.CLOCK)return;if(document.hidden){clockFlush();ST.CLOCK.t0=0}else ST.CLOCK.t0=Date.now()});
 export const fmtDur=ms=>{const s=Math.round((ms||0)/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h?`${h}h ${String(m).padStart(2,"0")}min`:m?`${m}min ${String(x).padStart(2,"0")}s`:`${x}s`};
 export function finish(id,stage,res){
-  if(!MODE.free&&!store.get(resultKey(id,ST.PLAYDAY))){if(ST.CLOCK&&ST.CLOCK.id===id){clockFlush();ST.CLOCK=null}res.ms=store.get(timeKey(id,ST.PLAYDAY))||0;store.set(resultKey(id,ST.PLAYDAY),res)}
-  if(MODE.free){const div=document.createElement("div");div.className="result inf";
-    div.innerHTML=`${fireHTML(STREAK,true)}<div><div class="d ${res.won?"win":""}">${KIND[id]==="wl"?(res.won?"ACERTOU!":"ERROU"):"RODADA ENCERRADA"}</div><p>${esc(res.label)} ${STREAK?`Sua sequência está em <b>${STREAK}</b>.`:"A sequência voltou a zero."} Recorde: <b>${BEST}</b>.</p><div class="row"><button class="btn y" data-a="next">Próxima rodada →</button><button class="btn" data-a="share">Copiar resultado</button></div></div>`;
-    div.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(res.share+`\n🔥 sequência ${STREAK} (recorde ${BEST})`);if(a==="next")startGame(id)});
+  if(!MODE.free&&!store.get(resultKey(id,ST.PLAYDAY))){if(ST.CLOCK&&ST.CLOCK.id===id){clockFlush();ST.CLOCK=null}res.ms=store.get(timeKey(id,ST.PLAYDAY))||0;store.set(resultKey(id,ST.PLAYDAY),res);recordHist(id,res,"dia")}
+  if(MODE.free){recordHist(id,res,"inf");const div=document.createElement("div");div.className="result inf";
+    div.innerHTML=`${fireHTML(STREAK,true)}<div>${whoLine()}<div class="d ${res.won?"win":""}">${KIND[id]==="wl"?(res.won?"ACERTOU!":"ERROU"):"RODADA ENCERRADA"}</div><p>${esc(res.label)} ${STREAK?`Sua sequência está em <b>${STREAK}</b>.`:"A sequência voltou a zero."} Recorde: <b>${BEST}</b>.</p><div class="row"><button class="btn y" data-a="next">Próxima rodada →</button><button class="btn" data-a="share">Copiar resultado</button></div></div>`;
+    div.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(withWho(res.share+`\n🔥 sequência ${STREAK} (recorde ${BEST})`));if(a==="next")startGame(id)});
     stage.appendChild(div);div.scrollIntoView({behavior:"smooth",block:"nearest"});const nb=div.querySelector("[data-a=next]");setTimeout(()=>nb.focus({preventScroll:true}),400);return}
   updateToday();
   const div=document.createElement("div");div.className="result";
-  div.innerHTML=`<img src="${BODEHEAD}" alt=""><div>${(v=>`<span class="verdict ${v.cls}">${v.cls==="score"?v.word+" "+v.detail.toUpperCase():v.word}</span>`)(verdict(id,res))}<div class="d ${res.won?"win":""}">${KIND[id]==="wl"?(res.won?"FENÔMENO!":"NÃO FOI DESSA VEZ"):"FIM DE JOGO"}</div><p>${esc(res.label)}</p><div class="row">${allDone()?`<button class="btn y" data-a="sum">Ver o resumo do dia →</button>`:""}<button class="btn ${allDone()?"":"y"}" data-a="share">Copiar resultado</button><button class="btn" data-a="again">Jogar no modo infinito</button></div>${res.ms?`<p class="muted" style="margin:8px 0 0">Tempo: ${fmtDur(res.ms)}</p>`:""}</div>`;
-  div.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(res.share);if(a==="sum")daySummary();if(a==="again"){MODE.free=true;startGame(id)}});
+  div.innerHTML=`<img src="${BODEHEAD}" alt=""><div>${whoLine()}${(v=>`<span class="verdict ${v.cls}">${v.cls==="score"?v.word+" "+v.detail.toUpperCase():v.word}</span>`)(verdict(id,res))}<div class="d ${res.won?"win":""}">${KIND[id]==="wl"?(res.won?"FENÔMENO!":"NÃO FOI DESSA VEZ"):"FIM DE JOGO"}</div><p>${esc(res.label)}</p><div class="row">${allDone()?`<button class="btn y" data-a="sum">Ver o resumo do dia →</button>`:""}<button class="btn ${allDone()?"":"y"}" data-a="share">Copiar resultado</button><button class="btn" data-a="again">Jogar no modo infinito</button></div>${res.ms?`<p class="muted" style="margin:8px 0 0">Tempo: ${fmtDur(res.ms)}</p>`:""}</div>`;
+  div.addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;if(a==="share")share(withWho(res.share));if(a==="sum")daySummary();if(a==="again"){MODE.free=true;startGame(id)}});
   stage.appendChild(div);div.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 export function share(text){const done=()=>toast("Resultado copiado");

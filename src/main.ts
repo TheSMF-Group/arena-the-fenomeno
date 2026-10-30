@@ -28,7 +28,12 @@ import {$, BODEHEAD, norm} from "./core";
 import {ST} from "./state";
 import {GAMES} from "./engine";
 import {home, openGame, updateToday} from "./home";
+import {perfilScreen, renderMe} from "./vestiario";
+import {loadAvKits} from "./avatars";
 $("#home").addEventListener("click",home);
+$("#meBtn").addEventListener("click",perfilScreen);
+document.addEventListener("fen:perfil",perfilScreen);
+renderMe();
 
 /* ---------- carga ---------- */
 (async function boot(){
@@ -40,6 +45,7 @@ $("#home").addEventListener("click",home);
     ST.HARD=ST.P.filter(p=>p.fam===2&&ST.FOTOS[p.id]&&p.birth);
     ST.CRESTS=d.K.map(a=>{const c={id:a[0],name:a[1],pais:a[2],cc:a[3],liga:a[4],conf:a[5]};c.key=norm(c.name);c.words=c.key.split(" ");return c});
     $("#boot").remove();updateToday();
-    const h=location.hash.slice(1);if(GAMES[h])openGame(h);else home();
+    loadAvKits().then(renderMe);
+    const h=location.hash.slice(1);if(h==="perfil")perfilScreen();else if(GAMES[h])openGame(h);else home();
   }catch(err){$("#boot").innerHTML=`<div><img src="${BODEHEAD}" alt=""><b>NÃO DEU PARA CARREGAR OS DADOS</b><span class="muted">Recarregue a página.</span></div>`}
 })();
