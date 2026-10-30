@@ -36,7 +36,7 @@ function criar(){let name="Fenômeno"+(100+Math.floor(Math.random()*900)),cur={k
   inp.addEventListener("input",()=>{name=inp.value.trim().slice(0,12)});inp.addEventListener("focus",()=>inp.select());
   inp.addEventListener("keydown",e=>{if(e.key==="Enter")go()});
   const go=()=>{name=inp.value.trim().slice(0,12);if(name.length<2){toast("O nome precisa de 2 letras ou mais");inp.focus();return}
-    userSet({n:name,k:cur.k,bg:cur.bg,o:[cur.k],c:ST.ESC&&ST.ESC[cur.k]?cur.k:null});renderMe();toast(`Bem-vindo, ${name}!`);perfilScreen()};
+    userSet({n:name,k:cur.k,bg:cur.bg,o:[cur.k],c:ST.ESC&&ST.ESC[cur.k]?cur.k:null});renderMe();toast(`Bem-vindo, ${name}!`);perfilScreen();document.dispatchEvent(new CustomEvent("fen:user"))};
   body.querySelector(".cr2-go").addEventListener("click",go);
   body.querySelector(".cr2-av").addEventListener("click",()=>editor(cur,n=>{cur=n;paint()},true));
   paint()}

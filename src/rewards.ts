@@ -40,8 +40,8 @@ async function claim(o){if(!o)return;if(!hasUser()){userGate();return}
   const got=pool[Math.floor(Math.random()*pool.length)];ownedAdd(got.k);boxAnim(got,o)}
 
 /* ---------- Mystery Box abrindo ---------- */
-function boxAnim(sh,o){document.querySelectorAll(".rw").forEach(x=>x.remove());const m=document.createElement("div");m.className="rw";
-  m.innerHTML=`<div class="rw-in"><div class="rw-top"><img class="rw-logo" src="${logoImg}" alt="FMB Futebol Mystery Box"><b class="d">SUA MYSTERY BOX CHEGOU!</b></div>
+function boxAnim(sh,o,op={}){document.querySelectorAll(".rw").forEach(x=>x.remove());const m=document.createElement("div");m.className="rw";
+  m.innerHTML=`<div class="rw-in"><div class="rw-top"><img class="rw-logo" src="${logoImg}" alt="FMB Futebol Mystery Box"><b class="d">${op.title||"SUA MYSTERY BOX CHEGOU!"}</b></div>
     <div class="rw-stage"><div class="rw-rays"></div>
       <div class="rw-box"><div class="rw-shadow"></div><div class="bx3">
         <div class="f f-bottom"></div><div class="f f-back"></div><div class="f f-left"><div class="band s l"><i>★★★</i></div></div><div class="f f-right"><div class="band s r"><i>★★★</i></div></div>
@@ -50,9 +50,26 @@ function boxAnim(sh,o){document.querySelectorAll(".rw").forEach(x=>x.remove());c
         <div class="lid"><div class="lid-in"></div><div class="lid-top" style="background-image:url(${lidImg})"></div><div class="lid-lip"></div><div class="lid-l"></div><div class="lid-r"></div></div>
       </div></div>
       <div class="rw-shirt"><img src="${sh.f}" alt="Camisa do ${esc(sh.n)}"></div></div>
-    <button type="button" class="btn y rw-open">ABRIR A BOX</button>
-    <div class="rw-res"><h3 class="d">VOCÊ GANHOU!</h3><p><b>${esc(sh.n)}</b><span>${o.t}</span></p><small>Já está no seu Vestiário.</small><div class="row"><button type="button" class="btn y" data-ves>Ver no Vestiário</button><button type="button" class="btn" data-x>Fechar</button></div></div></div>`;
+    <button type="button" class="btn y rw-open">${op.btn||"ABRIR A BOX"}</button>
+    <div class="rw-res"><h3 class="d">${op.res||"VOCÊ GANHOU!"}</h3><p><b>${esc(sh.n)}</b><span>${o.t}</span></p><small>${op.note||"Já está no seu Vestiário."}</small><div class="row"><button type="button" class="btn y" data-ves>Ver no Meu Perfil</button><button type="button" class="btn" data-x>Fechar</button></div></div></div>`;
   document.body.appendChild(m);
   const T=(ms,f)=>setTimeout(()=>{if(m.isConnected)f()},ms);
   m.querySelector(".rw-open").addEventListener("click",e=>{e.currentTarget.remove();m.classList.add("shake");T(1100,()=>{m.classList.remove("shake");m.classList.add("open")});T(1500,()=>m.classList.add("burst"));T(2500,()=>m.classList.add("reveal"))});
   m.addEventListener("click",e=>{if(e.target.closest("[data-ves]")){m.remove();document.dispatchEvent(new CustomEvent("fen:perfil"))}else if(e.target.closest("[data-x]")||(e.target===m&&m.classList.contains("reveal")))m.remove()})}
+
+/* ---------- presentes do fundador: link com código único (?presente=CÓDIGO) ---------- */
+const GIFTS={"pietrin-flu-k7q3":{k:"fluminense",who:"Pietrin O Bala"}};
+const gk="fen:giftpend",gdone=()=>{try{return JSON.parse(localStorage.getItem("fen:gifts"))||[]}catch(e){return[]}};
+export function checkGift(){const q=new URLSearchParams(location.search).get("presente");
+  if(q){try{localStorage.setItem(gk,q)}catch(e){}const u=new URL(location.href);u.searchParams.delete("presente");history.replaceState(null,"",u.pathname+u.search+u.hash)}
+  let code=null;try{code=localStorage.getItem(gk)}catch(e){}
+  const g=code&&GIFTS[code];if(!g){if(code)try{localStorage.removeItem(gk)}catch(e){}return}
+  if(gdone().includes(code)){try{localStorage.removeItem(gk)}catch(e){}toast("Esse presente já foi aberto");return}
+  if(!hasUser()){giftAsk();return}
+  loadAvKits().then(()=>{const sh=shirtOf(g.k);if(!sh)return;
+    try{localStorage.setItem("fen:gifts",JSON.stringify([...gdone(),code]));localStorage.removeItem(gk)}catch(e){}
+    ownedAdd(g.k);boxAnim(sh,{t:"Camisa do "+sh.n+" · presente do fundador"},{title:"PRESENTE DO FUNDADOR",btn:"ABRIR O PRESENTE",res:"UM PRESENTE PARA VOCÊ!",note:"O fundador da Arena liberou essa camisa para o seu Meu Perfil."})})}
+function giftAsk(){document.querySelectorAll(".gate").forEach(x=>x.remove());const m=document.createElement("div");m.className="modal gate";
+  m.innerHTML=`<div class="box"><h3>🎁 Presente do fundador</h3><p class="muted" style="margin:0 0 12px">Você ganhou uma camisa! Crie seu usuário primeiro e o presente abre logo depois.</p><div class="row"><button type="button" class="btn y" data-go>Criar meu usuário →</button><button type="button" class="btn" data-x>Depois</button></div></div>`;
+  document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-x]"))m.remove();else if(e.target.closest("[data-go]")){m.remove();document.dispatchEvent(new CustomEvent("fen:perfil"))}})}
+document.addEventListener("fen:user",()=>setTimeout(checkGift,600));
