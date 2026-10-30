@@ -39,17 +39,15 @@ async function claim(o){if(!o)return;if(!hasUser()){userGate();return}
 
 /* ---------- Mystery Box abrindo ---------- */
 function boxAnim(sh,o){document.querySelectorAll(".rw").forEach(x=>x.remove());const m=document.createElement("div");m.className="rw";
-  const cf=Array.from({length:34},(_,i)=>{const a=Math.random()*Math.PI*2,d=140+Math.random()*190;return`<i style="--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d-90}px;--r:${Math.random()*720-360}deg;--c:${["#ffd21f","#a855f7","#fff","#22c55e","#38bdf8"][i%5]};--t:${(Math.random()*.25).toFixed(2)}s"></i>`}).join("");
   m.innerHTML=`<div class="rw-in"><div class="rw-top"><img class="rw-logo" src="${logoImg}" alt="FMB Futebol Mystery Box"><b class="d">SUA MYSTERY BOX CHEGOU!</b></div>
     <div class="rw-stage"><div class="rw-rays"></div>
       <div class="rw-box"><div class="rw-shadow"></div><div class="bx3">
-        <div class="f f-bottom"></div><div class="f f-back"></div><div class="f f-left"></div><div class="f f-right"></div>
+        <div class="f f-bottom"></div><div class="f f-back"></div><div class="f f-left"><div class="band s l"><i>★★★</i></div></div><div class="f f-right"><div class="band s r"><i>★★★</i></div></div>
         <div class="f in-back"></div><div class="f in-left"></div><div class="f in-right"></div><div class="f f-floor"></div>
-        <div class="f f-front"><div class="band"><i>★★★</i><span><em>A 1ª</em> MYSTERY BOX <em>DE FUTEBOL DO BRASIL!</em></span><i>★★★</i></div></div>
+        <div class="f f-front"><div class="band"><span><em>A 1ª</em> MYSTERY BOX <em>DE FUTEBOL DO BRASIL!</em></span></div></div>
         <div class="lid"><div class="lid-in"></div><div class="lid-top" style="background-image:url(${lidImg})"></div><div class="lid-lip"></div><div class="lid-l"></div><div class="lid-r"></div></div>
       </div></div>
-      <div class="rw-shirt"><img src="${sh.f}" alt="Camisa do ${esc(sh.n)}"></div>
-      <div class="rw-cf">${cf}</div></div>
+      <div class="rw-shirt"><img src="${sh.f}" alt="Camisa do ${esc(sh.n)}"></div></div>
     <button type="button" class="btn y rw-open">ABRIR A BOX</button>
     <div class="rw-res"><h3 class="d">VOCÊ GANHOU!</h3><p><b>${esc(sh.n)}</b><span>${o.t}</span></p><small>Já está no seu Vestiário.</small><div class="row"><button type="button" class="btn y" data-ves>Ver no Vestiário</button><button type="button" class="btn" data-x>Fechar</button></div></div></div>`;
   document.body.appendChild(m);
