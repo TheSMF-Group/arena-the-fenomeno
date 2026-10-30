@@ -25,7 +25,7 @@ function render(){const {st,w,ready,next}=state();
     return`<div class="obj-row ${got?"done":""}"><div class="obj-t"><b>VENÇA MODOS DIÁRIOS ${Math.min(w,o.n)}/${o.n}</b><span>${o.t}</span></div><div class="obj-bar"><i style="width:${pct}%"></i></div>${got?`<em>Resgatada hoje</em>`:can?`<button type="button" class="btn y" data-claim="${o.id}">RESGATAR</button>`:`<small>Faltam ${o.n-w}</small>`}</div>`};
   tab.className=open?"open":"";
   tab.innerHTML=`<div class="obj-panel">${OBJ.map(line).join("")}<p class="obj-note">Só contam as vitórias nos desafios do dia. Você ganha 1 camisa de cada por dia, e elas vão para o seu Vestiário.</p></div>
-    <button type="button" class="obj-pill ${ready.length?"ready":""}" aria-expanded="${open}"><span class="obj-ic"><img src="${cubeImg}" alt=""></span><span class="obj-tx">${next?`<b>VENÇA MODOS DIÁRIOS ${Math.min(w,next.n)}/${next.n}</b><small>${next.t}</small>`:`<b>OBJETIVOS CUMPRIDOS</b><small>Volte amanhã</small>`}</span>${ready.length?`<span class="obj-dot" aria-label="${ready.length} recompensa pronta">${ready.length}</span>`:""}</button>`}
+    <button type="button" class="obj-pill ${ready.length?"ready":""}" aria-expanded="${open}"><span class="obj-ic"><img src="${cubeImg}" alt=""></span><span class="obj-tx"><b>OBJETIVOS</b><small>${next||ready.length?"Ganhe camisas":"Volte amanhã"}</small></span>${ready.length?`<span class="obj-dot" aria-label="${ready.length} recompensa pronta">${ready.length}</span>`:""}</button>`}
 document.addEventListener("fen:today",()=>{if(tab)render()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&tab)render()});
 
