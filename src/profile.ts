@@ -50,3 +50,10 @@ export function userGate(){document.querySelectorAll(".gate").forEach(m=>m.remov
   m.innerHTML=`<div class="box"><h3>Crie seu usuário primeiro</h3><p class="muted" style="margin:0 0 12px">Para jogar no multiplayer você precisa de um nome e de uma camisa. Leva meio minuto.</p><div class="row"><button type="button" class="btn y" data-go>Criar meu usuário →</button><button type="button" class="btn" data-x>Agora não</button></div></div>`;
   document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-x]"))m.remove();else if(e.target.closest("[data-go]")){m.remove();document.dispatchEvent(new CustomEvent("fen:perfil"))}})}
 export const whoLine=()=>hasUser()?`<div class="who-line">${whoHTML(30)}</div>`:"";
+
+/* ---------- camisas que o usuário tem + recompensas do dia ---------- */
+export const ownedGet=()=>{const v=store.get("perfil")||{};return Array.isArray(v.o)?v.o:(v.k?[v.k]:[])};
+export const ownedAdd=k=>{const o=ownedGet();if(!o.includes(k))userSet({o:[...o,k]})};
+const dayN=()=>{const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()};
+export const rewGet=()=>{const r=store.get("rew");return r&&r.d===dayN()?r:{d:dayN(),br:0,eu:0}};
+export const rewSet=r=>store.set("rew",r);

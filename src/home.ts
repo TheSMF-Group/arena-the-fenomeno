@@ -23,7 +23,7 @@ export const allDone=()=>DAILY().every(id=>dayResult(id));
 /* placar do dia no topo: desafios do dia ganhos e perdidos (nos de pontos, só a pontuação máxima conta como ganho) */
 export function updateToday(){const OD=DAILY(),R=OD.map(id=>dayResult(id)).filter(Boolean),w=R.filter(x=>x.res.won).length,l=R.length-w;
   const el=$("#todayScore");el.innerHTML=`<b class="tw">${w}</b> ${w===1?"ganha":"ganhas"} · <b class="tl">${l}</b> ${l===1?"perdida":"perdidas"}`;
-  $("#todayPill").title=`Desafios do dia: ${R.length} de ${OD.length} jogados`}
+  $("#todayPill").title=`Desafios do dia: ${R.length} de ${OD.length} jogados`;document.dispatchEvent(new CustomEvent("fen:today"))}
 export function countdown(){const n=new Date(),m=new Date(n);m.setHours(24,0,0,0);const s=Math.floor((m-n)/1000);return[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,"0")).join(":")}
 export const bestOf=(id,d)=>(store.get("streak:"+id+":"+d)||{best:0}).best;
 
