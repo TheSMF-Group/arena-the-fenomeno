@@ -3,7 +3,7 @@ import {esc, face, fmtDate, natFlag, natName, pick, year} from "../core";
 import {GAMES, finish, hit, isHard, markPeople, miss, pool, prefer, seenPeople, shareHead} from "../engine";
 
 /* 8. MAIS VELHO */
-GAMES.velho={hard:"Os dois nasceram com no máximo 2 anos de diferença.",name:"MAIS VELHO?",desc:"Quem nasceu primeiro? Faça a maior sequência.",
+GAMES.velho={freeOnly:true,hard:"Os dois nasceram com no máximo 2 anos de diferença.",name:"MAIS VELHO?",desc:"Quem nasceu primeiro? Faça a maior sequência.",
 rules:"Clique no mais velho dos dois. Acertou, ele fica e enfrenta o próximo. Um erro encerra a sequência.",
 start(st,r){
   const PL0=pool(),HV=isHard(),PL=prefer(PL0,seenPeople("velho"),200),shown=new Set();

@@ -18,7 +18,7 @@ export const OUTROS=[
   {n:"CONECTE OS FENÔMENOS",i:oCon,d:"Ligue dois craques pelos clubes que os dois vestiram. Um confronto novo todo dia.",u:"https://conecte.thefenomeno.com",h:"conecte.thefenomeno.com"},
   {n:"RECONSTRUINDO",i:oRec,d:"Monte o XI ideal do seu time: decida quem fica, quem sai e quem chega.",u:"https://reconstruindo.thefenomeno.com",h:"reconstruindo.thefenomeno.com"}];
 export const DIFFS=["normal","hard"],DNAME={normal:"NORMAL",hard:"DIFÍCIL"};
-export const DAILY=()=>ORDER.filter(id=>!GAMES[id].multi);
+export const DAILY=()=>ORDER.filter(id=>!GAMES[id].multi&&!GAMES[id].freeOnly);
 export const allDone=()=>DAILY().every(id=>dayResult(id));
 /* placar do dia no topo: desafios do dia ganhos e perdidos (nos de pontos, só a pontuação máxima conta como ganho) */
 export function updateToday(){const OD=DAILY(),R=OD.map(id=>dayResult(id)).filter(Boolean),w=R.filter(x=>x.res.won).length,l=R.length-w;
@@ -43,7 +43,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
     <img class="goat" src="${BODE}" alt="O bode do The Fenômeno com a camisa 10"></section>
     ${!MODE.free&&!MODE.multi&&allDone()?`<div class="sumbar"><div><b>DESAFIOS DE HOJE COMPLETOS</b><div class="muted">Veja vitórias, derrotas e quanto tempo você jogou.</div></div><button class="btn y" type="button" data-a="sum">Resumo do dia →</button></div>`:""}
     <p class="pick">Escolha o seu jogo:</p>
-    <section class="games">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:(!GAMES[id].multi||GAMES[id].dayToo)).map((id,i)=>{const g=GAMES[id];
+    <section class="games">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:((!GAMES[id].multi||GAMES[id].dayToo)&&!GAMES[id].freeOnly)).map((id,i)=>{const g=GAMES[id];
       const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,played=dr?[[dr.d,dr.res]]:[];
       const first=played[0]?verdict(id,played[0][1]):null;
       const stamp=dr?stampFor(id,dr.d,dr.res):"";
@@ -59,7 +59,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});
   updateToday();window.scrollTo(0,0)}
 /* tela de escolha: normal ou difícil */
-export function openGame(id){if(GAMES[id]&&(MODE.multi||(GAMES[id].multi&&!GAMES[id].dayToo))&&!hasUser())return userGate();
+export function openGame(id){if(GAMES[id]&&GAMES[id].freeOnly&&!MODE.multi)MODE.free=true;if(GAMES[id]&&(MODE.multi||(GAMES[id].multi&&!GAMES[id].dayToo))&&!hasUser())return userGate();
   if(GAMES[id]&&GAMES[id].open)return GAMES[id].open();MODE.multi=false;ST.VIEW=id;ST.PHASE="choose";ST.PLAYDAY=todayKey();cleanup();
   const g=GAMES[id];if(!g)return home();
   if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
