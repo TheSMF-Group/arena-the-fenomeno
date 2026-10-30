@@ -4,7 +4,7 @@ import {ST} from "./state";
 import {avatarHTML, shirtSrc} from "./avatars";
 
 /* ---------- perfil dos multiplayers: nome e escudo ---------- */
-export const pfGet=def=>{const v=store.get("perfil")||{};return{n:(v.n||"").trim()||def||"",c:v.c||null,k:v.k||null,bg:v.bg||null}};
+export const pfGet=def=>{const v=store.get("perfil")||{};return{n:(v.n||"").trim()||def||"",c:v.c||null,k:v.k||null,bg:v.bg||null,a:v.a||null}};
 export const pfSet=o=>store.set("perfil",{...(store.get("perfil")||{}),...o});
 export const pfSrc=pf=>pf&&pf.c&&ST.ESC[pf.c]?ST.ESC[pf.c]:(pf&&pf.k&&shirtSrc(pf.k))||BODEHEAD;
 export const pfImg=(S,m)=>{const pf=S&&S.pf&&S.pf[m];return`<img class="pf-img" src="${pfSrc(pf)}" alt="">`};

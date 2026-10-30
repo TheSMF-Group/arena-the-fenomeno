@@ -22,6 +22,7 @@ import k18 from "./assets/kit-napoli.webp?url";import b18 from "./assets/kitback
 import k19 from "./assets/kit-atletico-madrid.webp?url";import b19 from "./assets/kitback-atletico-madrid.webp?url";
 import k20 from "./assets/kit-roma.webp?url";import b20 from "./assets/kitback-roma.webp?url";
 import k21 from "./assets/kit-tottenham.webp?url";import b21 from "./assets/kitback-tottenham.webp?url";
+import {avatarSVG, defAv} from "./avatarArt";
 import a0 from "./assets/av-atletico-mg.webp?url";import a1 from "./assets/av-bahia.webp?url";import a2 from "./assets/av-bragantino.webp?url";import a3 from "./assets/av-ceara.webp?url";
 import a4 from "./assets/av-fortaleza.webp?url";import a5 from "./assets/av-gremio.webp?url";import a6 from "./assets/av-internacional.webp?url";import a7 from "./assets/av-juventude.webp?url";
 import a8 from "./assets/av-mirassol.webp?url";import a9 from "./assets/av-santos.webp?url";import a10 from "./assets/av-sport-recife.webp?url";import a11 from "./assets/av-vasco.webp?url";
@@ -44,5 +45,5 @@ export function loadAvKits(){if(!LOADED)LOADED=fetch("kits.json?v=1").then(r=>r.
 export const shirtOf=k=>CAT.find(c=>c.k===k)||null;
 export const shirtSrc=k=>{const s=shirtOf(k);return s?s.f:null};
 export const BGS=["#22c55e","#ffd21f","#38bdf8","#f87171","#a78bfa","#fb923c","#f472b6","#94a3b8"];
-/* avatar redondo: fundo colorido e a camisa escolhida */
-export const avatarHTML=(p,px=44)=>{const s=p&&p.k&&shirtOf(p.k);return`<span class="avt" style="--bg:${(p&&p.bg)||BGS[0]};--px:${px}px">${s?`<img src="${s.f}" alt="">`:""}</span>`};
+/* avatar redondo: pessoa montada (rosto, cabelo, óculos...) com a camisa escolhida no corpo */
+export const avatarHTML=(p,px=44,noShirt=false)=>{const sh=!noShirt&&p&&p.k&&shirtOf(p.k);return`<span class="avt" style="--bg:${(p&&p.bg)||BGS[0]};--px:${px}px">${avatarSVG((p&&p.a)||defAv(),sh?sh.f:null)}</span>`};
