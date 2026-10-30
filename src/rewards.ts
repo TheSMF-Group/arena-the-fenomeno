@@ -15,7 +15,7 @@ const state=()=>{const st=rewGet(),w=winsToday();return{st,w,ready:OBJ.filter(o=
 
 /* ---------- aba de objetivo (canto da tela) ---------- */
 let tab=null,open=false;
-function mount(){if(tab)return;tab=document.createElement("div");tab.id="objTab";document.body.appendChild(tab);
+function mount(){if(tab)return;tab=document.createElement("div");tab.id="objTab";(document.querySelector(".hrow")||document.body).appendChild(tab);
   tab.addEventListener("click",e=>{const r=e.target.closest("[data-claim]");if(r){claim(OBJ.find(o=>o.id===r.dataset.claim));return}
     if(e.target.closest(".obj-pill")){open=!open;render()}});
   document.addEventListener("click",e=>{if(open&&tab&&!e.composedPath().includes(tab)){open=false;render()}})}
