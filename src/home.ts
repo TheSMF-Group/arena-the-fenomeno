@@ -3,6 +3,7 @@ import oFen from "./assets/outro-fen.webp?url";
 import oMm from "./assets/outro-mm.webp?url";
 import oCon from "./assets/outro-con.webp?url";
 import oRec from "./assets/outro-rec.webp?url";
+import o100 from "./assets/outro-100.webp?url";
 import {$, BODE, BODEHEAD, dayNum, esc, store, toast, todayKey} from "./core";
 import {GAMES, KIND, MODE, clockStop, dayLevel, dayLockKey, dayResult, drawFire, fireHTML, fmtDur, gameRng, isHard, loadStreak, resultKey, share, verdict} from "./engine";
 import {ST} from "./state";
@@ -16,7 +17,8 @@ export const OUTROS=[
   {n:"THE FENÔMENO",i:oFen,d:"Simulador de carreira no futebol: roube dos craques, viva uma carreira e descubra onde você fica entre os maiores.",u:"https://www.thefenomeno.com",h:"thefenomeno.com"},
   {n:"MAIS OU MENOS",i:oMm,d:"Qual é maior? Acerte em sequência e compartilhe o placar.",u:"https://maisoumenos.thefenomeno.com",h:"maisoumenos.thefenomeno.com"},
   {n:"CONECTE OS FENÔMENOS",i:oCon,d:"Ligue dois craques pelos clubes que os dois vestiram. Um confronto novo todo dia.",u:"https://conecte.thefenomeno.com",h:"conecte.thefenomeno.com"},
-  {n:"RECONSTRUINDO",i:oRec,d:"Monte o XI ideal do seu time: decida quem fica, quem sai e quem chega.",u:"https://reconstruindo.thefenomeno.com",h:"reconstruindo.thefenomeno.com"}];
+  {n:"RECONSTRUINDO",i:oRec,d:"Monte o XI ideal do seu time: decida quem fica, quem sai e quem chega.",u:"https://reconstruindo.thefenomeno.com",h:"reconstruindo.thefenomeno.com"},
+  {n:"100PRACADA",i:o100,d:"Leilão de futebol com a galera: R$ 100 pra cada um, monte seu time e dispute a taça.",u:"https://100pracada.thefenomeno.com",h:"100pracada.thefenomeno.com"}];
 export const DIFFS=["normal","hard"],DNAME={normal:"NORMAL",hard:"DIFÍCIL"};
 export const DAILY=()=>ORDER.filter(id=>!GAMES[id].multi&&!GAMES[id].freeOnly);
 export const allDone=()=>DAILY().every(id=>dayResult(id));
