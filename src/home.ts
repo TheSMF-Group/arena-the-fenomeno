@@ -58,15 +58,26 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
       const first=played[0]?verdict(id,played[0][1]):null;
       const stamp=dr?stampFor(id,dr.d,dr.res):"";
       const best=Math.max(bestOf(id,"normal"),bestOf(id,"hard"));
-      const foot=cf?cf:g.multi&&MODE.multi?`<span class="go">JOGAR</span><span class="chip">contra amigo</span>`:g.multi&&!g.dayToo?`<span class="go">JOGAR</span><span class="chip">multiplayer</span>`:g.freeOnly&&!MODE.free?`<span class="go">JOGAR</span><span class="chip">infinito</span>`:MODE.free?`<span class="go">JOGAR</span><span class="chip rec">${fireHTML(best)} recorde</span>`
+      const foot=cf?cf:g.multi&&MODE.multi?`<span class="go">JOGAR</span><span class="chip">contra amigo</span>`:g.multi&&!g.dayToo?`<span class="go">JOGAR</span><span class="chip">amigos</span>`:g.freeOnly&&!MODE.free?`<span class="go">JOGAR</span><span class="chip">infinito</span>`:MODE.free?`<span class="go">JOGAR</span><span class="chip rec">${fireHTML(best)} recorde</span>`
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
-      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}" title="${esc(g.desc||"")}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${art(id)}${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>`;
+      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}" title="${esc(g.desc||"")}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art"><div class="fit">${art(id)}</div>${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>`;
   carousel($("#app").querySelector(".car"));
+  fitArts($("#app").querySelector(".games"));
   $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(c)openGame(c.dataset.g)});
   const sb=$("#app").querySelector(".sumbar [data-a=sum]");sb&&sb.addEventListener("click",daySummary);
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});
   updateToday();window.scrollTo(0,0)}
+/* Cada miniatura tem um tamanho próprio; aqui ela é ampliada até preencher o espaço do tile, como no futbol11.
+   Mede o conteúdo sem zoom e aplica o fator que cabe. Refaz quando as fontes carregam e quando a largura muda. */
+function fitArts(grid){if(!grid)return;
+  const fit=()=>{if(!grid.isConnected)return;grid.querySelectorAll(".art").forEach(a=>{const f=a.firstElementChild;if(!f)return;
+    f.style.zoom="1";const w=f.scrollWidth,h=f.scrollHeight,cs=getComputedStyle(a),aw=a.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),ah=a.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+    if(w<8||h<8||aw<8||ah<8){f.style.zoom="";return}
+    f.style.zoom=String(Math.max(.4,Math.min(aw/w,ah/h,2.2)*.94))})};
+  fit();document.fonts&&document.fonts.ready.then(fit);
+  let t;const onR=()=>{if(!grid.isConnected){removeEventListener("resize",onR);return}clearTimeout(t);t=setTimeout(fit,120)};addEventListener("resize",onR);
+  grid.querySelectorAll("img").forEach(i=>{if(!i.complete)i.addEventListener("load",fit,{once:true})})}
 /* faixa "Os mais jogados": setas, troca automática e rolagem por toque. Pausa com o mouse em cima, com o foco dentro
    ou logo depois de a pessoa mexer; não troca sozinha com a aba escondida nem com "reduzir movimento". */
 function carousel(root){if(!root)return;const tr=root.querySelector(".car-track"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;

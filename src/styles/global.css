@@ -1160,10 +1160,10 @@ body.home-view .sumbar{margin-inline:var(--lado)}
 .compact .gcard:nth-child(5n+5){--tone:#3a1013;--glow:rgba(239,79,79,.28)}
 .compact .gcard:hover,.compact .gcard:focus-visible{transform:translateY(-6px);box-shadow:0 18px 30px -12px rgba(0,0,0,.95),0 0 0 2px var(--fy)}
 .compact .gcard.won{box-shadow:0 0 0 2px var(--green)}.compact .gcard.lost{box-shadow:0 0 0 2px var(--red)}.compact .gcard.scored{box-shadow:0 0 0 2px var(--yellow)}
-.compact .gcard .art{position:absolute;inset:0 0 96px 0;height:auto;background:none;border:0;display:grid;place-items:center;padding:14px 10px 0;z-index:-1}
-.compact .gcard .art>*{zoom:.74;max-width:100%}
+.compact .gcard .art{position:absolute;inset:0 0 88px 0;height:auto;background:none;border:0;display:grid;place-items:center;padding:34px 10px 4px;z-index:-1;overflow:visible}
+.compact .gcard .art>.fit{display:grid;place-items:center;width:max-content;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55))}
+.compact .gcard .art .zoomcrest{transform:none;filter:blur(2px)}
 .compact .gcard .art>.stamp{zoom:.8}
-.compact .gcard .art .zoomcrest{zoom:1;width:116px;height:116px}
 .compact .gcard::before{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.92) 58%)}
 .compact .gcard .meta{margin-top:auto;padding:0 14px 14px;gap:6px;flex:none}
 .compact .gcard .meta .d{font-family:"Inria Serif",Georgia,serif;font-weight:700;font-size:20px;line-height:1.1;color:var(--fy);text-transform:uppercase;letter-spacing:0}
@@ -1183,3 +1183,12 @@ body.home-view .sumbar{margin-inline:var(--lado)}
   .compact .gcard{flex-direction:column}
 }
 @media (prefers-reduced-motion:reduce){.dcard,.car-b{transition:none}.dcard:hover,.dcard:focus-visible{transform:none}}
+.compact .gcard .art .mini-bars{width:150px}
+@media (max-width:760px){
+  .compact .gcard .meta{padding:0 10px 12px}
+  .compact .gcard .meta .d{font-size:14.5px;letter-spacing:-.01em;overflow-wrap:anywhere}
+  .compact .gcard .play{flex-wrap:wrap;justify-content:flex-start;gap:5px}
+  .compact .gcard .play .go{height:28px;padding:0 12px;font-size:13px}
+  .compact .gcard .chip{font-size:10px;padding:2px 7px}
+  .compact .gcard{height:286px}
+}
