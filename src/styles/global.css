@@ -1087,3 +1087,90 @@ header.top #todayPill{grid-column:3;justify-self:end}
 /* celular: camisa menor e sobe menos, para não cobrir o título da box */
 @media (max-width:520px){.rw-stage{margin-top:64px}.rw-shirt{width:172px;height:172px;margin-left:-86px}
 @keyframes rwshirt{0%{opacity:0;transform:translateY(40px) scale(.4) rotateY(0)}30%{opacity:1}100%{opacity:1;transform:translateY(-96px) scale(1.05) rotateY(360deg)}}}
+
+/* ===== Figma 2026-11: cabeçalho amarelo e nova home ===== */
+:root{--fy:#f7d24c;--lado:clamp(16px,4vw,56px)}
+
+/* cabeçalho (vale para todas as telas) */
+header.top.fig{background:var(--fy);color:#000;border-bottom:1px solid rgba(0,0,0,.55);backdrop-filter:none}
+header.top.fig .wrap{max-width:none;display:flex;grid-template-columns:none;align-items:center;gap:14px;min-height:83px;padding:10px var(--lado)}
+.fig .brand{color:#000;gap:12px}
+.fig .brand img{width:auto;height:64px}
+.fig .brand .d{font-family:"Instrument Serif",Georgia,serif;font-size:clamp(24px,3.6vw,48px);letter-spacing:0;line-height:1;white-space:nowrap}
+.fig .soc{margin-left:auto;gap:8px}
+.fig .soc a{width:30px;height:30px;border:0;border-radius:0;background:none;overflow:hidden}
+.fig .soc a:hover{transform:translateY(-2px)}
+.fig .soc img{width:30px;height:30px;display:block;object-fit:cover}
+.fig .hrow{display:flex;align-items:center;gap:10px;margin-left:8px}
+.fig .pill{background:#000;color:var(--fy);border:0}
+.fig .mechip:not(.has){height:46px;padding:0 20px;background:var(--fy);color:#000;border:4px solid #000;border-radius:50px;font-family:"Archivo Black","Arial Black",Impact,sans-serif;font-size:15px;white-space:nowrap}
+.fig .mechip:not(.has) .plus{display:none}
+.fig .mechip.has{background:#000;color:var(--fy);border-color:#000}
+.fig .mechip:hover{border-color:#000;transform:translateY(-1px)}
+@media (max-width:760px){
+  header.top.fig .wrap{flex-wrap:wrap;gap:8px 12px}
+  .fig .brand img{height:44px}
+  .fig .soc{display:none}
+  .fig .hrow{margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+}
+
+/* home: fundo preto e conteúdo em largura total */
+body.home-view{background:#000;background-image:none}
+body.home-view #app{max-width:none;padding-inline:0}
+.sec-t{margin:0;padding:48px var(--lado) 24px;font-family:"Archivo Black","Arial Black",Impact,sans-serif;font-weight:400;font-size:clamp(34px,6.67vw,128px);line-height:1.02;letter-spacing:0;color:var(--fy)}
+body.home-view .sumbar{margin-inline:var(--lado)}
+
+/* faixa do dia */
+.daystrip{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:18px 40px;padding:28px var(--lado) 0;font-family:Roboto,system-ui,sans-serif}
+.cdbox{display:flex;flex-direction:column;gap:1px;white-space:nowrap}
+.cdbox small{font-size:11px;font-weight:500;letter-spacing:.8px;color:#a5a297}
+.cdbox b{font-size:20px;font-weight:700;color:#ffdc49;font-variant-numeric:tabular-nums}
+.daysum{width:169px;display:flex;flex-direction:column;gap:4px}
+.daysum .r{display:flex;justify-content:space-between;font-size:13px;font-weight:700;white-space:nowrap}
+.daysum .r span:first-child{color:#c4c1b5}.daysum .r span:last-child{color:#e7e6de}
+.trk{height:6px;border-radius:3px;background:#2b2b29;overflow:clip}.trk i{display:block;height:100%;background:#ffdc49}
+.daystrip .mode{padding:4px;background:#1b1b1a;border:1px solid #2b2b29;border-radius:24px;overflow:visible}
+.daystrip .mode button{height:38px;padding:0 18px;border-radius:20px;font:700 13px/1 Roboto,system-ui,sans-serif;color:#c4c1b5}
+.daystrip .mode button[aria-pressed="true"]{background:#ffdc49;color:#0f0f0e}
+
+/* Os mais jogados: faixa que corre de lado, com setas */
+.car{position:relative}
+.car-track{list-style:none;margin:0;padding:0 var(--lado) 12px;display:flex;gap:43px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--lado);scrollbar-width:none}
+.car-track::-webkit-scrollbar{display:none}
+.car-track>li{flex:none;scroll-snap-align:start}
+.car-b{position:absolute;top:calc(50% - 6px);transform:translateY(-50%);z-index:3;width:56px;height:56px;display:grid;place-items:center;padding:0 0 6px;border-radius:50%;border:4px solid #000;background:var(--fy);color:#000;font:400 38px/1 "Archivo Black","Arial Black",sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.6);transition:transform .15s,background .15s}
+.car-b:hover{background:#fff;transform:translateY(-50%) scale(1.06)}
+.car-b.prev{left:max(8px,calc(var(--lado) - 28px))}.car-b.next{right:max(8px,calc(var(--lado) - 28px))}
+.dcard{position:relative;display:flex;flex-direction:column;justify-content:flex-end;width:347px;height:570px;padding:0 17px 20px;border-radius:15px;overflow:hidden;background:#14110b;color:var(--fy);text-decoration:none;isolation:isolate;transition:transform .2s cubic-bezier(.2,.75,.2,1)}
+.dcard:hover,.dcard:focus-visible{transform:translateY(-6px)}
+.dcard>img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;z-index:-2}
+.dcard::before{content:"";position:absolute;left:0;right:0;bottom:0;height:324.5px;z-index:-1;background:linear-gradient(180deg,rgba(224,224,224,0) 0%,rgba(0,0,0,.94) 33.654%)}
+.dcard h3{margin:0;font-family:"Inria Serif",Georgia,serif;font-weight:700;font-size:40px;line-height:1.2}
+.dcard p{margin:16px 0 0;font-family:"Inria Sans",system-ui,sans-serif;font-weight:300;font-size:24px;line-height:1.25;color:var(--fy)}
+.dgo{align-self:flex-end;margin:14px 25px 0 0;display:inline-flex;align-items:center;justify-content:center;height:59px;min-width:167px;padding:0 22px;background:var(--fy);color:#000;border:5px solid #000;border-radius:50px;font:400 32px/1 "Archivo Black","Arial Black",Impact,sans-serif}
+
+/* Todos os jogos: tiles compactos, do tamanho dos do futbol11 (~165 x 220) */
+.games.compact{grid-template-columns:repeat(auto-fill,165px);justify-content:center;gap:10px;padding:0 var(--lado) 48px}
+.compact .gcard{height:220px;border-radius:12px}
+.compact .gcard .art{height:124px}
+.compact .gcard .art>*{zoom:.62}
+.compact .gcard .art>.stamp{zoom:.8}
+.compact .gcard .art .zoomcrest{zoom:1;width:96px;height:96px}
+.compact .gcard .meta{padding:8px 10px 10px;gap:2px}
+.compact .gcard .meta .d{font-size:20px}
+.compact .gcard .meta p{display:none}
+.compact .gcard .play{padding-top:4px;gap:6px}
+.compact .gcard .play .go{font-size:16px}
+.compact .gcard .chip{font-size:10.5px;padding:2px 7px}
+.compact .gcard .tag{transform:scale(.85);transform-origin:top left}
+@media (max-width:760px){
+  .dcard{width:min(300px,78vw);height:500px}.dcard h3{font-size:32px}.dcard p{font-size:20px}
+  .car-track{gap:20px}.car-b{width:44px;height:44px;font-size:30px}
+  .games.compact{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .compact .gcard{height:210px}
+}
+@media (max-width:460px){
+  .compact .gcard{flex-direction:column}
+  .compact .gcard .art{width:auto;height:124px;min-height:0;border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (prefers-reduced-motion:reduce){.dcard,.car-b{transition:none}.dcard:hover,.dcard:focus-visible{transform:none}}

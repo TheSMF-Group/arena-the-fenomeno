@@ -1,8 +1,10 @@
 // @ts-nocheck
-import oFen from "./assets/outro-fen.webp?url";
-import oMm from "./assets/outro-mm.webp?url";
-import oCon from "./assets/outro-con.webp?url";
-import oRec from "./assets/outro-rec.webp?url";
+import dMm from "./assets/dest-maisoumenos.webp?url";
+import dMan from "./assets/dest-manager.webp?url";
+import dFen from "./assets/dest-fenomeno.webp?url";
+import d100 from "./assets/dest-100pracada.webp?url";
+import dRec from "./assets/dest-reconstruindo.webp?url";
+import dCon from "./assets/dest-conecte.webp?url";
 import {$, BODE, BODEHEAD, dayNum, esc, store, toast, todayKey} from "./core";
 import {GAMES, KIND, MODE, clockStop, dayLevel, dayLockKey, dayResult, drawFire, fireHTML, fmtDur, gameRng, isHard, loadStreak, resultKey, share, verdict} from "./engine";
 import {ST} from "./state";
@@ -12,11 +14,14 @@ import {hasUser, userGate, whoLine, withWho} from "./profile";
 /* ---------- telas ---------- */
 export const NEW=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100"];
 export const ORDER=["draft","leilao","maleta","reconstruindo","camisa","carreira","questoes","forca","velha","entrosa","piramide","top10","top100","futgeo","quem","grade","conexoes","bodle","impostor","escudo","bingo","velho"];
+/* os jogos do ecossistema The Fenômeno, que vivem fora da Arena: faixa "Os mais jogados" */
 export const OUTROS=[
-  {n:"THE FENÔMENO",i:oFen,d:"Simulador de carreira no futebol: roube dos craques, viva uma carreira e descubra onde você fica entre os maiores.",u:"https://www.thefenomeno.com",h:"thefenomeno.com"},
-  {n:"MAIS OU MENOS",i:oMm,d:"Qual é maior? Acerte em sequência e compartilhe o placar.",u:"https://maisoumenos.thefenomeno.com",h:"maisoumenos.thefenomeno.com"},
-  {n:"CONECTE OS FENÔMENOS",i:oCon,d:"Ligue dois craques pelos clubes que os dois vestiram. Um confronto novo todo dia.",u:"https://conecte.thefenomeno.com",h:"conecte.thefenomeno.com"},
-  {n:"RECONSTRUINDO",i:oRec,d:"Monte o XI ideal do seu time: decida quem fica, quem sai e quem chega.",u:"https://reconstruindo.thefenomeno.com",h:"reconstruindo.thefenomeno.com"}];
+  {n:"MAIS OU MENOS",i:dMm,d:"Qual é maior? Idade do clube contra valor de transferência e mais. Acerte em sequência.",u:"https://maisoumenos.thefenomeno.com"},
+  {n:"THE MANAGER",i:dMan,d:"Assuma um clube e comande a carreira temporada por temporada. Beta por convite.",u:"https://manager.thefenomeno.com"},
+  {n:"THE FENOMENO",i:dFen,d:"A carreira de jogador. Roube dos craques, viva a carreira e veja onde você fica entre os maiores.",u:"https://www.thefenomeno.com"},
+  {n:"100 PRA CADA",i:d100,d:"Leilão de craques com os amigos. Cada um tem 100: gaste e monte o melhor time para vencer.",u:"https://100pracada.thefenomeno.com"},
+  {n:"RECONSTRUINDO",i:dRec,d:"Monte o XI ideal do seu time do coração para 2027 e veja se ele aguenta a temporada que vem.",u:"https://reconstruindo.thefenomeno.com"},
+  {n:"CONECTE",i:dCon,d:"Ligue dois craques pelos clubes que os dois vestiram. Um confronto novo todo dia.",u:"https://conecte.thefenomeno.com"}];
 export const DIFFS=["normal","hard"],DNAME={normal:"NORMAL",hard:"DIFÍCIL"};
 export const DAILY=()=>ORDER.filter(id=>!GAMES[id].multi&&!GAMES[id].freeOnly);
 export const allDone=()=>DAILY().every(id=>dayResult(id));
@@ -35,29 +40,47 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkDay()
 export function modeToggle(prefix){const M=prefix&&MODE.multi;return`<div class="mode" role="group" aria-label="Modo de jogo"><button type="button" data-m="d" aria-pressed="${!MODE.free&&!M}">${prefix?"Desafio do dia":"Dia"}</button><button type="button" data-m="f" aria-pressed="${MODE.free&&!M}">${prefix?"Modo infinito":"Infinito"}</button>${prefix?`<button type="button" data-m="m" aria-pressed="${M}">Multiplayer</button>`:""}</div>`}
 export function stampFor(id,d,res){const v=verdict(id,res);
   return`<div class="stamp ${v.cls}"><span class="sv">${esc(v.cls==="score"?v.word:v.word==="GANHOU"?"VENCEU":v.word)}</span><span class="sl">${d==="hard"?"DIFÍCIL":"NORMAL"}</span></div>`}
-export function cleanup(){clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
+export function cleanup(){document.body.classList.remove("home-view");clockStop();if(ST.CLEAN){ST.CLEAN();ST.CLEAN=null}document.querySelectorAll(".modal").forEach(m=>m.remove())}
 export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();cleanup();
   if(location.hash)history.replaceState(null,"",location.pathname+location.search);
-  $("#app").innerHTML=`<section class="hero"><div><div class="kick">BEM-VINDO À ARENA</div><h1>VOCÊ SABE TUDO?<span>PROVE QUE É <b>FENÔMENO.</b></span></h1><p>Arena é onde os jogos do The Fenômeno se encontram: 22 mini games de futebol, um desafio novo todo dia e duelos contra os amigos.</p>
-    <div class="daybar">${modeToggle(true)}<span class="pill">Novos desafios em <span id="cd">${countdown()}</span></span>${hasUser()?"":`<button type="button" class="btn y newuser">Criar meu usuário</button>`}</div></div>
-    <img class="goat" src="${BODE}" alt="O bode do The Fenômeno com a camisa 10"></section>
+  document.body.classList.add("home-view");
+  const OD=DAILY(),nDone=OD.filter(id=>dayResult(id)).length,pct=OD.length?Math.round(nDone/OD.length*100):0;
+  $("#app").innerHTML=`<section class="daystrip" aria-label="O dia de hoje"><div class="cdbox"><small>NOVOS DESAFIOS EM</small><b id="cd">${countdown()}</b></div>
+    <div class="daysum"><div class="r"><span>Hoje</span><span>${nDone} de ${OD.length} jogados</span></div><div class="trk"><i style="width:${pct}%"></i></div></div>${modeToggle(true)}</section>
+    <section class="dest" aria-labelledby="h-dest"><h2 class="sec-t" id="h-dest">OS MAIS JOGADOS</h2>
+      <div class="car"><button type="button" class="car-b prev" aria-label="Jogos anteriores">‹</button>
+      <ul class="car-track">${OUTROS.map(o=>`<li><a class="dcard" href="${o.u}" target="_blank" rel="noopener"><img src="${o.i}" alt="" loading="lazy" width="347" height="570"><h3>${o.n}</h3><p>${o.d}</p><span class="dgo">JOGAR</span></a></li>`).join("")}</ul>
+      <button type="button" class="car-b next" aria-label="Próximos jogos">›</button></div></section>
     ${!MODE.free&&!MODE.multi&&allDone()?`<div class="sumbar"><div><b>DESAFIOS DE HOJE COMPLETOS</b><div class="muted">Veja vitórias, derrotas e quanto tempo você jogou.</div></div><button class="btn y" type="button" data-a="sum">Resumo do dia →</button></div>`:""}
-    <p class="pick">Escolha o seu jogo:</p>
-    <section class="games">${ORDER.filter(id=>MODE.multi?GAMES[id].multi:MODE.free?!GAMES[id].multi:((!GAMES[id].multi||GAMES[id].dayToo)&&!GAMES[id].freeOnly)).map((id,i)=>{const g=GAMES[id];
-      const dr=MODE.free||g.multi?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,played=dr?[[dr.d,dr.res]]:[];
+    <h2 class="sec-t" id="h-todos">Todos os jogos</h2>
+    <section class="games compact" aria-labelledby="h-todos">${ORDER.map((id,i)=>{const g=GAMES[id];
+      const dr=MODE.free||g.multi||g.freeOnly?null:dayResult(id),cf=!MODE.multi&&!MODE.free&&g.cardFoot?g.cardFoot():null,played=dr?[[dr.d,dr.res]]:[];
       const first=played[0]?verdict(id,played[0][1]):null;
       const stamp=dr?stampFor(id,dr.d,dr.res):"";
       const best=Math.max(bestOf(id,"normal"),bestOf(id,"hard"));
-      const foot=cf?cf:g.multi&&MODE.multi?`<span class="go">JOGAR</span><span class="chip">contra amigo</span>`:g.multi?`<span class="go">JOGAR</span><span class="chip">hoje</span>`:MODE.free?`<span class="go">JOGAR</span><span class="chip rec">${fireHTML(best)} recorde</span>`
+      const foot=cf?cf:g.multi&&MODE.multi?`<span class="go">JOGAR</span><span class="chip">contra amigo</span>`:g.multi&&!g.dayToo?`<span class="go">JOGAR</span><span class="chip">multiplayer</span>`:g.freeOnly&&!MODE.free?`<span class="go">JOGAR</span><span class="chip">infinito</span>`:MODE.free?`<span class="go">JOGAR</span><span class="chip rec">${fireHTML(best)} recorde</span>`
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
-      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${art(id)}${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>
-    <section class="more"><h2 class="d">CONHEÇA NOSSOS OUTROS JOGOS</h2><div class="more-grid">${OUTROS.map(o=>`<a class="more-card" href="${o.u}" target="_blank" rel="noopener"><img class="more-img" src="${o.i}" alt="${o.n}" loading="lazy"><b class="d">${o.n}</b><p>${o.d}</p><small class="more-h">${o.h}</small><span class="more-go">ABRIR →</span></a>`).join("")}</div></section>`;
+      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}" title="${esc(g.desc||"")}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${art(id)}${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>`;
+  carousel($("#app").querySelector(".car"));
   $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(c)openGame(c.dataset.g)});
-  const nu=$("#app").querySelector(".newuser");nu&&nu.addEventListener("click",()=>document.dispatchEvent(new CustomEvent("fen:perfil")));
   const sb=$("#app").querySelector(".sumbar [data-a=sum]");sb&&sb.addEventListener("click",daySummary);
   $("#app").querySelector(".mode").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;MODE.multi=b.dataset.m==="m";MODE.free=b.dataset.m==="f";home()});
   updateToday();window.scrollTo(0,0)}
+/* faixa "Os mais jogados": setas, troca automática e rolagem por toque. Pausa com o mouse em cima, com o foco dentro
+   ou logo depois de a pessoa mexer; não troca sozinha com a aba escondida nem com "reduzir movimento". */
+function carousel(root){if(!root)return;const tr=root.querySelector(".car-track"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let hover=false,lastUser=0;
+  const step=()=>{const li=tr.querySelector("li");return li?li.getBoundingClientRect().width+(parseFloat(getComputedStyle(tr).columnGap)||0):300};
+  const go=dir=>{const max=tr.scrollWidth-tr.clientWidth,b=reduce?"auto":"smooth";
+    if(dir>0&&tr.scrollLeft>=max-4)tr.scrollTo({left:0,behavior:b});else if(dir<0&&tr.scrollLeft<=4)tr.scrollTo({left:max,behavior:b});else tr.scrollBy({left:dir*step(),behavior:b})};
+  root.querySelector(".prev").addEventListener("click",()=>{lastUser=Date.now();go(-1)});
+  root.querySelector(".next").addEventListener("click",()=>{lastUser=Date.now();go(1)});
+  root.addEventListener("pointerenter",()=>{hover=true});root.addEventListener("pointerleave",()=>{hover=false});
+  ["pointerdown","wheel","touchstart","keydown"].forEach(t=>root.addEventListener(t,()=>{lastUser=Date.now()},{passive:true}));
+  if(reduce)return;
+  const t=setInterval(()=>{if(!root.isConnected){clearInterval(t);return}
+    if(hover||document.hidden||root.contains(document.activeElement)||Date.now()-lastUser<8000)return;go(1)},4500)}
 /* tela de escolha: normal ou difícil */
 export function openGame(id){if(GAMES[id]&&GAMES[id].freeOnly&&!MODE.multi)MODE.free=true;if(GAMES[id]&&(MODE.multi||(GAMES[id].multi&&!GAMES[id].dayToo))&&!hasUser())return userGate();
   if(GAMES[id]&&GAMES[id].open)return GAMES[id].open();MODE.multi=false;ST.VIEW=id;ST.PHASE="choose";ST.PLAYDAY=todayKey();cleanup();
