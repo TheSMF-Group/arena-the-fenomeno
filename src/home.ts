@@ -1,4 +1,6 @@
 // @ts-nocheck
+/* ilustrações dos 22 jogos (geradas no Figma), uma por id: src/assets/thumbs/<id>.webp */
+const THUMBS=Object.fromEntries(Object.entries(import.meta.glob("./assets/thumbs/*.webp",{eager:true,query:"?url",import:"default"})).map(([k,v])=>[k.split("/").pop().replace(".webp",""),v]));
 import dMm from "./assets/dest-maisoumenos.webp?url";
 import dMan from "./assets/dest-manager.webp?url";
 import dFen from "./assets/dest-fenomeno.webp?url";
@@ -61,7 +63,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
       const foot=cf?cf:g.multi&&MODE.multi?`<span class="go">JOGAR</span><span class="chip">contra amigo</span>`:g.multi&&!g.dayToo?`<span class="go">JOGAR</span><span class="chip">amigos</span>`:g.freeOnly&&!MODE.free?`<span class="go">JOGAR</span><span class="chip">infinito</span>`:MODE.free?`<span class="go">JOGAR</span><span class="chip rec">${fireHTML(best)} recorde</span>`
         :played.length?`<span class="res ${first.cls}">${first.cls==="score"?esc(first.word)+(KIND[id]?" PTS":" SEGUIDOS"):first.word==="GANHOU"?"VENCEU":first.word}</span><span class="chip">${played[0][1].ms?"⏱ "+fmtDur(played[0][1].ms):"feito"}</span>`
         :`<span class="go">JOGAR</span><span class="chip">hoje</span>`;
-      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}" title="${esc(g.desc||"")}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art"><div class="fit">${art(id)}</div>${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>`;
+      return`<button type="button" class="gcard ${first?(first.cls==="win"?"won":first.cls==="loss"?"lost":"scored"):""}" data-g="${id}" title="${esc(g.desc||"")}">${NEW.includes(id)&&!played.length?'<span class="tag">NOVO</span>':""}<div class="art">${THUMBS[id]?`<img class="thumb" src="${THUMBS[id]}" alt="" loading="lazy" width="204" height="306">`:`<div class="fit">${art(id)}</div>`}${stamp}</div><div class="meta"><span class="d">${g.name}</span><p>${g.desc}</p><div class="play">${foot}</div></div></button>`}).join("")}</section>`;
   carousel($("#app").querySelector(".car"));
   fitArts($("#app").querySelector(".games"));
   $("#app").querySelector(".games").addEventListener("click",e=>{const c=e.target.closest(".gcard");if(c)openGame(c.dataset.g)});
@@ -71,7 +73,7 @@ export function home(){ST.VIEW="home";ST.PHASE="home";ST.PLAYDAY=todayKey();clea
 /* Cada miniatura tem um tamanho próprio; aqui ela é ampliada até preencher o espaço do tile, como no futbol11.
    Mede o conteúdo sem zoom e aplica o fator que cabe. Refaz quando as fontes carregam e quando a largura muda. */
 function fitArts(grid){if(!grid)return;
-  const fit=()=>{if(!grid.isConnected)return;grid.querySelectorAll(".art").forEach(a=>{const f=a.firstElementChild;if(!f)return;
+  const fit=()=>{if(!grid.isConnected)return;grid.querySelectorAll(".art").forEach(a=>{const f=a.firstElementChild;if(!f||f.classList.contains("thumb"))return;
     f.style.zoom="1";const w=f.scrollWidth,h=f.scrollHeight,cs=getComputedStyle(a),aw=a.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),ah=a.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
     if(w<8||h<8||aw<8||ah<8){f.style.zoom="";return}
     f.style.zoom=String(Math.max(.4,Math.min(aw/w,ah/h,2.2)*.94))})};

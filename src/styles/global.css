@@ -1192,3 +1192,15 @@ body.home-view .sumbar{margin-inline:var(--lado)}
   .compact .gcard .chip{font-size:10px;padding:2px 7px}
   .compact .gcard{height:286px}
 }
+
+/* Todos os jogos: ilustração cheia no tile (proporção 2:3, como os cards de cima) */
+.compact .gcard{height:306px}
+.compact .gcard .art{inset:0;padding:0}
+.compact .gcard .art>.thumb{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:top}
+.compact .gcard::before{height:58%}
+@media (max-width:760px){.compact .gcard{height:286px}}
+.compact .gcard::before{height:54%;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.78) 34%,rgba(0,0,0,.96) 62%)}
+@media (max-width:460px){
+  .compact .gcard .art{width:auto;min-height:0;border:0}
+  .compact .gcard .art>.thumb{zoom:1}
+}
