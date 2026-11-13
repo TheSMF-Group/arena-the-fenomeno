@@ -1149,28 +1149,37 @@ body.home-view .sumbar{margin-inline:var(--lado)}
 .dcard p{margin:16px 0 0;font-family:"Inria Sans",system-ui,sans-serif;font-weight:300;font-size:24px;line-height:1.25;color:var(--fy)}
 .dgo{align-self:flex-end;margin:14px 25px 0 0;display:inline-flex;align-items:center;justify-content:center;height:59px;min-width:167px;padding:0 22px;background:var(--fy);color:#000;border:5px solid #000;border-radius:50px;font:400 32px/1 "Archivo Black","Arial Black",Impact,sans-serif}
 
-/* Todos os jogos: tiles compactos, do tamanho dos do futbol11 (~165 x 220) */
-.games.compact{grid-template-columns:repeat(auto-fill,165px);justify-content:center;gap:10px;padding:0 var(--lado) 48px}
-.compact .gcard{height:220px;border-radius:12px}
-.compact .gcard .art{height:124px}
-.compact .gcard .art>*{zoom:.62}
+/* Todos os jogos: cartazes menores, na mesma linguagem dos cards de cima (arte cheia, degradê, serifa amarela) */
+.games.compact{grid-template-columns:repeat(auto-fill,204px);justify-content:center;gap:16px;padding:0 var(--lado) 56px}
+.compact .gcard{--tone:#0c2a17;--glow:rgba(34,197,94,.30);height:296px;border:0;border-radius:15px;isolation:isolate;
+  background:radial-gradient(120% 70% at 50% 0%,var(--glow),transparent 70%),linear-gradient(180deg,var(--tone),#070908);
+  box-shadow:0 10px 24px -12px rgba(0,0,0,.9);transition:transform .2s cubic-bezier(.2,.75,.2,1),box-shadow .2s}
+.compact .gcard:nth-child(5n+2){--tone:#0d1b3a;--glow:rgba(80,120,255,.32)}
+.compact .gcard:nth-child(5n+3){--tone:#2a1c08;--glow:rgba(247,210,76,.30)}
+.compact .gcard:nth-child(5n+4){--tone:#241046;--glow:rgba(168,85,247,.32)}
+.compact .gcard:nth-child(5n+5){--tone:#3a1013;--glow:rgba(239,79,79,.28)}
+.compact .gcard:hover,.compact .gcard:focus-visible{transform:translateY(-6px);box-shadow:0 18px 30px -12px rgba(0,0,0,.95),0 0 0 2px var(--fy)}
+.compact .gcard.won{box-shadow:0 0 0 2px var(--green)}.compact .gcard.lost{box-shadow:0 0 0 2px var(--red)}.compact .gcard.scored{box-shadow:0 0 0 2px var(--yellow)}
+.compact .gcard .art{position:absolute;inset:0 0 96px 0;height:auto;background:none;border:0;display:grid;place-items:center;padding:14px 10px 0;z-index:-1}
+.compact .gcard .art>*{zoom:.74;max-width:100%}
 .compact .gcard .art>.stamp{zoom:.8}
-.compact .gcard .art .zoomcrest{zoom:1;width:96px;height:96px}
-.compact .gcard .meta{padding:8px 10px 10px;gap:2px}
-.compact .gcard .meta .d{font-size:20px}
+.compact .gcard .art .zoomcrest{zoom:1;width:116px;height:116px}
+.compact .gcard::before{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.92) 58%)}
+.compact .gcard .meta{margin-top:auto;padding:0 14px 14px;gap:6px;flex:none}
+.compact .gcard .meta .d{font-family:"Inria Serif",Georgia,serif;font-weight:700;font-size:20px;line-height:1.1;color:var(--fy);text-transform:uppercase;letter-spacing:0}
 .compact .gcard .meta p{display:none}
-.compact .gcard .play{padding-top:4px;gap:6px}
-.compact .gcard .play .go{font-size:16px}
-.compact .gcard .chip{font-size:10.5px;padding:2px 7px}
-.compact .gcard .tag{transform:scale(.85);transform-origin:top left}
+.compact .gcard .play{padding-top:2px;gap:6px;justify-content:space-between}
+.compact .gcard .play .go{display:inline-flex;align-items:center;height:30px;padding:0 14px;background:var(--fy);color:#000;border:3px solid #000;border-radius:50px;font:400 14px/1 "Archivo Black","Arial Black",Impact,sans-serif;letter-spacing:0}
+.compact .gcard .chip{font-size:10.5px;padding:3px 8px;background:rgba(0,0,0,.55);border-color:rgba(255,255,255,.18);color:#d9d6c9}
+.compact .gcard .res{font-family:"Archivo Black","Arial Black",sans-serif;font-size:12px}
+.compact .gcard .tag{top:10px;left:10px;transform:none}
 @media (max-width:760px){
   .dcard{width:min(300px,78vw);height:500px}.dcard h3{font-size:32px}.dcard p{font-size:20px}
   .car-track{gap:20px}.car-b{width:44px;height:44px;font-size:30px}
-  .games.compact{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-  .compact .gcard{height:210px}
+  .games.compact{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .compact .gcard{height:270px}
 }
 @media (max-width:460px){
   .compact .gcard{flex-direction:column}
-  .compact .gcard .art{width:auto;height:124px;min-height:0;border-right:0;border-bottom:1px solid var(--line)}
 }
 @media (prefers-reduced-motion:reduce){.dcard,.car-b{transition:none}.dcard:hover,.dcard:focus-visible{transform:none}}
