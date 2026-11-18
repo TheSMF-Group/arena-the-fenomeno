@@ -39,7 +39,7 @@ const EUEX=[["man-city","Manchester City"],["ac-milan","Milan"],["dortmund","Bor
 export let CAT=[...CUR.filter(c=>c[2]==="br").map(c=>({k:c[0],n:c[1],l:"br",f:c[3],b:null})),...BREX.map(c=>({k:c[0],n:c[1],l:"br",f:c[2],b:null})),
   ...CUR.filter(c=>c[2]==="eu").map(c=>({k:c[0],n:c[1],l:"eu",f:c[3],b:null}))];
 let LOADED=null;
-export function loadAvKits(){if(!LOADED)LOADED=fetch("kits.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})).then(K=>{
+export function loadAvKits(){if(!LOADED)LOADED=fetch("kits.json?v=2").then(r=>r.ok?r.json():{}).catch(()=>({})).then(K=>{
   EUEX.forEach(([k,n])=>{if(K[k]&&!CAT.some(c=>c.k===k))CAT.push({k,n,l:"eu",f:K[k],b:null})});return CAT});return LOADED}
 export const shirtOf=k=>CAT.find(c=>c.k===k)||null;
 export const shirtSrc=k=>{const s=shirtOf(k);return s?s.f:null};

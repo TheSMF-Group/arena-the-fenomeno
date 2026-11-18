@@ -25,7 +25,7 @@ export const VL_MD={3:2,5:3,10:6},VL_TURN={normal:45,hard:30},VL_LINES=[[0,1,2],
 export const VL_ART="https://claude.ai/artifact/1aeY4bTMLALyFD1XsS3kXR";
 export let VLC=null,VLPASS=null,VLPASSP=null;
 /* passagens.json: por clube, os jogadores que já passaram por ele (Wikidata), além do último clube */
-export function loadPass(){if(!VLPASSP)VLPASSP=fetch("passagens.json").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>{VLPASS={};for(const k in m)VLPASS[k]=new Set(m[k]);VLC=null;return VLPASS});return VLPASSP}
+export function loadPass(){if(!VLPASSP)VLPASSP=fetch("passagens.json?v=1").then(r=>r.ok?r.json():{}).catch(()=>({})).then(m=>{VLPASS={};for(const k in m)VLPASS[k]=new Set(m[k]);VLC=null;return VLPASS});return VLPASSP}
 export function vlPrep(){if(VLC)return VLC;const byCrest={},count={},isoIdx={};
   for(const p of ST.P)count[p.club]=(count[p.club]||0)+1;
   ST.CLUBS.forEach((c,i)=>{if(c[1]&&(!byCrest[c[1]]||(count[i]||0)>(count[byCrest[c[1]]]||0)))byCrest[c[1]]=i});

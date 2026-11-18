@@ -6,7 +6,7 @@ import {GAMES, MODE, dailyPick, finish, hit, isHard, memAdd, memList, miss, shar
 
 /* 10-12. ENTROSAMENTO, PIRÂMIDE e TOP 10 (inspirados no Link, Pyramid e Top10 do futbol11). Listas em novos.json, curadas à mão */
 export let NOVOS=null;export const XP=[];
-export function loadNovos(){if(!NOVOS)NOVOS=Promise.all([fetch("novos.json").then(r=>{if(!r.ok)throw new Error("novos");return r.json()}),fetch("lendas.json").then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([n,lendas])=>{
+export function loadNovos(){if(!NOVOS)NOVOS=Promise.all([fetch("novos.json?v=1").then(r=>{if(!r.ok)throw new Error("novos");return r.json()}),fetch("lendas.json?v=2").then(r=>r.ok?r.json():{}).catch(()=>({}))]).then(([n,lendas])=>{
     const byId=new Map(ST.P.map(p=>[p.id,p])),keys=new Set(ST.P.map(p=>p.key)),xk={};
     const who=(name,pid)=>{if(pid&&byId.has(pid))return byId.get(pid);const k=norm(name);if(!xk[k]){xk[k]={id:-(XP.length+1),name,nat:null,birth:0,club:null,season:2000,fam:1,key:k,words:k.split(" ")};XP.push(xk[k])}return xk[k]};
     const nick=(p,a)=>{const k=norm(a);if(!keys.has(k)&&k!==p.key)(p.ak=p.ak||[]).push(k)};
