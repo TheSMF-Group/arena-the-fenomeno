@@ -49,7 +49,7 @@ if(onbPendente()){const link=location.hash.slice(1);
 /* ---------- carga ---------- */
 (async function boot(){
   try{
-    const [d,f,e,f2]=await Promise.all(["dados.json","fotos.json","escudos.json?v=2","fotos-dificil.json"].map(u=>fetch(u).then(r=>{if(!r.ok)throw new Error(u);return r.json()})));
+    const [d,f,e,f2]=await Promise.all(["dados.json?v=1","fotos.json?v=3","escudos.json?v=3","fotos-dificil.json?v=3"].map(u=>fetch(u).then(r=>{if(!r.ok)throw new Error(u);return r.json()})));
     ST.NATS=d.N;ST.CLUBS=d.C;ST.FOTOS=Object.assign(f,f2);ST.ESC=e;
     ST.P=d.P.map(a=>{const p={id:a[0],name:a[1],nat:a[2],birth:a[3],club:a[4],season:a[5],fam:a[6]};p.key=norm(p.name);p.words=p.key.split(" ");return p});
     ST.FAM=ST.P.filter(p=>p.fam===1&&ST.FOTOS[p.id]&&p.birth);
