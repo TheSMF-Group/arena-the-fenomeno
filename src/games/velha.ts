@@ -67,6 +67,7 @@ open(){ST.VIEW="velha";ST.PHASE="choose";cleanup();if(location.hash!=="#velha")h
         <div class="vl-opt"><small>Liga</small><div class="vl-seg vl-lg" data-k="lg">${Object.entries(VL).map(([k,l])=>`<button type="button" data-v="${k}"><img class="vl-tr" src="${VL_TROF[k]}" alt=""><span>${l.name}</span></button>`).join("")}</div></div>
         <div class="vl-opt"><small>Formato</small><div class="vl-seg" data-k="md">${[3,5,10].map(n=>`<button type="button" data-v="${n}">MD${n}</button>`).join("")}</div>
           <p class="muted vl-help" data-h="md"></p></div>
+        <label class="vl-pub"><input type="checkbox" data-pub> <span>Sala pública <small>(aparece em "Lobbys abertos" na home)</small></span></label>
         <button class="btn y vl-go" type="button" data-a="create">Criar partida</button>
         <button class="btn vl-go" type="button" data-a="local">Jogar no mesmo aparelho</button></section>
       <section class="vl-box"><h3 class="d">ENTRAR EM JOGO</h3>
@@ -82,10 +83,11 @@ open(){ST.VIEW="velha";ST.PHASE="choose";cleanup();if(location.hash!=="#velha")h
   const inp=app.querySelector(".vl-code");inp.addEventListener("input",()=>{inp.value=inp.value.toUpperCase().replace(/[^A-Z0-9]/g,"")});
   inp.addEventListener("keydown",e=>{if(e.key==="Enter")app.querySelector("[data-a=join]").click()});
   app.querySelector(".vl-lobby").addEventListener("click",e=>{const a=e.target.closest("button")?.dataset.a;
-    if(a==="create")vlPlay({mode:"host",cfg:{...cfg}});
+    if(a==="create")vlPlay({mode:"host",cfg:{...cfg,pub:!!app.querySelector("[data-pub]").checked}});
     if(a==="local")pfLocal(pfs=>vlPlay({mode:"local",cfg:{...cfg},pfs}));
     if(a==="join"){const c=inp.value.trim();if(c.length!==5){toast("O código tem 5 letras/números");inp.focus();return}vlPlay({mode:"join",code:c})}});
-  paint();pfMount(app);window.scrollTo(0,0)}};
+  paint();pfMount(app);window.scrollTo(0,0)},
+entrar(code){return vlPlay({mode:"join",code})}};
 
 /* fora do claude.ai (site no Vercel): a sala vira um tópico MQTT num servidor público, sem login.
    Cada jogador deixa a sua "presence" como mensagem retida em .../p/<id>; a última vontade apaga ao cair. */

@@ -30,6 +30,8 @@ import {GAMES} from "./engine";
 import {home, openGame, updateToday} from "./home";
 import {perfilScreen, renderMe} from "./vestiario";
 import {loadAvKits} from "./avatars";
+import {contaBoot} from "./conta";
+import {conferir} from "./conquistas";
 import {checkGift, renderObj} from "./rewards";
 $("#home").addEventListener("click",home);
 $("#meBtn").addEventListener("click",perfilScreen);
@@ -46,7 +48,7 @@ renderMe();
     ST.HARD=ST.P.filter(p=>p.fam===2&&ST.FOTOS[p.id]&&p.birth);
     ST.CRESTS=d.K.map(a=>{const c={id:a[0],name:a[1],pais:a[2],cc:a[3],liga:a[4],conf:a[5]};c.key=norm(c.name);c.words=c.key.split(" ");return c});
     $("#boot").remove();updateToday();
-    loadAvKits().then(renderMe);renderObj();setTimeout(checkGift,900);
+    loadAvKits().then(renderMe);renderObj();contaBoot().then(renderMe);conferir(true);setTimeout(checkGift,900);
     const h=location.hash.slice(1);if(h==="perfil")perfilScreen();else if(GAMES[h])openGame(h);else home();
   }catch(err){$("#boot").innerHTML=`<div><img src="${BODEHEAD}" alt=""><b>NÃO DEU PARA CARREGAR OS DADOS</b><span class="muted">Recarregue a página.</span></div>`}
 })();

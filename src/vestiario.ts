@@ -8,6 +8,8 @@ import {cleanup, home} from "./home";
 import {BGS, CAT, avatarHTML, loadAvKits, shirtOf} from "./avatars";
 import {hasUser, histGet, ownedGet, pfGet, userSet} from "./profile";
 import {store} from "./core";
+import {contaGet, contaModal, contaSair} from "./conta";
+import {conquistasHTML, conferir} from "./conquistas";
 
 export function renderMe(){const b=$("#meBtn");if(!b)return;
   if(hasUser()){const u=pfGet();b.classList.add("has");b.innerHTML=`${avatarHTML(u,26)}<span>Meu Perfil</span>`}
@@ -61,6 +63,8 @@ function vestiario(){let lg="all";const body=$("#pfBody");
   body.innerHTML=`<section class="vt-top"><div class="vt-me"><div id="vtAv" role="button" tabindex="0" title="Clique para trocar a cor do fundo" aria-label="Trocar a cor do fundo do avatar"></div><div><input class="vt-name" maxlength="12" autocomplete="off" spellcheck="false" aria-label="Seu nome"></div></div>
     <a class="fmb-badge vt-fmb" href="https://www.fmbbr.com.br/plan/form?plan_id=3&coupon=THEFENOMENO&utm_source=arena&utm_medium=partner_badge&utm_campaign=fmb&utm_content=vestiario_topo" target="_blank" rel="noopener" aria-label="Assine uma Mystery Box e ganhe 1 mês grátis, com o cupom THEFENOMENO (abre em nova aba)"><img src="${fmbImg}" alt="Assine uma Mystery Box e ganhe 1 mês grátis. Use o cupom: THEFENOMENO" width="800" height="200"></a>
     <div class="vt-stats" id="vtSt"></div></section>
+    <section class="vt-conta" id="vtConta"></section>
+    <section class="vt-ach" id="vtAch"></section>
     <section class="vt-coll" id="vtColl"></section>
     <div id="vtTabs"></div><section class="games jerseys vt-wall"></section>
     <section class="vt-hist"><h3 class="d">SEUS JOGOS</h3><div id="vtHist"></div></section>
@@ -83,4 +87,9 @@ function vestiario(){let lg="all";const body=$("#pfBody");
     const j=e.target.closest(".jersey");if(j){const k=j.dataset.k;if(!ownedGet().includes(k)){toast("Camisa bloqueada. Ganhe na Mystery Box vencendo modos diários!");return}userSet({k,c:ST.ESC&&ST.ESC[k]?k:null});renderMe();top();draw();toast(`Camisa escolhida: ${shirtOf(k).n}`);return}
     if(e.target.closest("[data-del]")&&confirm("Apagar seu usuário? O histórico de partidas também some.")){localStorage.removeItem("fen:perfil");localStorage.removeItem("fen:hist");renderMe();perfilScreen()}});
   body.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.id==="vtAv"){e.preventDefault();e.target.click()}});
-  top();draw();hist()}
+  const conta=()=>{const c=contaGet(),el=body.querySelector("#vtConta");if(!el)return;
+    el.innerHTML=c?`<div><b>CONTA</b><span>Conectado como <b>${esc(c.handle)}</b>. Seu progresso está salvo na nuvem.</span></div><button type="button" class="btn" data-sair>Sair</button>`
+      :`<div><b>SALVE SEU PROGRESSO</b><span>Crie uma conta para levar camisas, histórico e conquistas para qualquer aparelho.</span></div><div class="row"><button type="button" class="btn y" data-conta="criar">Criar conta</button><button type="button" class="btn" data-conta="entrar">Entrar</button></div>`};
+  const onConta=()=>{if(ST.VIEW==="perfil"&&body.isConnected)conta()};document.addEventListener("fen:conta",onConta);
+  body.addEventListener("click",e=>{const cb=e.target.closest("[data-conta]");if(cb){contaModal(cb.dataset.conta,()=>{renderMe();perfilScreen()});return}if(e.target.closest("[data-sair]"))contaSair()});
+  top();draw();hist();conta();conferir(true);body.querySelector("#vtAch").innerHTML=conquistasHTML()}

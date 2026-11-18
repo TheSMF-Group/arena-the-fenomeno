@@ -5,12 +5,13 @@ import {makeSearch} from "../search";
 import {GAMES, share} from "../engine";
 import {VL, VL_ART, VL_MD, VL_TROF, VL_TURN, critLabel, critText, loadPass, vlCode, vlFits, vlGrid, vlIn, vlLine} from "./velha";
 import {mqttRoom} from "../mqtt";
+import {anunciar} from "../lobbys";
 import {pfGet, pfImg} from "../profile";
 import {cleanup} from "../home";
 export const vlOk=s=>s&&typeof s==="object"&&s.cfg&&VL[s.cfg.lg]&&VL_MD[s.cfg.md]&&VL_TURN[s.cfg.diff]&&Array.isArray(s.b)&&s.b.length===9&&Array.isArray(s.used)&&typeof s.seq==="number";
 export async function vlPlay({mode,cfg,code,pfs}){ST.VIEW="velha";ST.PHASE="play";cleanup();
-  const app=$("#app");let alive=true,timer=null,nr=null,offPeers=null,me=null,S=null,pend=null,nextT=null;
-  ST.CLEAN=()=>{alive=false;clearInterval(timer);clearTimeout(nextT);offPeers&&offPeers();nr&&nr.leave().catch(()=>{})};
+  const app=$("#app");let alive=true,timer=null,nr=null,offPeers=null,me=null,S=null,pend=null,nextT=null,ad=null;
+  ST.CLEAN=()=>{alive=false;ad&&ad.stop();ad=null;clearInterval(timer);clearTimeout(nextT);offPeers&&offPeers();nr&&nr.leave().catch(()=>{})};
   app.innerHTML=`<div class="stagehead"><button class="back" type="button">← Sair</button><h2>JOGO DA <b>VELHA</b></h2><span class="spacer"></span></div><div class="stage vl-stage"><div class="fg-load"><img src="${BODEHEAD}" alt=""><b>${mode==="join"?"PROCURANDO A PARTIDA…":"PREPARANDO O CAMPO…"}</b></div></div>`;
   const st=app.querySelector(".stage");await loadPass();if(!alive)return;
   app.querySelector(".back").addEventListener("click",()=>{if(S&&!S.over&&mode!=="local"&&!confirm("Sair da partida?"))return;GAMES.velha.open()});
@@ -33,10 +34,10 @@ export async function vlPlay({mode,cfg,code,pfs}){ST.VIEW="velha";ST.PHASE="play
     const meP=()=>nr.peers().find(p=>p.sameTab);
     offPeers=nr.onPeers(ch=>{if(!me){const m=meP();if(m)me=keyOf(m)}
       let best=null;for(const p of ch.peers){const s=p.presence&&p.presence.st;if(vlOk(s)&&s.code===code&&(!best||s.seq>best.seq))best=s}
-      if(best&&(!S||best.seq>S.seq)){S=best;render()}else if(S)renderPeers()});
+      if(best&&(!S||best.seq>S.seq)){S=best;render()}else if(S)renderPeers();if(ad&&S&&S.O){ad.stop();ad=null}});
     const waitMe=async()=>{for(let i=0;i<50&&!me&&alive;i++){const m=meP();if(m)me=keyOf(m);else await new Promise(r=>setTimeout(r,100))}};
     await waitMe();if(!alive)return;if(!me)return fail("Não deu para conectar na sala.",true);
-    if(mode==="host"){push(newRound({code,cfg,seq:0,X:me,O:null,sx:0,so:0,over:null,pf:{X:pfGet("P1")}},true))}
+    if(mode==="host"){if(cfg.pub)anunciar("velha",code,{host:pfGet("P1").n,cfg:`${VL[cfg.lg].name} · MD${cfg.md} · ${cfg.diff==="hard"?"difícil":"normal"}`}).then(a=>{if(!alive||(S&&S.O))a.stop();else ad=a});push(newRound({code,cfg,seq:0,X:me,O:null,sx:0,so:0,over:null,pf:{X:pfGet("P1")}},true))}
     else{const t0=Date.now();while(alive&&!S&&Date.now()-t0<9000)await new Promise(r=>setTimeout(r,200));
       if(!alive)return;if(!S)return fail(`Não achei a partida <b>${esc(code)}</b>. Confira o código e peça para quem criou deixar a tela da partida aberta.`);
       cfg=S.cfg;if(!S.O&&S.X!==me)push({...S,seq:S.seq+1,O:me,pf:{...S.pf,O:pfGet("P2")},dl:Date.now()+VL_TURN[S.cfg.diff]*1000});else render()}

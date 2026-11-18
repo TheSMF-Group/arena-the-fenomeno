@@ -44,7 +44,7 @@ export const userSet=o=>store.set("perfil",{...(store.get("perfil")||{}),...o});
 export const whoHTML=(px=34)=>{if(!hasUser())return"";const u=pfGet();return`<span class="who">${avatarHTML(u,px)}<b>${esc(u.n)}</b></span>`};
 export const withWho=t=>hasUser()?`${pfGet().n} · ${t}`:t;
 /* histórico: cada partida que termina (dia ou infinito) */
-export function recordHist(g,res,mode){if(!hasUser())return;const h=store.get("hist")||[];h.push({t:Date.now(),g,w:res&&res.won?1:0,m:mode,s:res&&res.score!=null?res.score:null,l:(res&&res.label)||""});store.set("hist",h.slice(-120))}
+export function recordHist(g,res,mode){if(!hasUser())return;const h=store.get("hist")||[];h.push({t:Date.now(),g,w:res&&res.won?1:0,m:mode,s:res&&res.score!=null?res.score:null,l:(res&&res.label)||""});store.set("hist",h.slice(-120));document.dispatchEvent(new CustomEvent("fen:hist"))}
 export const histGet=()=>store.get("hist")||[];
 export function userGate(){document.querySelectorAll(".gate").forEach(m=>m.remove());const m=document.createElement("div");m.className="modal gate";
   m.innerHTML=`<div class="box"><h3>Crie seu usuário primeiro</h3><p class="muted" style="margin:0 0 12px">Para jogar no multiplayer você precisa de um nome e de uma camisa. Leva meio minuto.</p><div class="row"><button type="button" class="btn y" data-go>Criar meu usuário →</button><button type="button" class="btn" data-x>Agora não</button></div></div>`;

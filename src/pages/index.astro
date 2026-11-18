@@ -22,6 +22,7 @@ import socDc from "../assets/soc-discord.png?url";
 <link rel="icon" type="image/png" href="/favicon.png">
 <style is:global>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Arena The Fenômeno</title>
+<script is:inline>try{var t=localStorage.getItem("fen:tema");document.documentElement.dataset.theme=t?JSON.parse(t):(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,13 +39,14 @@ import socDc from "../assets/soc-discord.png?url";
     <a href="https://x.com/othefenomeno?s=11" target="_blank" rel="noopener" aria-label="X do The Fenômeno" title="X"><img src={socX} alt="" width="30" height="30"></a>
     <a href="https://discord.gg/WVcbBvSfx" target="_blank" rel="noopener" aria-label="Discord do The Fenômeno" title="Discord"><img src={socDc} alt="" width="30" height="30"></a>
   </nav>
-  <div class="hrow"><span class="pill" id="todayPill"><span class="dot"></span><span id="todayScore">0 ganhas · 0 perdidas</span></span><button type="button" class="mechip" id="meBtn" aria-label="Meu usuário e vestiário"></button></div>
+  <div class="hrow"><span class="pill" id="todayPill"><span class="dot"></span><span id="todayScore">0 ganhas · 0 perdidas</span></span><button type="button" class="thm" id="thmBtn" aria-label="Alternar modo claro e escuro"></button><button type="button" class="mechip" id="meBtn" aria-label="Meu usuário e vestiário"></button></div>
 </div></header>
 
 <main id="app" class="wrap"></main>
 
 <footer><div class="wrap">Fotos, escudos e dados: <a href="https://github.com/TheSMF-Group/assets" target="_blank" rel="noopener">TheSMF-Group/assets</a> e <a href="https://github.com/TheSMF-Group/thefenomeno-assets" target="_blank" rel="noopener">thefenomeno-assets</a>. "Último clube" é o clube da temporada mais recente do jogador na base. Entrosamento, Pirâmide e Top 10 são inspirados no futbol11; as listas foram montadas à mão com números até o início de 2025/26. Desafios novos todo dia à meia-noite.</div></footer>
 <script>import "../main";</script>
+<script is:inline>(function(){var b=document.getElementById("thmBtn"),h=document.documentElement;function p(){var l=h.dataset.theme==="light";b.textContent=l?"☾":"☀";b.title=l?"Modo escuro":"Modo claro"}p();b.addEventListener("click",function(){h.dataset.theme=h.dataset.theme==="light"?"dark":"light";try{localStorage.setItem("fen:tema",JSON.stringify(h.dataset.theme))}catch(e){}p()})})()</script>
   <!-- Cloudflare Web Analytics (grátis, sem cookie): páginas e visitas no admin.thefenomeno.com -->
 <script defer is:inline src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "02ca75c3ec654a0ca55c12529804db37"}'></script>
 </body>
