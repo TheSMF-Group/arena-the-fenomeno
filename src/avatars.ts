@@ -45,4 +45,6 @@ export const shirtOf=k=>CAT.find(c=>c.k===k)||null;
 export const shirtSrc=k=>{const s=shirtOf(k);return s?s.f:null};
 export const BGS=["#22c55e","#ffd21f","#38bdf8","#f87171","#a78bfa","#fb923c","#f472b6","#94a3b8"];
 /* avatar redondo: só a camisa escolhida, centralizada, sobre a cor de fundo */
-export const avatarHTML=(p,px=44)=>{const sh=p&&p.k&&shirtOf(p.k);return`<span class="avt" style="--bg:${(p&&p.bg)||BGS[0]};--px:${px}px">${sh?`<img src="${sh.f}" alt="">`:""}</span>`};
+/* avatar redondo: o retrato do mascote (WebP com o fundo já pintado) ou, para perfis antigos, a camisa sobre a cor de fundo */
+export const avatarHTML=(p,px=44)=>{if(p&&p.av)return`<span class="avt avm" style="--px:${px}px"><img src="${p.av}" alt=""></span>`;
+  const sh=p&&p.k&&shirtOf(p.k);return`<span class="avt" style="--bg:${(p&&p.bg)||BGS[0]};--px:${px}px">${sh?`<img src="${sh.f}" alt="">`:""}</span>`};

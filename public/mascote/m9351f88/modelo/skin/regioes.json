@@ -1,0 +1,796 @@
+{
+ "versao": 1,
+ "arquivos": {
+  "regioes": "regioes.png",
+  "textura": "textura-base.png",
+  "posicao": "posicao.exr",
+  "normal": "normal.png",
+  "modelo": "goat-base.glb",
+  "couro_cabeludo": "couro-cabeludo.json"
+ },
+ "textura": {
+  "tamanho": [
+   2048,
+   2048
+  ],
+  "origem": "linha 0 em cima (v glTF = 0 em cima, flipY = false no GLTFLoader)"
+ },
+ "regioes": [
+  {
+   "id": 1,
+   "nome": "pelagem_principal",
+   "descricao": "pelagem principal (caramelo): rosto, pescoço, braços, pernas",
+   "texels": 516875,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.823,
+    1.151,
+    1.6
+   ],
+   "referencia": {
+    "srgb": [
+     198,
+     115,
+     43
+    ],
+    "hex": "#C6732B",
+    "linear": [
+     0.56471,
+     0.17144,
+     0.02416
+    ]
+   },
+   "luminancia": {
+    "ref": 0.24442,
+    "p5": 0.04962,
+    "p50": 0.24568,
+    "p95": 0.50581,
+    "razao_p5": 0.203,
+    "razao_p95": 2.069
+   }
+  },
+  {
+   "id": 2,
+   "nome": "pelagem_clara",
+   "descricao": "pelagem clara (creme): focinho, sobrancelhas, barbicha, borda da orelha",
+   "texels": 63763,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.794,
+    1.088,
+    1.212
+   ],
+   "referencia": {
+    "srgb": [
+     242,
+     193,
+     138
+    ],
+    "hex": "#F2C18A",
+    "linear": [
+     0.88792,
+     0.53328,
+     0.25415
+    ]
+   },
+   "luminancia": {
+    "ref": 0.58852,
+    "p5": 0.2615,
+    "p50": 0.59005,
+    "p95": 0.81233,
+    "razao_p5": 0.444,
+    "razao_p95": 1.38
+   }
+  },
+  {
+   "id": 3,
+   "nome": "orelha_interior",
+   "descricao": "interior da orelha",
+   "texels": 29843,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.959,
+    1.053,
+    0.823
+   ],
+   "referencia": {
+    "srgb": [
+     94,
+     44,
+     10
+    ],
+    "hex": "#5E2C0A",
+    "linear": [
+     0.11193,
+     0.02519,
+     0.00304
+    ]
+   },
+   "luminancia": {
+    "ref": 0.04203,
+    "p5": 0.00505,
+    "p50": 0.04236,
+    "p95": 0.13157,
+    "razao_p5": 0.12,
+    "razao_p95": 3.13
+   }
+  },
+  {
+   "id": 4,
+   "nome": "nariz",
+   "descricao": "nariz",
+   "texels": 9337,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.912,
+    1.088,
+    1.106
+   ],
+   "referencia": {
+    "srgb": [
+     88,
+     49,
+     22
+    ],
+    "hex": "#583116",
+    "linear": [
+     0.09759,
+     0.03071,
+     0.00802
+    ]
+   },
+   "luminancia": {
+    "ref": 0.04329,
+    "p5": 0.00175,
+    "p50": 0.0437,
+    "p95": 0.16274,
+    "razao_p5": 0.04,
+    "razao_p95": 3.759
+   }
+  },
+  {
+   "id": 5,
+   "nome": "olhos",
+   "descricao": "olhos (íris, branco, cílios): INTOCÁVEL",
+   "texels": 5554,
+   "recolorivel": false,
+   "expoente_opcional": [
+    1.003,
+    0.999,
+    0.677
+   ],
+   "referencia": {
+    "srgb": [
+     58,
+     28,
+     13
+    ],
+    "hex": "#3A1C0D",
+    "linear": [
+     0.04231,
+     0.01161,
+     0.00402
+    ]
+   },
+   "luminancia": {
+    "ref": 0.01759,
+    "p5": 0.00069,
+    "p50": 0.01794,
+    "p95": 0.39346,
+    "razao_p5": 0.039,
+    "razao_p95": 22.367
+   }
+  },
+  {
+   "id": 6,
+   "nome": "boca",
+   "descricao": "boca e linha do lábio",
+   "texels": 1752,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.739,
+    1.245,
+    1.6
+   ],
+   "referencia": {
+    "srgb": [
+     126,
+     70,
+     26
+    ],
+    "hex": "#7E461A",
+    "linear": [
+     0.20864,
+     0.06125,
+     0.01033
+    ]
+   },
+   "luminancia": {
+    "ref": 0.08891,
+    "p5": 0.05712,
+    "p50": 0.08971,
+    "p95": 0.1343,
+    "razao_p5": 0.643,
+    "razao_p95": 1.511
+   }
+  },
+  {
+   "id": 7,
+   "nome": "cabelo",
+   "descricao": "cabelo (calota preta da cabeça)",
+   "texels": 79126,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.84,
+    1.075,
+    1.16
+   ],
+   "referencia": {
+    "srgb": [
+     52,
+     42,
+     39
+    ],
+    "hex": "#342A27",
+    "linear": [
+     0.03434,
+     0.02315,
+     0.02029
+    ]
+   },
+   "luminancia": {
+    "ref": 0.02532,
+    "p5": 0.0066,
+    "p50": 0.02566,
+    "p95": 0.23711,
+    "razao_p5": 0.26,
+    "razao_p95": 9.363
+   }
+  },
+  {
+   "id": 8,
+   "nome": "camisa_corpo",
+   "descricao": "corpo da camisa",
+   "texels": 436403,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.777,
+    1.127,
+    1.0
+   ],
+   "referencia": {
+    "srgb": [
+     235,
+     174,
+     4
+    ],
+    "hex": "#EBAE04",
+    "linear": [
+     0.83077,
+     0.42327,
+     0.00121
+    ]
+   },
+   "luminancia": {
+    "ref": 0.47943,
+    "p5": 0.18947,
+    "p50": 0.48129,
+    "p95": 0.72208,
+    "razao_p5": 0.395,
+    "razao_p95": 1.506
+   }
+  },
+  {
+   "id": 9,
+   "nome": "camisa_detalhes",
+   "descricao": "detalhes da camisa: gola, punhos e remates",
+   "texels": 60249,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.931,
+    0.993,
+    0.847
+   ],
+   "referencia": {
+    "srgb": [
+     21,
+     53,
+     26
+    ],
+    "hex": "#15351A",
+    "linear": [
+     0.0075,
+     0.0356,
+     0.01033
+    ]
+   },
+   "luminancia": {
+    "ref": 0.0278,
+    "p5": 0.00163,
+    "p50": 0.0294,
+    "p95": 0.35216,
+    "razao_p5": 0.058,
+    "razao_p95": 12.667
+   }
+  },
+  {
+   "id": 10,
+   "nome": "shorts_corpo",
+   "descricao": "corpo do shorts",
+   "texels": 355840,
+   "recolorivel": true,
+   "expoente_opcional": [
+    1.227,
+    1.006,
+    1.026
+   ],
+   "referencia": {
+    "srgb": [
+     10,
+     51,
+     24
+    ],
+    "hex": "#0A3318",
+    "linear": [
+     0.00304,
+     0.0331,
+     0.00913
+    ]
+   },
+   "luminancia": {
+    "ref": 0.02498,
+    "p5": 0.00072,
+    "p50": 0.02505,
+    "p95": 0.04847,
+    "razao_p5": 0.029,
+    "razao_p95": 1.94
+   }
+  },
+  {
+   "id": 11,
+   "nome": "shorts_faixa",
+   "descricao": "faixa lateral do shorts (e o brasão pintado)",
+   "texels": 49190,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.88,
+    1.056,
+    1.6
+   ],
+   "referencia": {
+    "srgb": [
+     234,
+     186,
+     38
+    ],
+    "hex": "#EABA26",
+    "linear": [
+     0.82279,
+     0.49102,
+     0.01938
+    ]
+   },
+   "luminancia": {
+    "ref": 0.5275,
+    "p5": 0.24688,
+    "p50": 0.52879,
+    "p95": 0.70838,
+    "razao_p5": 0.468,
+    "razao_p95": 1.343
+   }
+  },
+  {
+   "id": 12,
+   "nome": "meias_corpo",
+   "descricao": "corpo das meias",
+   "texels": 312586,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.919,
+    1.02,
+    1.08
+   ],
+   "referencia": {
+    "srgb": [
+     221,
+     205,
+     201
+    ],
+    "hex": "#DDCDC9",
+    "linear": [
+     0.72306,
+     0.6105,
+     0.58408
+    ]
+   },
+   "luminancia": {
+    "ref": 0.63252,
+    "p5": 0.36293,
+    "p50": 0.63275,
+    "p95": 0.91286,
+    "razao_p5": 0.574,
+    "razao_p95": 1.443
+   }
+  },
+  {
+   "id": 13,
+   "nome": "meias_faixas",
+   "descricao": "faixas das meias",
+   "texels": 35636,
+   "recolorivel": true,
+   "expoente_opcional": [
+    1.55,
+    0.961,
+    1.383
+   ],
+   "referencia": {
+    "srgb": [
+     10,
+     52,
+     24
+    ],
+    "hex": "#0A3418",
+    "linear": [
+     0.00304,
+     0.03434,
+     0.00913
+    ]
+   },
+   "luminancia": {
+    "ref": 0.02586,
+    "p5": 0.01351,
+    "p50": 0.0258,
+    "p95": 0.08058,
+    "razao_p5": 0.522,
+    "razao_p95": 3.115
+   }
+  },
+  {
+   "id": 14,
+   "nome": "chuteira",
+   "descricao": "chuteira (couro)",
+   "texels": 433545,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.956,
+    1.007,
+    1.078
+   ],
+   "referencia": {
+    "srgb": [
+     35,
+     34,
+     35
+    ],
+    "hex": "#232223",
+    "linear": [
+     0.01681,
+     0.016,
+     0.01681
+    ]
+   },
+   "luminancia": {
+    "ref": 0.01623,
+    "p5": 0.00215,
+    "p50": 0.01641,
+    "p95": 0.414,
+    "razao_p5": 0.132,
+    "razao_p95": 25.513
+   }
+  },
+  {
+   "id": 15,
+   "nome": "chuteira_listras",
+   "descricao": "listras da chuteira",
+   "texels": 14611,
+   "recolorivel": true,
+   "expoente_opcional": [
+    1.019,
+    1.001,
+    0.945
+   ],
+   "referencia": {
+    "srgb": [
+     224,
+     224,
+     225
+    ],
+    "hex": "#E0E0E1",
+    "linear": [
+     0.7454,
+     0.7454,
+     0.75294
+    ]
+   },
+   "luminancia": {
+    "ref": 0.74595,
+    "p5": 0.63334,
+    "p50": 0.7454,
+    "p95": 0.90286,
+    "razao_p5": 0.849,
+    "razao_p95": 1.21
+   }
+  },
+  {
+   "id": 16,
+   "nome": "sola",
+   "descricao": "sola e travas",
+   "texels": 216373,
+   "recolorivel": true,
+   "expoente_opcional": [
+    0.769,
+    1.0,
+    1.0
+   ],
+   "referencia": {
+    "srgb": [
+     7,
+     5,
+     6
+    ],
+    "hex": "#070506",
+    "linear": [
+     0.00212,
+     0.00152,
+     0.00182
+    ]
+   },
+   "luminancia": {
+    "ref": 0.00167,
+    "p5": 0.00015,
+    "p50": 0.00167,
+    "p95": 0.00972,
+    "razao_p5": 0.09,
+    "razao_p95": 5.826
+   }
+  },
+  {
+   "id": 17,
+   "nome": "luvas",
+   "descricao": "luvas",
+   "texels": 161952,
+   "recolorivel": true,
+   "expoente_opcional": [
+    1.014,
+    0.996,
+    0.978
+   ],
+   "referencia": {
+    "srgb": [
+     24,
+     22,
+     21
+    ],
+    "hex": "#181615",
+    "linear": [
+     0.00913,
+     0.00802,
+     0.0075
+    ]
+   },
+   "luminancia": {
+    "ref": 0.00822,
+    "p5": 0.00121,
+    "p50": 0.0084,
+    "p95": 0.04204,
+    "razao_p5": 0.148,
+    "razao_p95": 5.113
+   }
+  }
+ ],
+ "caixa": {
+  "min": [
+   -0.41656,
+   0.0,
+   -0.21277
+  ],
+  "max": [
+   0.41656,
+   1.8,
+   0.21249
+  ],
+  "tamanho": [
+   0.83312,
+   1.8,
+   0.42526
+  ],
+  "eixos": "eixos do GLB: x = esquerda do personagem (+), y = altura, z = frente (+); pose de repouso; metros"
+ },
+ "prova": {
+  "contra_textura_limpa": {
+   "erro_medio": 4.26,
+   "erro_max": 161,
+   "psnr": 28.16
+  },
+  "contra_textura_original": {
+   "erro_medio": 4.26,
+   "erro_max": 161,
+   "psnr": 28.16
+  },
+  "limpa_contra_original": {
+   "erro_medio": 0.0,
+   "erro_max": 33,
+   "psnr": 69.0
+  },
+  "texels_consertados": 23,
+  "por_regiao": {
+   "pelagem_principal": {
+    "erro_medio": 8.11,
+    "erro_max": 114,
+    "psnr": 25.56
+   },
+   "pelagem_clara": {
+    "erro_medio": 5.73,
+    "erro_max": 70,
+    "psnr": 28.52
+   },
+   "orelha_interior": {
+    "erro_medio": 3.12,
+    "erro_max": 48,
+    "psnr": 35.19
+   },
+   "nariz": {
+    "erro_medio": 4.98,
+    "erro_max": 72,
+    "psnr": 30.02
+   },
+   "olhos": {
+    "erro_medio": 0.0,
+    "erro_max": 0,
+    "psnr": 138.13
+   },
+   "boca": {
+    "erro_medio": 3.57,
+    "erro_max": 37,
+    "psnr": 34.43
+   },
+   "cabelo": {
+    "erro_medio": 4.51,
+    "erro_max": 54,
+    "psnr": 31.66
+   },
+   "camisa_corpo": {
+    "erro_medio": 5.71,
+    "erro_max": 155,
+    "psnr": 24.6
+   },
+   "camisa_detalhes": {
+    "erro_medio": 11.11,
+    "erro_max": 132,
+    "psnr": 21.84
+   },
+   "shorts_corpo": {
+    "erro_medio": 2.86,
+    "erro_max": 161,
+    "psnr": 30.34
+   },
+   "shorts_faixa": {
+    "erro_medio": 9.52,
+    "erro_max": 117,
+    "psnr": 23.01
+   },
+   "meias_corpo": {
+    "erro_medio": 2.61,
+    "erro_max": 42,
+    "psnr": 36.89
+   },
+   "meias_faixas": {
+    "erro_medio": 3.86,
+    "erro_max": 76,
+    "psnr": 31.31
+   },
+   "chuteira": {
+    "erro_medio": 1.81,
+    "erro_max": 23,
+    "psnr": 38.65
+   },
+   "chuteira_listras": {
+    "erro_medio": 1.87,
+    "erro_max": 18,
+    "psnr": 39.41
+   },
+   "sola": {
+    "erro_medio": 0.91,
+    "erro_max": 23,
+    "psnr": 44.78
+   },
+   "luvas": {
+    "erro_medio": 1.2,
+    "erro_max": 42,
+    "psnr": 41.27
+   }
+  },
+  "com_expoente_opcional": {
+   "erro_medio": 3.57,
+   "erro_max": 155,
+   "psnr": 28.9
+  },
+  "por_regiao_com_expoente": {
+   "pelagem_principal": {
+    "erro_medio": 5.38,
+    "erro_max": 84,
+    "psnr": 28.72
+   },
+   "pelagem_clara": {
+    "erro_medio": 5.05,
+    "erro_max": 61,
+    "psnr": 29.4
+   },
+   "orelha_interior": {
+    "erro_medio": 2.82,
+    "erro_max": 53,
+    "psnr": 35.53
+   },
+   "nariz": {
+    "erro_medio": 3.84,
+    "erro_max": 65,
+    "psnr": 31.75
+   },
+   "olhos": {
+    "erro_medio": 0.0,
+    "erro_max": 0,
+    "psnr": 138.13
+   },
+   "boca": {
+    "erro_medio": 2.31,
+    "erro_max": 29,
+    "psnr": 37.9
+   },
+   "cabelo": {
+    "erro_medio": 4.97,
+    "erro_max": 61,
+    "psnr": 30.22
+   },
+   "camisa_corpo": {
+    "erro_medio": 4.32,
+    "erro_max": 155,
+    "psnr": 24.83
+   },
+   "camisa_detalhes": {
+    "erro_medio": 12.13,
+    "erro_max": 142,
+    "psnr": 20.85
+   },
+   "shorts_corpo": {
+    "erro_medio": 2.72,
+    "erro_max": 127,
+    "psnr": 30.97
+   },
+   "shorts_faixa": {
+    "erro_medio": 9.13,
+    "erro_max": 114,
+    "psnr": 23.34
+   },
+   "meias_corpo": {
+    "erro_medio": 2.15,
+    "erro_max": 43,
+    "psnr": 38.11
+   },
+   "meias_faixas": {
+    "erro_medio": 2.46,
+    "erro_max": 38,
+    "psnr": 35.89
+   },
+   "chuteira": {
+    "erro_medio": 2.54,
+    "erro_max": 43,
+    "psnr": 33.32
+   },
+   "chuteira_listras": {
+    "erro_medio": 1.84,
+    "erro_max": 18,
+    "psnr": 39.49
+   },
+   "sola": {
+    "erro_medio": 0.92,
+    "erro_max": 80,
+    "psnr": 42.78
+   },
+   "luvas": {
+    "erro_medio": 1.2,
+    "erro_max": 41,
+    "psnr": 41.42
+   }
+  }
+ }
+}

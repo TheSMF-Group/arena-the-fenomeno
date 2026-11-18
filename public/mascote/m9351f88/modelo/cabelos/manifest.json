@@ -1,0 +1,70 @@
+{
+  "versao": 1,
+  "pecas": [
+    {
+      "id": "afro",
+      "nome": "Afro",
+      "arquivo": "afro.glb",
+      "triangulos": 4888,
+      "escondeCabeloOriginal": true,
+      "corPadrao": "#241c1a",
+      "ossos": [
+        "mixamorig:Head"
+      ],
+      "tipo": "cabelo",
+      "grupo": "cabeca"
+    },
+    {
+      "id": "dreads_curtos",
+      "nome": "Dreads curtos",
+      "arquivo": "dreads_curtos.glb",
+      "triangulos": 5710,
+      "escondeCabeloOriginal": true,
+      "corPadrao": "#241c1a",
+      "ossos": [
+        "mixamorig:Head"
+      ],
+      "tipo": "cabelo",
+      "grupo": "cabeca"
+    },
+    {
+      "id": "liso_orelha",
+      "nome": "Liso até a orelha",
+      "arquivo": "liso_orelha.glb",
+      "triangulos": 7064,
+      "escondeCabeloOriginal": true,
+      "corPadrao": "#2a2220",
+      "ossos": [
+        "mixamorig:Head"
+      ],
+      "tipo": "cabelo",
+      "grupo": "cabeca"
+    },
+    {
+      "id": "moicano",
+      "nome": "Moicano",
+      "arquivo": "moicano.glb",
+      "triangulos": 3413,
+      "escondeCabeloOriginal": false,
+      "corPadrao": "#241c1a",
+      "ossos": [
+        "mixamorig:Head"
+      ],
+      "tipo": "cabelo",
+      "grupo": "cabeca"
+    },
+    {
+      "id": "topete",
+      "nome": "Topete",
+      "arquivo": "topete.glb",
+      "triangulos": 5332,
+      "escondeCabeloOriginal": true,
+      "corPadrao": "#2a2220",
+      "ossos": [
+        "mixamorig:Head"
+      ],
+      "tipo": "cabelo",
+      "grupo": "cabeca"
+    }
+  ]
+}

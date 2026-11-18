@@ -33,10 +33,18 @@ import {loadAvKits} from "./avatars";
 import {contaBoot} from "./conta";
 import {conferir} from "./conquistas";
 import {checkGift, renderObj} from "./rewards";
+import {onboarding, onbPendente} from "./onboarding";
+import {DAILY} from "./home";
+import {dayResult} from "./engine";
 $("#home").addEventListener("click",home);
 $("#meBtn").addEventListener("click",perfilScreen);
 document.addEventListener("fen:perfil",perfilScreen);
 renderMe();
+
+/* primeira visita: o onboarding abre já, enquanto os dados carregam; no fim vai para o jogo do link ou para o próximo desafio do dia */
+let ONB_DADOS=false,ONB_FIM=null;
+if(onbPendente()){const link=location.hash.slice(1);
+  onboarding(()=>{renderMe();const vai=()=>{if(GAMES[link]){openGame(link);return}const g=DAILY().find(id=>!dayResult(id));if(g)openGame(g)};ONB_DADOS?vai():(ONB_FIM=vai)})}
 
 /* ---------- carga ---------- */
 (async function boot(){
@@ -50,5 +58,6 @@ renderMe();
     $("#boot").remove();updateToday();
     loadAvKits().then(renderMe);renderObj();contaBoot().then(renderMe);conferir(true);setTimeout(checkGift,900);
     const h=location.hash.slice(1);if(h==="perfil")perfilScreen();else if(GAMES[h])openGame(h);else home();
+    ONB_DADOS=true;if(ONB_FIM){const f=ONB_FIM;ONB_FIM=null;f()}
   }catch(err){$("#boot").innerHTML=`<div><img src="${BODEHEAD}" alt=""><b>NÃO DEU PARA CARREGAR OS DADOS</b><span class="muted">Recarregue a página.</span></div>`}
 })();

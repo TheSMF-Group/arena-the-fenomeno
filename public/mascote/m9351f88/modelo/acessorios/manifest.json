@@ -1,0 +1,71 @@
+{
+  "versao": 1,
+  "pecas": [
+    {
+      "id": "bone_virado",
+      "nome": "Boné virado",
+      "arquivo": "bone_virado.glb",
+      "triangulos": 3352,
+      "escondeCabeloOriginal": false,
+      "corPadrao": "#2c4f86",
+      "ossos": [
+        "mixamorig:Head"
+      ],
+      "tipo": "acessorio",
+      "grupo": "cabeca"
+    },
+    {
+      "id": "bracadeira_capitao",
+      "nome": "Braçadeira de capitão",
+      "arquivo": "bracadeira_capitao.glb",
+      "triangulos": 1792,
+      "escondeCabeloOriginal": false,
+      "corPadrao": "#e8501c",
+      "ossos": [
+        "mixamorig:LeftArm",
+        "mixamorig:LeftForeArm",
+        "mixamorig:LeftShoulder",
+        "mixamorig:Spine",
+        "mixamorig:Spine1",
+        "mixamorig:Spine2"
+      ],
+      "tipo": "acessorio",
+      "grupo": "corpo"
+    },
+    {
+      "id": "faixa_cabeca",
+      "nome": "Faixa de cabeça",
+      "arquivo": "faixa_cabeca.glb",
+      "triangulos": 2160,
+      "escondeCabeloOriginal": false,
+      "corPadrao": "#d8d4cc",
+      "ossos": [
+        "mixamorig:Head"
+      ],
+      "tipo": "acessorio",
+      "grupo": "cabeca"
+    },
+    {
+      "id": "munhequeira",
+      "nome": "Munhequeira",
+      "arquivo": "munhequeira.glb",
+      "triangulos": 3584,
+      "escondeCabeloOriginal": false,
+      "corPadrao": "#f1efe8",
+      "ossos": [
+        "mixamorig:LeftArm",
+        "mixamorig:LeftForeArm",
+        "mixamorig:LeftHand",
+        "mixamorig:LeftHandIndex1",
+        "mixamorig:LeftHandThumb1",
+        "mixamorig:RightArm",
+        "mixamorig:RightForeArm",
+        "mixamorig:RightHand",
+        "mixamorig:RightHandIndex1",
+        "mixamorig:RightHandThumb1"
+      ],
+      "tipo": "acessorio",
+      "grupo": "corpo"
+    }
+  ]
+}
