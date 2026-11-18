@@ -1551,3 +1551,11 @@ html[data-theme=light] .onb h2.d b{color:var(--green-dk)}
 .onb-modal .onb-box{max-width:900px}
 .onb-modal .onb-palco{height:min(46vh,420px)}
 @media (prefers-reduced-motion:reduce){.onb-palco,.onb-palco canvas,.onb-prev,.onb-load{transition:none}}
+@media (max-width:759px){
+  .onb-palco{height:min(38vh,340px)}
+  .onb .onb-tit{font-size:clamp(28px,8vw,40px)}
+  .onb-tela{gap:8px}
+  .onb-dado{font-size:16px;padding:11px 18px}
+  .onb-op .sw{width:28px;height:28px}
+  .onb-op .chip{font-size:12px;padding:5px 10px}
+}
